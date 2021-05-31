@@ -1,0 +1,6 @@
+{
+    "port": 5000,
+    "secret": "prosysyo",
+    "mongoUrl": "mongodb+srv://prosys:prosys@cluster0.4hlja.mongodb.net/bunker?retryWrites=true&w=majority",
+    "baseUrl": "http://localhost:5000"
+}
