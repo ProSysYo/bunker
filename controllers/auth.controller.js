@@ -1,9 +1,15 @@
+const { validationResult } = require('express-validator')
+
 const User = require('../models/user')
 const Role = require('../models/role')
 
 class authController {
     async registration(req, res) {
         try {
+            const errors = validationResult(req)
+            if (!errors.isEmpty()) {
+                return res.status(400).json({message: "Ошибка при регистрации", errors})
+            }
             const {username, password} = req.body
 
             const userRole = await Role.findOne({value:'USER'})
