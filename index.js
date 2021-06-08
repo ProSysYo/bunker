@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 const cors = require('cors')
 
 const authRouter = require('./routes/auth.routes')
+const customerRouter = require('./routes/customer.routes')
 
 const app = express()
 
@@ -13,6 +14,7 @@ app.use(cors())
 app.use(express.json())
 
 app.use('/api', authRouter)
+app.use('/api', customerRouter)
 
 async function start() {
     try {

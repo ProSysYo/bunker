@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs')
 const config = require('config')
 const jwt = require('jsonwebtoken');
 
-const User = require('../models/user')
+const { User } = require('../models/user')
 const Role = require('../models/role')
 
 class authController {
@@ -41,6 +41,7 @@ class authController {
 
             return res.json({message: "Пользователь успешно зарегистрирован"})
         } catch (e) {
+            console.log(e);
             res.status(400).json({message: 'Registration error', e})
         }
     }
@@ -83,8 +84,7 @@ class authController {
         } catch (e) {
             console.log(e);
             res.status(400).json({message: 'Login error', e})
-        }
-        
+        }        
     }
     
     //Эндпоинт получения всех пользователей. Доступ имеет только администратор
@@ -94,8 +94,7 @@ class authController {
             return res.json(users)
         } catch (e) {
             res.status(400).json({message: 'Error in get users', e})
-        }
-        
+        }        
     }
 }
 
