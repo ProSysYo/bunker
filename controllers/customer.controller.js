@@ -19,11 +19,11 @@ class customerController {
                 return res.status(403).json({message: 'Заказчик с таким кодом уже существует'})
             }
 
-            const customer = new Customer({code, name, phone, email, adress})
+            const newCustomer = new Customer({code, name, phone, email, adress})
 
-            await customer.save()
+            const customer = await newCustomer.save()
 
-            return res.status(200).json({message: 'Новый заказчик создан'})
+            return res.status(200).json({message: 'Новый заказчик создан', customer})
         } catch (e) {
             console.log(e)
             return res.status(400).json({message: 'Ошибка при добавлении заказчика', e})
@@ -32,10 +32,24 @@ class customerController {
 
     async getCustomers(req, res) {
         try {            
-            const customers = await Customer.find({})
+            const customers = await Customer.find()
             return res.json(customers)
         } catch (e) {
             res.status(400).json({message: 'Error in get customers', e})
+        }
+    }
+
+    async getById(req, res) {
+        try {
+            const id = req.params.id           
+            const customer = await Customer.findById(id)
+
+            if (!customer) {
+                return res.status(400).json({message: 'Заказчик не найден'})
+            }
+            return res.json(customer)
+        } catch (e) {
+            res.status(400).json({message: 'Error in get customer by id', e})
         }
     }
 }

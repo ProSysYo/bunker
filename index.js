@@ -14,7 +14,7 @@ app.use(cors())
 app.use(express.json())
 
 app.use('/api', authRouter)
-app.use('/api', customerRouter)
+app.use('/api/customer', customerRouter)
 
 async function start() {
     try {

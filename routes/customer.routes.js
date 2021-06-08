@@ -5,8 +5,10 @@ const { customerValidate } = require('../models/customer')
 
 const router = new Router()
 
-router.post('/customer', customerValidate, customerController.addCustomer)
+router.post('/', customerValidate, customerController.addCustomer)
 
-router.get('/customer', customerController.getCustomers)
+router.get('/', customerController.getCustomers)
+
+router.get('/:id', customerController.getById)
 
 module.exports = router
