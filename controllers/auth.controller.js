@@ -1,5 +1,7 @@
 const { validationResult } = require('express-validator')
 const bcrypt = require('bcryptjs')
+const config = require('config')
+const jwt = require('jsonwebtoken');
 
 const User = require('../models/user')
 const Role = require('../models/role')
@@ -43,8 +45,57 @@ class authController {
         }
     }
 
+    //эндпоинт авторизации, входные параметры: username, password
     async login(req, res) {
-        return res.status(200).json({message: 'login'})
+        try {
+            //Валидируем с помощью express-validator
+            const errors = validationResult(req)
+            if (!errors.isEmpty()) {
+                return res.status(400).json({message: 'Ошибка авторизации'}, errors)
+            }
+            //Деструктурируем username и password
+            const {username, password} = req.body
+
+            //Ищем пользователя с таким username
+            const user = await User.findOne({username})
+
+            //Если такого пользователя нет выводим ошибку
+            if (!user) {
+                return res.status(400).json({message: `Пользователь ${username} не найден`})
+            }
+
+            //Сравниваем введенный пароль с паролем из базы
+            const validPassword = bcrypt.compareSync(password, user.password)
+
+            //Если пароли не совпадают, выводим ошибку
+            if (!validPassword) {
+                return res.status(400).json({message: 'Введен неверный пароль'})
+            }
+
+            //Генерируем токен с помощью jsonwebtoken, время жизни 10 часов
+            const token = jwt.sign({
+                userId: user._id,
+                roles: user.roles
+            }, config.get('secret'), {expiresIn: "10h"})
+
+            //Возвращаем на клиент сгенерированный токен
+            return res.json({token})
+        } catch (e) {
+            console.log(e);
+            res.status(400).json({message: 'Login error', e})
+        }
+        
+    }
+    
+    //Эндпоинт получения всех пользователей. Доступ имеет только администратор
+    async getUsers(req, res) {
+        try {
+            const users = await User.find()
+            return res.json(users)
+        } catch (e) {
+            res.status(400).json({message: 'Error in get users', e})
+        }
+        
     }
 }
 

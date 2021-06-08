@@ -12,7 +12,7 @@ const PORT = config.get('port') || 4000
 app.use(cors())
 app.use(express.json())
 
-app.use('/auth', authRouter)
+app.use('/api', authRouter)
 
 async function start() {
     try {
