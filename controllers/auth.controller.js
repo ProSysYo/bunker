@@ -89,8 +89,8 @@ class authController {
     
     //Эндпоинт получения всех пользователей. Доступ имеет только администратор
     async getUsers(req, res) {
-        try {
-            const users = await User.find()
+        try {            
+            const users = await User.find({}).select('username')
             return res.json(users)
         } catch (e) {
             res.status(400).json({message: 'Error in get users', e})

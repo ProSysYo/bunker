@@ -1,6 +1,8 @@
 const Router = require('express')
 const {check} = require('express-validator')
 
+const roleMiddleware = require('../middleware/role.middleware')
+
 const controller = require('../controllers/auth.controller')
 
 
@@ -16,6 +18,7 @@ router.post('/login', [
     check('password', 'Пароль должен бытьбольше 4 и меньше 10 символов').isLength({min: 4, max: 10})
 ], controller.login)
 
-router.get('/users', controller.getUsers)
+//Доступен только для администратора
+router.get('/users', roleMiddleware(["ADMIN"]) , controller.getUsers)
 
 module.exports = router
