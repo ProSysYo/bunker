@@ -52,6 +52,35 @@ class customerController {
             res.status(400).json({message: 'Error in get customer by id', e})
         }
     }
+
+    async delete(req, res) {
+        try {
+            const id = req.params.id
+
+            const customer = await Customer.findOneAndDelete({_id: id})
+
+            if (!customer) {
+                return res.status(400).json({message: 'Нет такого заказчика для удаления'})
+            }
+
+            res.status(200).json({message: 'Удалено'})
+        } catch (e) {
+            res.status(400).json({message: 'Ошибка при удалении заказчика', e})
+        }
+    }
+
+    async update(req, res) {
+        try {
+            const customer = await Customer.findOneAndUpdate({_id: req.params.id}, {$set: req.body}, {new: true})
+            if (!customer) {
+                return res.status(400).json({message: 'Нет такого заказчика для обновления'})
+            }
+
+            res.status(200).json({message: 'Обновлено', customer})
+        } catch (e) {
+            res.status(400).json({message: 'Ошибка при обновлении заказчика', e})
+        }
+    }
 }
 
 module.exports = new customerController()

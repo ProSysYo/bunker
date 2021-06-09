@@ -11,4 +11,8 @@ router.get('/', customerController.getCustomers)
 
 router.get('/:id', customerController.getById)
 
+router.delete('/:id', customerController.delete)
+
+router.patch('/:id', customerController.update)
+
 module.exports = router
