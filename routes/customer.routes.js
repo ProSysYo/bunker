@@ -1,7 +1,7 @@
 const Router = require('express')
 
 const customerController = require('../controllers/customer.controller')
-const { customerValidate } = require('../models/customer')
+const { customerValidate } = require('../models/Customer')
 
 const router = new Router()
 

@@ -2,7 +2,7 @@ const Router = require('express')
 const roleMiddleware = require('../middleware/role.middleware')
 
 const controller = require('../controllers/auth.controller')
-const { userValidate } = require('../models/user')
+const { userValidate } = require('../models/User')
 
 const router = new Router()
 

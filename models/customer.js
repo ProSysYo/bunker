@@ -10,7 +10,7 @@ const customerValidate = [
     check('adress', 'Адрес не может быть пустым').notEmpty()    
 ]
 
-const CustomerSchema = new Schema({
+const customerSchema = new Schema({
     code: {type: String, unique: true, required: true},
     name: {type: String, unique: true, required: true},
     phone: {type: String,unique: true, required: true},
@@ -18,6 +18,6 @@ const CustomerSchema = new Schema({
     adress: {type: String, required: true}
 })
 
-const Customer = model('Customer', CustomerSchema)
+const Customer = model('Customer', customerSchema)
 
 module.exports = { Customer, customerValidate }

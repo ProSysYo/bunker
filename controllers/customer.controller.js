@@ -1,6 +1,6 @@
 const { validationResult } = require("express-validator")
 
-const { Customer } = require("../models/customer")
+const { Customer } = require("../models/Customer")
 
 class customerController {
     async addCustomer(req, res) {

@@ -3,8 +3,8 @@ const bcrypt = require('bcryptjs')
 const config = require('config')
 const jwt = require('jsonwebtoken');
 
-const { User } = require('../models/user')
-const Role = require('../models/role')
+const { User } = require('../models/User')
+const Role = require('../models/Role')
 
 class authController {
     //эндпоинт регистрации: входные параметры: username, password
