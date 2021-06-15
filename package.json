@@ -21,6 +21,9 @@
     "url": "https://github.com/ProSysYo/bunker/issues"
   },
   "homepage": "https://github.com/ProSysYo/bunker#readme",
+  "nodemonConfig": {
+    "ignore": ["test/*", "client/*"]    
+  },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "concurrently": "^6.2.0",

@@ -4,7 +4,7 @@ const config = require('config')
 const jwt = require('jsonwebtoken');
 
 const { User } = require('../models/User')
-const Role = require('../models/Role')
+const {Role} = require('../models/Role')
 
 class authController {
     //эндпоинт регистрации: входные параметры: username, password
@@ -80,7 +80,14 @@ class authController {
             }, config.get('secret'), {expiresIn: "10h"})
 
             //Возвращаем на клиент сгенерированный токен
-            return res.json({token})
+            return res.json({
+                token, 
+                user: {
+                    id: user._id,
+                    username: user.username,
+                    roles: user.roles
+                }
+            })
         } catch (e) {
             console.log(e);
             res.status(400).json({message: 'Login error', e})
