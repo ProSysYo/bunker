@@ -1,4 +1,12 @@
-.App {
-  text-align: center;
+.container{
+  display: flex;  
 }
 
+.pages{
+  flex: 5;
+}
+
+.link{
+  text-decoration: none;
+  color: inherit;
+}

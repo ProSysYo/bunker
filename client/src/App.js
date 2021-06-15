@@ -1,32 +1,43 @@
 import './App.css';
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import { useSelector } from "react-redux";
-import Registration from './pages/Registration';
 
-
+import Topbar from "./components/Topbar/Topbar"
+import Sidebar from "./components/Sidebar/Sidebar"
+import Home from "./pages/Home/Home"
+import Registration from "./pages/Registration"
 
 function App() {
     const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
 
     return (
-        <BrowserRouter>      
-            <div className="App">
-                <div className="wrap">
-                    {!isLoggedIn ?
+        <BrowserRouter>
+            <Topbar />
+            {isLoggedIn
+                ? <div className="container">
+                    <Sidebar />
+                    <div className="pages">
                         <Switch>
-                            <Route path="/registration" component={Registration} />
-                            {/* <Route path="/login" component={Login} />
-                            <Redirect to='/login' /> */}
+                            <Route exact path="/">
+                                <Home />
+                            </Route>
+                            <Route path="/registration">
+                                <Registration />
+                            </Route>
                         </Switch>
-                        :
-                        <Switch>
-                            {/* <Route exact path="/" component={Disk} />
-                            <Route exact path="/profile" component={Profile} />
-                            <Redirect to="/" /> */}
-                        </Switch>
-                    }
+                    </div>
+
                 </div>
-            </div>
+                :
+                <div>
+                    <Switch>                        
+                        <Route path="/registration">
+                            <Registration />
+                        </Route>
+                    </Switch>
+                </div>
+            }
+
         </BrowserRouter>
     );
 }
