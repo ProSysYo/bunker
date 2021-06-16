@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import Topbar from "./components/Topbar/Topbar"
 import Sidebar from "./components/Sidebar/Sidebar"
 import Home from "./pages/Home/Home"
-import Registration from "./pages/Registration"
+import Registration from "./pages/Registration/Registration"
 
 function App() {
     const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
@@ -18,22 +18,18 @@ function App() {
                     <Sidebar />
                     <div className="pages">
                         <Switch>
-                            <Route exact path="/">
-                                <Home />
-                            </Route>
-                            <Route path="/registration">
-                                <Registration />
-                            </Route>
+                            <Route exact path="/" component={Home}/>
+                            <Redirect to='/'/>
                         </Switch>
                     </div>
 
                 </div>
                 :
-                <div>
+                <div className="containerCenter">
                     <Switch>                        
-                        <Route path="/registration">
-                            <Registration />
-                        </Route>
+                        <Route path="/registration" component={Registration}/> 
+                        <Route path="/login" component={Registration}/>                          
+                        <Redirect to='/registration'/>
                     </Switch>
                 </div>
             }

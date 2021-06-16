@@ -2,6 +2,12 @@
   display: flex;  
 }
 
+.containerCenter{
+  display: flex;  
+  align-items: center;
+  justify-content: center;
+}
+
 .pages{
   flex: 5;
 }
@@ -9,4 +15,25 @@
 .link{
   text-decoration: none;
   color: inherit;
+}
+
+input{
+  outline: none;
+  border: 1px solid rgb(159, 212, 243);
+  font-size: 14px;
+  padding: 5px 10px 5px 10px;
+  border-radius: 5px;
+}
+
+button{
+  border: 1px solid rgb(159, 212, 243);
+  padding: 5px 10px 5px 10px;
+  background-color: inherit;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+button:hover{
+  cursor: pointer;
+  background-color: rgba(159, 212, 243, 0.1);  
 }

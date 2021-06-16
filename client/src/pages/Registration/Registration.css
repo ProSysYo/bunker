@@ -1,0 +1,27 @@
+.registration{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 30vh;
+    flex-direction: column;
+    border-radius: 5px;
+    border-bottom: 1px solid rgb(159, 212, 243);
+    border-top: 1px solid rgb(159, 212, 243);
+    width: 300px;
+}
+
+.registrationForm{
+    display: flex;
+    flex-direction: column;
+    margin: 10px 0 10px 0;
+    align-items: center;
+}
+
+.registrationForm>*{
+    margin-bottom: 10px;
+}
+
+.toLoginLink{
+    font-size: 12px;
+    margin-bottom: 10px;    
+}
