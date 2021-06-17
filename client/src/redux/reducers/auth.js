@@ -3,8 +3,16 @@ import { ActionTypes } from "../constants/action-types";
 const user = JSON.parse(localStorage.getItem("user"));
 
 const initialState = user 
-    ? {isLoggedIn: true, user} 
-    : {isLoggedIn: false, user: null};
+    ? {
+        isLoggedIn: true, 
+        user, 
+        registerValidateErrors: {}
+    } 
+    : {
+        isLoggedIn: false, 
+        user: null, 
+        registerValidateErrors: {}
+    }
 
 export const authReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -17,6 +25,16 @@ export const authReducer = (state = initialState, action) => {
             return {
                 ...state,
                 isLoggedIn:false
+            }
+        case ActionTypes.SET_REGISTER_VALIDATE_ERRORS:
+            return {
+                ...state,
+                registerValidateErrors: action.payload
+            }
+        case ActionTypes.CLEAR_REGISTER_VALIDATE_ERRORS:
+            return {
+                ...state,
+                registerValidateErrors: {}
             }
         case ActionTypes.LOGIN_SUCCESS:
             return {

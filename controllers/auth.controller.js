@@ -12,7 +12,21 @@ class authController {
         try {            
             const errors = validationResult(req)
             if (!errors.isEmpty()) {
-                return res.status(400).json({message: "Ошибка при регистрации", errors})
+
+                const extractedErrors = []
+                errors.array().map(err => extractedErrors.push({ [err.param]: err.msg }))                
+                const result = extractedErrors.reduce((acc, item) => {
+                    Object.keys(item).forEach(key => {
+                        if (acc.hasOwnProperty(key)) {
+                            acc[key] += ', ' + item[key];
+                        } else {
+                            acc[key] = item[key];
+                        }
+                    });
+                
+                    return acc;
+                },{});
+                return res.status(400).json({message: "Ошибка при регистрации", errors: result})
             }
             //Деструктурирем username и password с объекта request
             //Если username и password нет в request можно вывести ошибку, что поля пустые, но в валидации мы указали

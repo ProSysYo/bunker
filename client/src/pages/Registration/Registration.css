@@ -7,7 +7,7 @@
     border-radius: 5px;
     border-bottom: 1px solid rgb(159, 212, 243);
     border-top: 1px solid rgb(159, 212, 243);
-    width: 300px;
+    width: 400px;
 }
 
 .registrationForm{
@@ -15,12 +15,21 @@
     flex-direction: column;
     margin: 10px 0 10px 0;
     align-items: center;
+    width: 100%;
 }
 
 .registrationForm>*{
     margin-bottom: 10px;
 }
+.registrationInput{
+    width: 100%;
+}
 
+.registrationErrorMessage{
+    width: 100%;
+    font-size: 12px;
+    color: lightcoral;
+}
 .toLoginLink{
     font-size: 12px;
     margin-bottom: 10px;    
