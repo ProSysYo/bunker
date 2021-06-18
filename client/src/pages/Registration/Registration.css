@@ -9,11 +9,15 @@
     border-top: 1px solid rgb(159, 212, 243);
     width: 400px;
 }
+.registrationTitle{
+    margin-top: 10px;
+    font-size: 20px;
+}
 
 .registrationForm{
     display: flex;
     flex-direction: column;
-    margin: 10px 0 10px 0;
+    margin: 20px 0 10px 0;
     align-items: center;
     width: 100%;
 }

@@ -12,6 +12,7 @@ const Registration = () => {
 
     const dispatch = useDispatch()
     const registerValidateErrors = useSelector(state => state.auth.registerValidateErrors)
+    const isLoading = useSelector(state => state.loading.isLoading)
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -36,7 +37,7 @@ const Registration = () => {
                     type="password" placeholder="Введите пароль"
                 />
                 <span className="registrationErrorMessage">{registerValidateErrors?.password}</span>
-                <button type="submit">Зарегистрировать</button>  
+                <button disabled={isLoading} type="submit">Зарегистрировать</button>  
                 <Link to="/login" className="toLoginLink">
                     <span>У вас уже есть аккаунт?</span>
                 </Link>

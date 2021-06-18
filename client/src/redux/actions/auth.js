@@ -23,21 +23,29 @@ export const login =  (username, password) => {
 export const registration =  (username, password) => {
     return async dispatch => {
         try {
+            dispatch({ type: ActionTypes.SET_LOADING });
             dispatch({ type: ActionTypes.CLEAR_REGISTER_VALIDATE_ERRORS });
 
             const response = await axios.post(`${API_URL}api/registration`, {
                 username,
                 password
             })
+            dispatch({ type: ActionTypes.CLEAR_LOADING });
             dispatch({ type: ActionTypes.REGISTER_SUCCESS })
             dispatch({ type: ActionTypes.SET_MESSAGE, payload: response.data.message });
-
         } catch (e) {
-            dispatch({ type: ActionTypes.REGISTER_FAIL })            
-            dispatch({ type: ActionTypes.SET_MESSAGE, payload: e.response.data.message });
-            if (e.response.data.errors) {
+            dispatch({ type: ActionTypes.CLEAR_LOADING });
+            dispatch({ type: ActionTypes.REGISTER_FAIL })
+
+            if (e.response?.data?.message) {
+                dispatch({ type: ActionTypes.SET_MESSAGE, payload: e.response.data.message });
+            }      
+            
+            if (e.response?.data?.errors) {
                 dispatch({ type: ActionTypes.SET_REGISTER_VALIDATE_ERRORS, payload: e.response.data.errors });
             }
+
+            console.log(e);
         }
     }
 }
