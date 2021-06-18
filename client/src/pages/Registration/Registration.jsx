@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 import { registration } from '../../redux/actions/auth'
+import { ActionTypes } from '../../redux/constants/action-types'
 
 import './Registration.css'
 
@@ -18,6 +19,12 @@ const Registration = () => {
         e.preventDefault()
         dispatch(registration(username, password))
     }
+
+    useEffect(() => {        
+        return () => {
+            dispatch({ type: ActionTypes.CLEAR_REGISTER_VALIDATE_ERRORS });
+        }
+    }, [dispatch])
 
     return (
         <div className="registration">

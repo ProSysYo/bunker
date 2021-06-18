@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { React, useEffect } from 'react';
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { notification, Spin } from 'antd';
@@ -9,9 +9,13 @@ import './App.css';
 
 import Topbar from "./components/Topbar/Topbar"
 import Sidebar from "./components/Sidebar/Sidebar"
+
 import Home from "./pages/Home/Home"
 import Registration from "./pages/Registration/Registration"
+import Login from "./pages/Login/Login"
+
 import { clearMessage } from './redux/actions/message';
+import { auth } from './redux/actions/auth';
 
 
 function App() {
@@ -20,6 +24,11 @@ function App() {
     const isLoading = useSelector(state => state.loading.isLoading)
 
     const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(auth())
+        // eslint-disable-next-line
+    }, [])
 
     useEffect(() => {
         const openNotification = () => {
@@ -33,6 +42,14 @@ function App() {
             dispatch(clearMessage())
         }
     }, [message, dispatch]);
+
+    if (isLoggedIn === undefined) {
+        return (
+            <div className="spinner">
+                <Spin size="large"/>
+            </div>
+        )
+    }
 
     return (
         <BrowserRouter>
@@ -53,8 +70,8 @@ function App() {
                     <div className="containerCenter">
                         <Switch>
                             <Route path="/registration" component={Registration} />
-                            <Route path="/login" component={Registration} />
-                            <Redirect to='/registration' />
+                            <Route path="/login" component={Login} />
+                            <Redirect to='/login' />
                         </Switch>
                     </div>
                 }
