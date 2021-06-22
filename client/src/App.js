@@ -20,6 +20,7 @@ import { auth } from './redux/actions/auth';
 
 function App() {
     const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
+    const activeUser = useSelector(state => state.auth.user)
     const message = useSelector(state => state.message.message)
     const isLoading = useSelector(state => state.loading.isLoading)
 
@@ -54,10 +55,11 @@ function App() {
     return (
         <BrowserRouter>
             <div className="app">
-                <Topbar />
+                <Topbar user={activeUser}/>
                 {isLoggedIn
-                    ? <div className="container">
-                        <Sidebar />
+                    ? <div className="container">                       
+                        <Sidebar />                   
+                        
                         <div className="pages">
                             <Switch>
                                 <Route exact path="/" component={Home} />
