@@ -1,0 +1,20 @@
+.pageAddCustomer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;     
+    flex-wrap: wrap; 
+    margin: 0 auto;
+}
+
+.pageAddCustomerTitle{
+    text-align: center;
+}
+
+.formAddCustomer{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    width: 400px;
+}
+

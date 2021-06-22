@@ -16,6 +16,8 @@ import Login from "./pages/Login/Login"
 
 import { clearMessage } from './redux/actions/message';
 import { auth } from './redux/actions/auth';
+import { Customers } from './pages/Customers/Customers';
+import { AddCustomer } from './pages/Customers/AddCustomer/AddCustomer';
 
 
 function App() {
@@ -63,6 +65,8 @@ function App() {
                         <div className="pages">
                             <Switch>
                                 <Route exact path="/" component={Home} />
+                                <Route path="/customers" component={Customers} />
+                                <Route path="/addcustomer" component={AddCustomer} />
                                 <Redirect to='/' />
                             </Switch>
                         </div>

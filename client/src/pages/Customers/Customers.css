@@ -1,0 +1,11 @@
+.customerPageTitle{
+    text-align: center;
+}
+
+.addIcon{
+    font-size: 30px;
+}
+
+.addIcon:hover{
+    cursor: pointer;    
+}
