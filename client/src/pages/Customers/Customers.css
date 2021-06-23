@@ -9,3 +9,7 @@
 .addIcon:hover{
     cursor: pointer;    
 }
+
+.tableItemAction:hover {
+    cursor: pointer;
+}

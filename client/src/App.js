@@ -18,6 +18,7 @@ import { clearMessage } from './redux/actions/message';
 import { auth } from './redux/actions/auth';
 import { Customers } from './pages/Customers/Customers';
 import { AddCustomer } from './pages/Customers/AddCustomer/AddCustomer';
+import { Customer } from './pages/Customers/Customer/Customer';
 
 
 function App() {
@@ -65,8 +66,9 @@ function App() {
                         <div className="pages">
                             <Switch>
                                 <Route exact path="/" component={Home} />
-                                <Route path="/customers" component={Customers} />
+                                <Route exact path="/customers" component={Customers} />
                                 <Route path="/addcustomer" component={AddCustomer} />
+                                <Route exact path="/customers/:id" component={Customer} />
                                 <Redirect to='/' />
                             </Switch>
                         </div>

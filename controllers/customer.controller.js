@@ -51,7 +51,7 @@ class customerController {
 
     async getCustomers(req, res) {
         try {            
-            const customers = await Customer.find()
+            const customers = await Customer.find().sort({code: 1}).exec()
             return res.json(customers)
         } catch (e) {
             res.status(400).json({message: 'Error in get customers', e})
