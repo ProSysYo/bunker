@@ -5,6 +5,7 @@ const customerValidate = [
     check('code', 'Код дилера не может быть пустым').notEmpty(),
     check('name', 'Имя дилера не может быть пустым').notEmpty(),
     check('phone', 'Телефон дилера не может быть пустым').notEmpty(),
+    check('phone', 'Не верный формат телефона').isMobilePhone(),
     check('email', 'Email не может быть пустым').notEmpty(),
     check('email', 'Email не корректен').isEmail(),
     check('adress', 'Адрес не может быть пустым').notEmpty()    

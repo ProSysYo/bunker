@@ -2,13 +2,32 @@ const { validationResult } = require("express-validator")
 
 const { Customer } = require("../models/Customer")
 
+const FormatError = (errors) => {
+    const extractedErrors = []
+    errors.array().map(err => extractedErrors.push({ [err.param]: err.msg }))
+    const result = extractedErrors.reduce((acc, item) => {
+        Object.keys(item).forEach(key => {
+            if (acc.hasOwnProperty(key)) {
+                acc[key] += ', ' + item[key];
+            } else {
+                acc[key] = item[key];
+            }
+        });
+        return acc;
+    }, {});
+
+    return result
+}
+
+
 class customerController {
     async addCustomer(req, res) {
         try {
             const errors = validationResult(req)
             
             if (!errors.isEmpty()) {
-                return res.status(400).json({message: "Ошибка валидации", errors})
+                const formatedErrors = FormatError(errors)                
+                return res.status(400).json({message: "Ошибка валидации", errors: formatedErrors})
             }
 
             const { code, name, phone, email, adress } = req.body

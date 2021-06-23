@@ -18,3 +18,14 @@
     width: 400px;
 }
 
+.formAddCustomerItem{
+    width: 100%;
+    position: relative;
+    margin-bottom: 25px;
+}
+
+.formAddCustomerItemError{
+    position: absolute;
+    font-size: 12px;
+    color: lightcoral;
+}

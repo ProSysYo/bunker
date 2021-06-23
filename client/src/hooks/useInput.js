@@ -7,6 +7,7 @@ const useInput = (initial, required) => {
     return {
         value,
         error,
+        setError,
         onChange: e => setValue(e.target.value),
         onBlur: e => {
             if(!e.target.value && required) setError("Поле не должно быть пустым")
