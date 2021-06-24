@@ -98,8 +98,7 @@ export const updateCustomer = (id, data) => {
 
             const response = await axios.patch(`${API_URL}api/customer/${id}`, data, {
                 headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-            })
-
+            })            
             dispatch({ type: ActionTypes.UPDATE_CUSTOMER_STATUS, payload: true })
             dispatch({ type: ActionTypes.UPDATE_CUSTOMER, payload: response.data.customer })
             dispatch({ type: ActionTypes.SET_MESSAGE, payload: response.data.message });

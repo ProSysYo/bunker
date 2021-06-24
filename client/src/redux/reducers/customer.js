@@ -21,11 +21,9 @@ export const customerReducer = (state = initialState, action) => {
         case ActionTypes.UPDATE_CUSTOMER: return {
             ...state,
             customers: [...state.customers.map((customer) => {
-                if (customer._id === action.payload.id) {
-                    return {
-                        ...customer,
-                        ...action.payload
-                    }
+                if (customer._id === action.payload._id) {
+                    return {...action.payload}
+                    
                 } else {
                     return customer
                 }

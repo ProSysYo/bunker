@@ -35,6 +35,7 @@ export const CustomerForm = () => {
         }
 
         const data = {
+            id: customer._id,
             code: code.value,
             name: name.value,
             phone: phone.value,

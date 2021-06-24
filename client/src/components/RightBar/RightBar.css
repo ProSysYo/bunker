@@ -1,0 +1,25 @@
+.rightBar {
+    height: 100%; 
+    width: 35%; 
+    position: fixed; 
+    z-index: 1; 
+    top: 0; 
+    right: 0;
+    background-color: rgb(238, 236, 236);
+    overflow-x: hidden; 
+    padding-top: 60px; 
+    transition: 0.5s;     
+}
+
+.rightBarContent{
+    margin-top: 20px;
+}
+
+.closeRightBar{
+    position: absolute;    
+    right: 20px;    
+}
+
+.closeRightBar:hover {
+    cursor: pointer;
+}

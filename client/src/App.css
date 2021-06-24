@@ -41,8 +41,10 @@ button:hover{
 
 .spinner{
   position: fixed;
-  top: 10%;
+  top: 50%;
   left: 50%;
+  width: 300px;
+  height: 300px;
 }
 
 .formInput {

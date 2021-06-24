@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useHistory } from "react-router-dom";
 
 import useInput from '../../../hooks/useInput'
 import { addCustomer } from '../../../redux/actions/customer'
@@ -15,12 +14,10 @@ export const AddCustomer = () => {
     const email = useInput("", true)
     const adress = useInput("", true)
 
-    const dispatch = useDispatch()
-    let history = useHistory()
+    const dispatch = useDispatch()    
 
     const customerValidateErrors = useSelector(state => state.customer.customerValidateErrors)
-    const isLoading = useSelector(state => state.loading.isLoading)
-    const submitSuccess = useSelector(state => state.customer.submitSuccess)
+    const isLoading = useSelector(state => state.loading.isLoading)    
 
     useEffect(() => {
         code.setError(customerValidateErrors.code)
@@ -30,12 +27,6 @@ export const AddCustomer = () => {
         adress.setError(customerValidateErrors.adress)
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [customerValidateErrors])
-
-    useEffect(() => {
-        if (submitSuccess) {
-            history.push({ pathname: '/customers' })
-        }
-    }, [submitSuccess, history])
 
     useEffect(() => {
         return () => {
