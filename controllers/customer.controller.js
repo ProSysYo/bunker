@@ -90,6 +90,13 @@ class customerController {
 
     async update(req, res) {
         try {
+            const errors = validationResult(req)
+            
+            if (!errors.isEmpty()) {
+                const formatedErrors = FormatError(errors)                
+                return res.status(400).json({message: "Ошибка валидации", errors: formatedErrors})
+            }
+            
             const customer = await Customer.findOneAndUpdate({_id: req.params.id}, {$set: req.body}, {new: true})
             if (!customer) {
                 return res.status(400).json({message: 'Нет такого заказчика для обновления'})

@@ -20,7 +20,7 @@ export const AddCustomer = () => {
 
     const customerValidateErrors = useSelector(state => state.customer.customerValidateErrors)
     const isLoading = useSelector(state => state.loading.isLoading)
-    const addSuccess = useSelector(state => state.customer.addSuccess)
+    const submitSuccess = useSelector(state => state.customer.submitSuccess)
 
     useEffect(() => {
         code.setError(customerValidateErrors.code)
@@ -32,10 +32,10 @@ export const AddCustomer = () => {
     }, [customerValidateErrors])
 
     useEffect(() => {
-        if (addSuccess) {
+        if (submitSuccess) {
             history.push({ pathname: '/customers' })
         }
-    }, [addSuccess, history])
+    }, [submitSuccess, history])
 
     useEffect(() => {
         return () => {

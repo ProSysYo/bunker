@@ -1,13 +1,17 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import useInput from '../../../hooks/useInput'
+import { updateCustomer } from '../../../redux/actions/customer'
 import { ActionTypes } from '../../../redux/constants/action-types'
 
+import './CustomerForm.css'
+
 export const CustomerForm = () => {
-    const dispatch = useDispatch()    
-    const customer = useSelector(state => state.customer.customer)    
-    const isLoading = useSelector(state => state.loading.isLoading)    
+    const dispatch = useDispatch()
+    const customer = useSelector(state => state.customer.customer)
+    const customerValidateErrors = useSelector(state => state.customer.customerValidateErrors)
+    const isLoading = useSelector(state => state.loading.isLoading)
 
     const code = useInput(customer.code, true)
     const name = useInput(customer.name, true)
@@ -15,77 +19,105 @@ export const CustomerForm = () => {
     const email = useInput(customer.email, true)
     const adress = useInput(customer.adress, true)
 
+    useEffect(() => {
+        code.setError(customerValidateErrors.code)
+        name.setError(customerValidateErrors.namecode)
+        phone.setError(customerValidateErrors.phone)
+        email.setError(customerValidateErrors.email)
+        adress.setError(customerValidateErrors.adress)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [customerValidateErrors])
+
     const handleSubmit = (e) => {
         e.preventDefault()
         if (!code.value || !name.value || !phone.value || !email.value || !adress.value) {
             return dispatch({ type: ActionTypes.SET_MESSAGE, payload: "Не все поля заполнены" })
         }
-        //dispatch(updateCustomer(code.value, name.value, phone.value, email.value, adress.value))
+
+        const data = {
+            code: code.value,
+            name: name.value,
+            phone: phone.value,
+            email: email.value,
+            adress: adress.value
+        }
+
+        dispatch(updateCustomer(customer._id, data))
     }
-    
+
     return (
-        <div className="pageAddCustomer">
-            <h2 className="pageAddCustomerTitle">Редактирование заказчика</h2>
+        <div className="pageUpdateCustomer">
+            <h2 className="pageUpdateCustomerTitle">Редактирование заказчика</h2>
 
-            <form className="formAddCustomer" onSubmit={handleSubmit}>
-                <div className="formAddCustomerItem">
-                    <label>Код</label>
-                    <input
-                        value={code.value}
-                        onChange={code.onChange}
-                        onBlur={code.onBlur}
-                        className="formInput"
-                        type="text" placeholder="Введите код заказчика"
-                    />
-                    {code.error && <p className="formAddCustomerItemError">{code.error}</p>}
+            <form className="formUpdateCustomer" onSubmit={handleSubmit}>
+                <div className="formUpdateCustomerItem">
+                    <label>Код:</label>
+                    <div>
+                        <input
+                            value={code.value}
+                            onChange={code.onChange}
+                            onBlur={code.onBlur}
+                            className="formInput"
+                            type="text" placeholder="Введите код заказчика"
+                        />
+                        {code.error && <p className="formUpdateCustomerItemError">{code.error}</p>}
+                    </div>
                 </div>
 
-                <div className="formAddCustomerItem">
-                    <label>Имя</label>
-                    <input
-                        value={name.value}
-                        onChange={name.onChange}
-                        onBlur={name.onBlur}
-                        className="formInput"
-                        type="text" placeholder="Введите имя заказчика"
-                    />
-                    {name.error && <p className="formAddCustomerItemError">{name.error}</p>}
+                <div className="formUpdateCustomerItem">
+                    <label>Имя:</label>
+                    <div>
+                        <input
+                            value={name.value}
+                            onChange={name.onChange}
+                            onBlur={name.onBlur}
+                            className="formInput"
+                            type="text" placeholder="Введите имя заказчика"
+                        />
+                        {name.error && <p className="formUpdateCustomerItemError">{name.error}</p>}
+                    </div>
                 </div>
 
-                <div className="formAddCustomerItem">
-                    <label>Телефон</label>
-                    <input
-                        value={phone.value}
-                        onChange={phone.onChange}
-                        onBlur={phone.onBlur}
-                        className="formInput"
-                        type="text" placeholder="Введите телефон заказчика"
-                    />
-                    {phone.error && <p className="formAddCustomerItemError">{phone.error}</p>}
+                <div className="formUpdateCustomerItem">
+                    <label>Телефон:</label>
+                    <div>
+                        <input
+                            value={phone.value}
+                            onChange={phone.onChange}
+                            onBlur={phone.onBlur}
+                            className="formInput"
+                            type="text" placeholder="Введите телефон заказчика"
+                        />
+                        {phone.error && <p className="formUpdateCustomerItemError">{phone.error}</p>}
+                    </div>
                 </div>
 
-                <div className="formAddCustomerItem">
-                    <label>Email</label>
-                    <input
-                        value={email.value}
-                        onChange={email.onChange}
-                        onBlur={email.onBlur}
-                        className="formInput"
-                        type="text" placeholder="Введите email заказчика"
-                    />
-                    {email.error && <p className="formAddCustomerItemError">{email.error}</p>}
+                <div className="formUpdateCustomerItem">
+                    <label>Email:</label>
+                    <div>
+                        <input
+                            value={email.value}
+                            onChange={email.onChange}
+                            onBlur={email.onBlur}
+                            className="formInput"
+                            type="text" placeholder="Введите email заказчика"
+                        />
+                        {email.error && <p className="formUpdateCustomerItemError">{email.error}</p>}
+                    </div>
                 </div>
 
-                <div className="formAddCustomerItem">
-                    <label>Адрес</label>
-                    <input
-                        value={adress.value}
-                        onChange={adress.onChange}
-                        onBlur={adress.onBlur}
-                        className="formInput"
-                        type="text" placeholder="Введите адрес заказчика"
-                    />
-                    {adress.error && <p className="formAddCustomerItemError">{adress.error}</p>}
+                <div className="formUpdateCustomerItem">
+                    <label>Адрес:</label>
+                    <div>
+                        <input
+                            value={adress.value}
+                            onChange={adress.onChange}
+                            onBlur={adress.onBlur}
+                            className="formInput"
+                            type="text" placeholder="Введите адрес заказчика"
+                        />
+                        {adress.error && <p className="formUpdateCustomerItemError">{adress.error}</p>}
+                    </div>
                 </div>
 
                 <button disabled={isLoading} type="submit">Изменить</button>

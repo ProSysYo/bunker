@@ -90,22 +90,22 @@ export function getCustomer(customerId) {
     }
 }
 
-export const updateCustomer = (code, name, phone, email, adress) => {
+export const updateCustomer = (id, data) => {
     return async dispatch => {
         try {
             dispatch({ type: ActionTypes.SET_LOADING });
             dispatch({ type: ActionTypes.CLEAR_CUSTOMER_VALIDATE_ERRORS });
 
-            const response = await axios.post(`${API_URL}api/customer`, { code, name, phone, email, adress}, {
+            const response = await axios.patch(`${API_URL}api/customer/${id}`, data, {
                 headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
             })
 
-            dispatch({ type: ActionTypes.ADD_CUSTOMER_STATUS, payload: true })
-            dispatch({ type: ActionTypes.ADD_CUSTOMER, payload: response.data.customer })
+            dispatch({ type: ActionTypes.UPDATE_CUSTOMER_STATUS, payload: true })
+            dispatch({ type: ActionTypes.UPDATE_CUSTOMER, payload: response.data.customer })
             dispatch({ type: ActionTypes.SET_MESSAGE, payload: response.data.message });
-        } catch (e) {            
-            dispatch({ type: ActionTypes.ADD_CUSTOMER_FAIL })
-            dispatch({ type: ActionTypes.ADD_CUSTOMER_STATUS, payload: false })
+        } catch (e) { 
+            dispatch({ type: ActionTypes.UPDATE_CUSTOMER_STATUS, payload: false })
+            
             if (e.response?.data?.message) {
                 dispatch({ type: ActionTypes.SET_MESSAGE, payload: e.response.data.message });
             }
