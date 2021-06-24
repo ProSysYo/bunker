@@ -83,9 +83,7 @@ function App() {
                         </Switch>
                     </div>
                 }
-                <div className="spinner">
-                    {isLoading && <Spin size="large" />}
-                </div>
+                {isLoading && <span className="spinner"><Spin size="large"/></span>}
             </div>
         </BrowserRouter>
     );

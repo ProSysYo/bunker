@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
+
 import { Table, Space } from 'antd'
 
 
@@ -64,8 +65,9 @@ export const Customers = () => {
                         </Space>
                     )} />
             </Table>
-            {showAddForm && <RightBar close={setShowAddForm}><AddCustomer/></RightBar>}
-            {showEditForm && <RightBar close={setShowEditForm}><Customer id={selectedCustomerId}/></RightBar>}
+            
+            <RightBar close={setShowAddForm} show={showAddForm}><AddCustomer/></RightBar>
+            <RightBar close={setShowEditForm} show={showEditForm}><Customer id={selectedCustomerId}/></RightBar>
         </div>
     )
 }

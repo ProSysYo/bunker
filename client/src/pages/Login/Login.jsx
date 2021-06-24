@@ -25,8 +25,7 @@ const Registration = () => {
         e.preventDefault()
         dispatch(login(username, password))
     }
-
-
+    
     return (
         <div className="login">
             <div className="loginTitle">Вход в аккаунт</div>

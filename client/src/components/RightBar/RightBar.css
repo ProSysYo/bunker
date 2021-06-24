@@ -7,8 +7,7 @@
     right: 0;
     background-color: rgb(238, 236, 236);
     overflow-x: hidden; 
-    padding-top: 60px; 
-    transition: 0.5s;     
+    padding-top: 60px;         
 }
 
 .rightBarContent{
@@ -22,4 +21,24 @@
 
 .closeRightBar:hover {
     cursor: pointer;
+}
+
+.side-enter {
+    opacity: 0;
+    /* transform: scale(0.9); */
+    transform: translateX(100vw);
+}
+.side-enter-active {
+    opacity: 1;
+    transform: translateX(0);
+    transition: opacity 300ms, transform 300ms;
+}
+.side-exit {
+    opacity: 1;
+}
+.side-exit-active {
+    opacity: 0;
+    transform: translateX(100vw);
+    /* transform: scale(0.9); */
+    transition: opacity 300ms, transform 300ms;
 }

@@ -103,6 +103,7 @@ class authController {
 
             //Возвращаем на клиент сгенерированный токен
             return res.json({
+                message: 'Вы успешно зашли в систему',
                 token,
                 user: {
                     id: user._id,
