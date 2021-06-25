@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 import { registration } from '../../redux/actions/auth'
-import { ActionTypes } from '../../redux/constants/action-types'
+import { acClearRegisterValidateErrors } from '../../redux/reducers/auth'
 
 import './Registration.css'
 
@@ -22,7 +22,7 @@ const Registration = () => {
 
     useEffect(() => {        
         return () => {
-            dispatch({ type: ActionTypes.CLEAR_REGISTER_VALIDATE_ERRORS });
+            dispatch(acClearRegisterValidateErrors())            
         }
     }, [dispatch])
 

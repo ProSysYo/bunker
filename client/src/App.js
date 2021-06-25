@@ -14,12 +14,9 @@ import Home from "./pages/Home/Home"
 import Registration from "./pages/Registration/Registration"
 import Login from "./pages/Login/Login"
 
-import { clearMessage } from './redux/actions/message';
 import { auth } from './redux/actions/auth';
 import { Customers } from './pages/Customers/Customers';
-import { AddCustomer } from './pages/Customers/AddCustomer/AddCustomer';
-import { Customer } from './pages/Customers/Customer/Customer';
-
+import { acClearMessage } from './redux/reducers/message';
 
 function App() {
     const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
@@ -43,7 +40,7 @@ function App() {
 
         if (message) {
             openNotification()
-            dispatch(clearMessage())
+            dispatch(acClearMessage())
         }
     }, [message, dispatch]);
 
@@ -66,9 +63,7 @@ function App() {
                         <div className="pages">
                             <Switch>
                                 <Route exact path="/" component={Home} />
-                                <Route exact path="/customers" component={Customers} />
-                                <Route path="/addcustomer" component={AddCustomer} />
-                                <Route exact path="/customers/:id" component={Customer} />
+                                <Route exact path="/customers" component={Customers} />  
                                 <Redirect to='/' />
                             </Switch>
                         </div>

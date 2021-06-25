@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import useInput from '../../../hooks/useInput'
 import { addCustomer } from '../../../redux/actions/customer'
-import { ActionTypes } from '../../../redux/constants/action-types'
+import { acClearCastomerValidateErrors } from '../../../redux/reducers/customer'
+import { acSetMessage } from '../../../redux/reducers/message'
 
 import './AddCustomer.css'
 
@@ -30,14 +31,14 @@ export const AddCustomer = () => {
 
     useEffect(() => {
         return () => {
-            dispatch({ type: ActionTypes.CLEAR_CUSTOMER_VALIDATE_ERRORS });
+            dispatch(acClearCastomerValidateErrors())            
         }
     }, [dispatch])
 
     const handleSubmit = (e) => {
         e.preventDefault()
         if (!code.value || !name.value || !phone.value || !email.value || !adress.value) {
-            return dispatch({ type: ActionTypes.SET_MESSAGE, payload: "Не все поля заполнены" })
+            return dispatch(acSetMessage("Не все поля заполнены"))            
         }
         dispatch(addCustomer(code.value, name.value, phone.value, email.value, adress.value))
     }

@@ -4,18 +4,17 @@ import { useDispatch } from 'react-redux'
 import { Avatar, Popover, Button} from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 
-import { ActionTypes } from '../../redux/constants/action-types';
-
 import './Topbar.css'
+import { acLogout } from '../../redux/reducers/auth';
 
 const Topbar = ({ user }) => {
     const [visible, setVisible] = useState(false)
 
     const dispatch = useDispatch()
 
-    const buttonClick = () => {
+    const leaveHandle = () => {
         setVisible(state => !state)
-        dispatch({ type: ActionTypes.LOGOUT });
+        dispatch(acLogout())        
     }
 
     const handleVisibleChange = () => {
@@ -29,7 +28,7 @@ const Topbar = ({ user }) => {
                     <span className="logo">Бункер</span>
                 </div>
                 <div className="topRight">
-                    <Popover content={<Button onClick={buttonClick} type="text">Выйти</Button>}                         
+                    <Popover content={<Button onClick={leaveHandle} type="text">Выйти</Button>}                         
                         trigger="click" 
                         placement="bottom" 
                         className="popover"

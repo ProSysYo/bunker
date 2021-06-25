@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
 
-import { Table, Space } from 'antd'
+import { Table, Space, Modal } from 'antd'
 
 
 import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
@@ -12,7 +12,7 @@ import { deleteCustomer, getCustomers } from '../../redux/actions/customer'
 import './Customers.css'
 import { RightBar } from '../../components/RightBar/RightBar';
 import { AddCustomer } from './AddCustomer/AddCustomer';
-import { Customer } from './Customer/Customer';
+import { EditCustomer } from './EditCustomer/EditCustomer';
 
 const { Column } = Table
 
@@ -24,6 +24,8 @@ export const Customers = () => {
     const [showAddForm, setShowAddForm] = useState(false)
     const [showEditForm, setShowEditForm] = useState(false)
     const [selectedCustomerId, setSelectedCustomerId] = useState("")
+    const [deleteCustomerId, setDeleteCustomerId] = useState("")
+    const [isModalVisible, setIsModalVisible] = useState(false);
 
     useEffect(() => {
         dispatch(getCustomers())
@@ -37,7 +39,17 @@ export const Customers = () => {
     }, [submitSuccess])
 
     const deleteClick = (id) => {
-        dispatch(deleteCustomer(id))
+        setDeleteCustomerId(id)
+        setIsModalVisible(true)
+    }
+
+    const handleOkModal = () => {
+        dispatch(deleteCustomer(deleteCustomerId))
+        setIsModalVisible(false)
+    }
+
+    const handleCancelModal = () => {
+        setIsModalVisible(false)
     }
 
     const editClick = (id) => {
@@ -47,8 +59,8 @@ export const Customers = () => {
 
     return (
         <div>
-            <h2 className="customerPageTitle">Заказчики</h2>            
-            <span className="addIcon" onClick={() => setShowAddForm(true)}><PlusOutlined /></span>            
+            <h2 className="customerPageTitle">Заказчики</h2>
+            <span className="addIcon" onClick={() => setShowAddForm(true)}><PlusOutlined /></span>
             <Table dataSource={customers} size="small" rowKey="_id" pagination={{ pageSize: 20 }}>
                 <Column title="Код" dataIndex="code" />
                 <Column title="Имя заказчика" dataIndex="name" />
@@ -58,16 +70,28 @@ export const Customers = () => {
                 <Column
                     title="Действия"
                     key="actions"
-                    render={(text, record) => (
+                    render={(record) => (
                         <Space size="middle">
                             <span className="tableItemAction" onClick={() => editClick(record._id)}><EditOutlined /></span>
                             <span className="tableItemAction" onClick={() => deleteClick(record._id)}><DeleteOutlined /></span>
                         </Space>
                     )} />
             </Table>
-            
-            <RightBar close={setShowAddForm} show={showAddForm}><AddCustomer/></RightBar>
-            <RightBar close={setShowEditForm} show={showEditForm}><Customer id={selectedCustomerId}/></RightBar>
+
+            <RightBar close={setShowAddForm} show={showAddForm}><AddCustomer /></RightBar>
+            <RightBar close={setShowEditForm} show={showEditForm}><EditCustomer id={selectedCustomerId} /></RightBar>
+            <Modal
+                title="Удаление заказчика"
+                visible={isModalVisible}
+                cancelText="Нет"
+                okText="Да"
+                onOk={handleOkModal}
+                onCancel={handleCancelModal}
+                centered                
+            >
+                <p>Вы действительно хотите удалить заказчика?</p>
+                <span>Удаление нельзя отменить</span>
+            </Modal>
         </div>
     )
 }

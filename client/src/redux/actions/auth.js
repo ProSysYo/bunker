@@ -1,45 +1,43 @@
-import axios from 'axios'
-import { API_URL } from '../../config'
-import { ActionTypes } from '../constants/action-types'
+import { http, httpDefault } from '../../http-common'
+
+import { 
+    acAuthFail, acAuthSuccess, acClearLoginValidateErrors, 
+    acClearRegisterValidateErrors, acLoginFail, acLoginSuccess, 
+    acRegisterFail, acRegisterSuccess, acSetLoginValidateErrors,
+    acSetRegisterValidateErrors 
+} from '../reducers/auth'
+
+import { acClearLoading, acSetLoading } from '../reducers/loading'
+import { acSetMessage } from '../reducers/message'
 
 export const auth =  () => {
     return async dispatch => {
-        try {
-            const response = await axios.get(`${API_URL}api/auth`,
-                {headers:{Authorization:`Bearer ${localStorage.getItem('token')}`}}
-            )
-            dispatch({ type: ActionTypes.AUTH_SUCCESS, payload: response.data.user })            
+        try {            
+            const response = await http.get('/auth')
+            dispatch(acAuthSuccess(response.data.user))
             localStorage.setItem('token', response.data.token)            
         } catch (e) {
-            dispatch({ type: ActionTypes.AUTH_FAIL}) 
+            dispatch(acAuthFail())            
             localStorage.removeItem('token')
         }
     }
 }
+
 export const login =  (username, password) => {
     return async dispatch => {
         try {
-            dispatch({ type: ActionTypes.SET_LOADING });
-            const response = await axios.post(`${API_URL}api/login`, {
-                username,
-                password
-            })
-            dispatch({ type: ActionTypes.CLEAR_LOADING });
-            dispatch({ type: ActionTypes.CLEAR_LOGIN_VALIDATE_ERRORS});
-            dispatch({ type: ActionTypes.LOGIN_SUCCESS, payload: response.data.user })
-
+            dispatch(acSetLoading())
+            const response = await httpDefault.post('/login', { username, password })
+            dispatch(acClearLoading())
+            dispatch(acClearLoginValidateErrors())
+            dispatch(acLoginSuccess(response.data.user))
+            dispatch(acSetMessage(response.data.message))  
             localStorage.setItem('token', response.data.token)
         } catch (e) {
-            dispatch({ type: ActionTypes.CLEAR_LOADING });
-            dispatch({ type: ActionTypes.LOGIN_FAIL })
-
-            if (e.response?.data?.message) {
-                dispatch({ type: ActionTypes.SET_MESSAGE, payload: e.response.data.message });
-            } 
-
-            if (e.response?.data?.errors) {
-                dispatch({ type: ActionTypes.SET_LOGIN_VALIDATE_ERRORS, payload: e.response.data.errors });
-            }
+            dispatch(acClearLoading())
+            dispatch((acLoginFail()))
+            if (e.response?.data?.message) dispatch(acSetMessage(e.response.data.message))
+            if (e.response?.data?.errors) dispatch(acSetLoginValidateErrors(e.response.data.errors))
         }
     }
 }
@@ -47,29 +45,17 @@ export const login =  (username, password) => {
 export const registration =  (username, password) => {
     return async dispatch => {
         try {
-            dispatch({ type: ActionTypes.SET_LOADING });
-            dispatch({ type: ActionTypes.CLEAR_REGISTER_VALIDATE_ERRORS });
-
-            const response = await axios.post(`${API_URL}api/registration`, {
-                username,
-                password
-            })
-            dispatch({ type: ActionTypes.CLEAR_LOADING });
-            dispatch({ type: ActionTypes.REGISTER_SUCCESS })
-            dispatch({ type: ActionTypes.SET_MESSAGE, payload: response.data.message });
+            dispatch(acSetLoading())
+            dispatch(acClearRegisterValidateErrors())
+            const response = await httpDefault.post('/registration', { username, password })            
+            dispatch(acClearLoading())
+            dispatch(acRegisterSuccess())
+            dispatch(acSetMessage(response.data.message))            
         } catch (e) {
-            dispatch({ type: ActionTypes.CLEAR_LOADING });
-            dispatch({ type: ActionTypes.REGISTER_FAIL })
-
-            if (e.response?.data?.message) {
-                dispatch({ type: ActionTypes.SET_MESSAGE, payload: e.response.data.message });
-            }      
-            
-            if (e.response?.data?.errors) {
-                dispatch({ type: ActionTypes.SET_REGISTER_VALIDATE_ERRORS, payload: e.response.data.errors });
-            }
-
-            console.log(e);
+            dispatch(acClearLoading())
+            dispatch(acRegisterFail())
+            if (e.response?.data?.message) dispatch(acSetMessage(e.response.data.message))     
+            if (e.response?.data?.errors) dispatch(acSetRegisterValidateErrors(e.response.data.errors))            
         }
     }
 }

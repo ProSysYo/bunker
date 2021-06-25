@@ -1,4 +1,4 @@
-import { ActionTypes } from "../constants/action-types";
+import { ServiceTypes } from "../constants/service-types";
 
 const initialState = {
     isLoading: false
@@ -6,13 +6,17 @@ const initialState = {
 
 export const loadingReducer = (state = initialState, action) => {    
     switch (action.type) {
-        case ActionTypes.SET_LOADING:
+        case ServiceTypes.SET_LOADING:
             return { isLoading: true };
 
-        case ActionTypes.CLEAR_LOADING:
+        case ServiceTypes.CLEAR_LOADING:
             return { isLoading: false };
 
         default:
             return state;
     }
 }
+
+export const acSetLoading = () => ({ type: ServiceTypes.SET_LOADING })
+
+export const acClearLoading = () => ({ type: ServiceTypes.CLEAR_LOADING })

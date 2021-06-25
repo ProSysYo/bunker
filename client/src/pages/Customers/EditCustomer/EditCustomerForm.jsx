@@ -3,11 +3,11 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import useInput from '../../../hooks/useInput'
 import { updateCustomer } from '../../../redux/actions/customer'
-import { ActionTypes } from '../../../redux/constants/action-types'
+import { acSetMessage } from '../../../redux/reducers/message'
 
-import './CustomerForm.css'
+import './EditCustomerForm.css'
 
-export const CustomerForm = () => {
+export const EditCustomerForm = () => {
     const dispatch = useDispatch()
     const customer = useSelector(state => state.customer.customer)
     const customerValidateErrors = useSelector(state => state.customer.customerValidateErrors)
@@ -31,7 +31,7 @@ export const CustomerForm = () => {
     const handleSubmit = (e) => {
         e.preventDefault()
         if (!code.value || !name.value || !phone.value || !email.value || !adress.value) {
-            return dispatch({ type: ActionTypes.SET_MESSAGE, payload: "Не все поля заполнены" })
+            return dispatch(acSetMessage("Не все поля заполнены"))            
         }
 
         const data = {

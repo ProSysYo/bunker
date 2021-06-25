@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 import { login } from '../../redux/actions/auth'
-import { ActionTypes } from '../../redux/constants/action-types'
+import { acClearLoginValidateErrors } from '../../redux/reducers/auth'
 
 import './Login.css'
 
@@ -17,7 +17,7 @@ const Registration = () => {
 
     useEffect(() => {        
         return () => {
-            dispatch({ type: ActionTypes.CLEAR_LOGIN_VALIDATE_ERRORS });
+            dispatch(acClearLoginValidateErrors())            
         }
     }, [dispatch])
 

@@ -22,7 +22,10 @@
   },
   "homepage": "https://github.com/ProSysYo/bunker#readme",
   "nodemonConfig": {
-    "ignore": ["test/*", "client/*"]    
+    "ignore": [
+      "test/*",
+      "client/*"
+    ]
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
