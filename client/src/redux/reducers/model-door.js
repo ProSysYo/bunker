@@ -3,7 +3,7 @@ import { ModelDoorTypes } from '../constants/model-door-types'
 const initialState = {
     modelDoors: [],
     modelDoor: null,
-    modelDoorValidErrors: null,
+    modelDoorValidErrors: {},
     submitSuccess: false,
 }
 
@@ -13,7 +13,7 @@ export const modelDoorReducer = (state = initialState, action) => {
         case ModelDoorTypes.SET_ADD_MODEL_DOOR_STATUS: return { ...state, submitSuccess: action.payload }
         case ModelDoorTypes.ADD_MODEL_DOOR: return { ...state, modelDoors: [...state.modelDoors, action.payload] }
         case ModelDoorTypes.SET_MODEL_DOOR_VALID_ERRORS: return { ...state, modelDoorValidErrors: action.payload }
-        case ModelDoorTypes.CLEAR_MODEL_DOOR_VALID_ERRORS: return { ...state, modelDoorValidErrors: null }
+        case ModelDoorTypes.CLEAR_MODEL_DOOR_VALID_ERRORS: return { ...state, modelDoorValidErrors: {}, submitSuccess: false}
         case ModelDoorTypes.DELETE_MODEL_DOOR: return {
             ...state,
             modelDoors: [...state.modelDoors.filter(model => model._id !== action.payload)]
@@ -22,7 +22,13 @@ export const modelDoorReducer = (state = initialState, action) => {
         case ModelDoorTypes.REMOVE_SELECTED_MODEL_DOOR: return { ...state, modelDoor: null }
         case ModelDoorTypes.UPDATE_MODEL_DOOR: return {
             ...state,
-            modelDoors: [...state.modelDoors.map(model => model._id !== action.payload._id), ...action.payload]
+            modelDoors: [...state.modelDoors.map((model) => {
+                if (model._id === action.payload._id) {
+                    return { ...action.payload }
+                } else {
+                    return model
+                }
+            })]           
         }
         case ModelDoorTypes.SET_UPDATE_MODEL_DOOR_STATUS: return { ...state, submitSuccess: action.payload }
 
@@ -31,7 +37,7 @@ export const modelDoorReducer = (state = initialState, action) => {
     }
 }
 
-export const acSetModelDoors = (models) => ({ type: ModelDoorTypes.SET_CUSTOMERS, payload: models})
+export const acSetModelDoors = (models) => ({ type: ModelDoorTypes.SET_MODEL_DOORS, payload: models})
 
 export const acSetAddModelDoorStatus = (isSuccess) => ({ type: ModelDoorTypes.SET_ADD_MODEL_DOOR_STATUS, payload: isSuccess })
 

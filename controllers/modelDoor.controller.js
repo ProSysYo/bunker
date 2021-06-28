@@ -2,13 +2,31 @@ const { validationResult } = require("express-validator")
 
 const { ModelDoor } = require("../models/ModelDoor")
 
+const FormatError = (errors) => {
+    const extractedErrors = []
+    errors.array().map(err => extractedErrors.push({ [err.param]: err.msg }))
+    const result = extractedErrors.reduce((acc, item) => {
+        Object.keys(item).forEach(key => {
+            if (acc.hasOwnProperty(key)) {
+                acc[key] += ', ' + item[key];
+            } else {
+                acc[key] = item[key];
+            }
+        });
+        return acc;
+    }, {});
+
+    return result
+}
+
 class modelDoorController {
     async addModel(req, res) {
         try {
             const errors = validationResult(req)
             
             if (!errors.isEmpty()) {
-                return res.status(400).json({message: "Ошибка валидации", errors})
+                const formatedErrors = FormatError(errors)                
+                return res.status(400).json({message: "Ошибка валидации", errors: formatedErrors})
             }
             const {abbreviation, name} = req.body
 
@@ -31,8 +49,7 @@ class modelDoorController {
 
     async getModels(req, res) {
         try {            
-            const models = await ModelDoor.find()
-
+            const models = await ModelDoor.find().sort({abbreviation: 1}).exec()       
             return res.status(200).json(models)
         } catch (e) {
             console.log(e)
@@ -77,7 +94,8 @@ class modelDoorController {
             const errors = validationResult(req)
             
             if (!errors.isEmpty()) {
-                return res.status(400).json({message: "Ошибка валидации", errors})
+                const formatedErrors = FormatError(errors)                
+                return res.status(400).json({message: "Ошибка валидации", errors: formatedErrors})
             }
 
             const model = await ModelDoor.findOneAndUpdate({_id: req.params.id}, {$set: req.body}, {new: true})

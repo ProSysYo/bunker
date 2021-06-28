@@ -17,9 +17,10 @@ export const auth =  () => {
             dispatch(acAuthSuccess(response.data.user))
             localStorage.setItem('token', response.data.token)            
         } catch (e) {
-            dispatch(acAuthFail())            
+            dispatch(acAuthFail())
+            if (!e.status) dispatch(acSetMessage("Сервер не доступен, попробуйте позже"))            
             localStorage.removeItem('token')
-        }
+        } 
     }
 }
 
@@ -28,16 +29,17 @@ export const login =  (username, password) => {
         try {
             dispatch(acSetLoading())
             const response = await httpDefault.post('/login', { username, password })
-            dispatch(acClearLoading())
             dispatch(acClearLoginValidateErrors())
             dispatch(acLoginSuccess(response.data.user))
             dispatch(acSetMessage(response.data.message))  
             localStorage.setItem('token', response.data.token)
         } catch (e) {
-            dispatch(acClearLoading())
             dispatch((acLoginFail()))
+            if (!e.status) dispatch(acSetMessage("Сервер не доступен, попробуйте позже")) 
             if (e.response?.data?.message) dispatch(acSetMessage(e.response.data.message))
             if (e.response?.data?.errors) dispatch(acSetLoginValidateErrors(e.response.data.errors))
+        } finally {
+            dispatch(acClearLoading())
         }
     }
 }
@@ -47,15 +49,16 @@ export const registration =  (username, password) => {
         try {
             dispatch(acSetLoading())
             dispatch(acClearRegisterValidateErrors())
-            const response = await httpDefault.post('/registration', { username, password })            
-            dispatch(acClearLoading())
+            const response = await httpDefault.post('/registration', { username, password }) 
             dispatch(acRegisterSuccess())
             dispatch(acSetMessage(response.data.message))            
-        } catch (e) {
-            dispatch(acClearLoading())
+        } catch (e) {            
             dispatch(acRegisterFail())
+            if (!e.status) dispatch(acSetMessage("Сервер не доступен, попробуйте позже")) 
             if (e.response?.data?.message) dispatch(acSetMessage(e.response.data.message))     
             if (e.response?.data?.errors) dispatch(acSetRegisterValidateErrors(e.response.data.errors))            
+        } finally {
+            dispatch(acClearLoading())
         }
     }
 }

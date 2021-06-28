@@ -21,7 +21,7 @@ export const EditCustomerForm = () => {
 
     useEffect(() => {
         code.setError(customerValidateErrors.code)
-        name.setError(customerValidateErrors.namecode)
+        name.setError(customerValidateErrors.name)
         phone.setError(customerValidateErrors.phone)
         email.setError(customerValidateErrors.email)
         adress.setError(customerValidateErrors.adress)

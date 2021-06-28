@@ -17,6 +17,7 @@ import Login from "./pages/Login/Login"
 import { auth } from './redux/actions/auth';
 import { Customers } from './pages/Customers/Customers';
 import { acClearMessage } from './redux/reducers/message';
+import { ModelDoors } from './pages/ModelDoors/ModelDoors';
 
 function App() {
     const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
@@ -63,7 +64,8 @@ function App() {
                         <div className="pages">
                             <Switch>
                                 <Route exact path="/" component={Home} />
-                                <Route exact path="/customers" component={Customers} />  
+                                <Route exact path="/customers" component={Customers} />
+                                <Route exact path="/modeldoors" component={ModelDoors} />   
                                 <Redirect to='/' />
                             </Switch>
                         </div>

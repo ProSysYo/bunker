@@ -1,0 +1,15 @@
+.modelDoorsTitle{
+    text-align: center;
+}
+
+.modelDoorsAddIcon{
+    font-size: 30px;
+}
+
+.modelDoorsAddIcon:hover{
+    cursor: pointer;    
+}
+
+.modelDoorsTableItemAction:hover {
+    cursor: pointer;
+}
