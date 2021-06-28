@@ -62,7 +62,7 @@ class authController {
             return res.json({ message: "Пользователь успешно зарегистрирован" })
         } catch (e) {
             console.log(e);
-            res.status(400).json({ message: 'Registration error', e })
+            res.status(400).json({ message: 'Ошибка при регистрации', e })
         }
     }
 
@@ -113,7 +113,7 @@ class authController {
             })
         } catch (e) {
             console.log(e);
-            res.status(400).json({ message: 'Login error', e })
+            res.status(400).json({ message: 'Ошибка при входе в систему', e })
         }
     }
 
@@ -136,7 +136,7 @@ class authController {
             })
         } catch (e) {
             console.log(e)
-            res.send({message: "Server error"})
+            res.send({message: "Ошибка при авторизации"})
         }
     }
 

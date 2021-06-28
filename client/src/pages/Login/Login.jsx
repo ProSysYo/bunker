@@ -7,7 +7,7 @@ import { acClearLoginValidateErrors } from '../../redux/reducers/auth'
 
 import './Login.css'
 
-const Registration = () => {
+const Login = () => {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
 
@@ -53,4 +53,4 @@ const Registration = () => {
     );
 }
 
-export default Registration
+export default Login

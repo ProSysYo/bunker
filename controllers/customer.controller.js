@@ -54,7 +54,7 @@ class customerController {
             const customers = await Customer.find().sort({code: 1}).exec()
             return res.json(customers)
         } catch (e) {
-            res.status(400).json({message: 'Error in get customers', e})
+            res.status(400).json({message: 'Ошибка при получении заказчиков', e})
         }
     }
 
@@ -68,7 +68,7 @@ class customerController {
             }
             return res.json(customer)
         } catch (e) {
-            res.status(400).json({message: 'Error in get customer by id', e})
+            res.status(400).json({message: 'Ошибка при получении закачика', e})
         }
     }
 
