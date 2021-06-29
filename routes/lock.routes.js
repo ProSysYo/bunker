@@ -1,7 +1,7 @@
 const Router = require('express')
 
 const lockController = require('../controllers/lock.controller')
-const { lockValidate } = require('../models/lock')
+const { lockValidate } = require('../models/Lock')
 
 const router = new Router()
 
