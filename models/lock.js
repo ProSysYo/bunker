@@ -4,7 +4,8 @@ const {check} = require('express-validator')
 const lockValidate = [
     check('name', 'Имя не должно быть пустым').notEmpty(),
     check('type', 'Тип не должен быть пустым').notEmpty(),
-    check('type', 'Неизвестный тип замка').isIn(['Основной', 'Дополнительный', 'Двухсистемный'])
+    check('type', 'Неизвестный тип замка').isIn(['Основной', 'Дополнительный', 'Двухсистемный']),
+    check('isLatch', 'Выберите предусмотрена ли задвижка замка').isBoolean()
 ]
 
 const locklSchema = new Schema({

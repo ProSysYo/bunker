@@ -2,8 +2,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;     
-    flex-wrap: wrap; 
-    margin: 0 auto;
+    flex-wrap: wrap;     
 }
 
 .editModelDoorTitle{
@@ -15,11 +14,11 @@
     flex-direction: column;
     align-items: flex-end;
     justify-content: center;
-    width: 400px;
+    width: 90%;
 }
 
 .formEditModelDoorItem{
-    width: 100%;
+    width: 90%;
     position: relative;
     margin-bottom: 25px;
     display: flex;
@@ -28,11 +27,11 @@
 }
 
 .formEditModelDoorItem div{
-    width: 70%;
+    width: 75%;
 }
 
 .formEditModelDoorItem label{
-    width: 30%;
+    width: 25%;
     text-align: end;
     padding-right: 10px;
 }

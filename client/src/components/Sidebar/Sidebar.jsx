@@ -34,10 +34,12 @@ const Sidebar = () => {
                 </SubMenu>
                 <SubMenu key="sub2" icon={<AppstoreOutlined />} title="Таблицы">
                     <Menu.Item key="5"><Link to="/customers">Заказчики</Link></Menu.Item>
-                    <Menu.Item key="6"><Link to="/modeldoors">Модели дверей</Link></Menu.Item>                    
-                    <Menu.Item key="7">Накладки</Menu.Item>
+                    <Menu.Item key="6"><Link to="/modeldoors">Модели дверей</Link></Menu.Item>
+                    <Menu.Item key="7"><Link to="/locks">Замки</Link></Menu.Item>
+
+                    
                     <Menu.Item key="8">Ручки</Menu.Item>
-                    <Menu.Item key="9">Замки дополнительные</Menu.Item>
+                    <Menu.Item key="9">Накладки</Menu.Item>
                     <Menu.Item key="10">Уплотнители</Menu.Item>
                     <Menu.Item key="11">Засовы</Menu.Item>
                     <Menu.Item key="12">Типы панелей</Menu.Item>

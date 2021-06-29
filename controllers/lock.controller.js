@@ -36,7 +36,7 @@ class lockController {
     async getAll(req, res) {
         try {            
             const locks = await Lock.find().sort({name: 1}).exec()
-            return res.json(customers)
+            return res.json(locks)
         } catch (e) {
             res.status(400).json({message: 'Ошибка при получении замков', e})
         }
@@ -58,17 +58,37 @@ class lockController {
 
     async delete(req, res) {
         try {
-            
+            const id = req.params.id
+
+            const lock = await Lock.findOneAndDelete({_id: id})
+
+            if (!lock) {
+                return res.status(400).json({message: 'Нет такого замка для удаления'})
+            }
+
+            res.status(200).json({message: 'Замок удален'})
         } catch (e) {
-           
+            res.status(400).json({message: 'Ошибка при удалении замка', e})
         }
     }
 
     async update(req, res) {
         try {
+            const errors = validationResult(req)
             
+            if (!errors.isEmpty()) {
+                const formatedErrors = FormatError(errors)                
+                return res.status(400).json({message: "Ошибка валидации", errors: formatedErrors})
+            }
+            
+            const lock = await Lock.findOneAndUpdate({_id: req.params.id}, {$set: req.body}, {new: true})
+            if (!lock) {
+                return res.status(400).json({message: 'Нет такого замка для обновления'})
+            }
+
+            res.status(200).json({message: 'Данные замка изменены', lock})
         } catch (e) {
-            
+            res.status(400).json({message: 'Ошибка при изменении замка', e})
         }
     }
 }
