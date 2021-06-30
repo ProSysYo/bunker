@@ -8,9 +8,10 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import './Locks.css'
 import { RightBar } from '../../components/RightBar/RightBar';
-import { AddLockForm } from './AddLockForm/AddLockForm'
+import { AddLockForm } from './AddLockForm'
 
 import { deleteLock, getLocks } from '../../redux/actions/lock';
+import { EditLockContainer } from './EditLockContainer';
 
 const { Column } = Table
 
@@ -56,7 +57,7 @@ export const Locks = () => {
 
     return (
         <div>
-            <h2 className="locksTitle">Модели дверей</h2>
+            <h2 className="locksTitle">Модели замков</h2>
             <span className="locksAddIcon" onClick={() => setShowAddForm(true)}><PlusOutlined /></span>
             <Table dataSource={locks} size="small" rowKey="_id" pagination={{ pageSize: 20 }}>
                 <Column title="Наименование" dataIndex="name" />
@@ -64,11 +65,8 @@ export const Locks = () => {
                 <Column 
                     title="Задвижка" 
                     dataIndex="isLatch" 
-                    render={(record) => (
-                        <p>
-                            {record.isLatch ? "да" : "нет"}
-                        </p>
-                        
+                    render={(isLatch) => (
+                            <span>{isLatch ? "да" : "нет"}</span>
                     )}
                 />               
                 <Column
@@ -83,7 +81,7 @@ export const Locks = () => {
             </Table>
 
             <RightBar close={setShowAddForm} show={showAddForm}><AddLockForm /></RightBar>
-            {/* <RightBar close={setShowEditForm} show={showEditForm}><EditModelDoor id={selectedLockId} /></RightBar> */}
+            <RightBar close={setShowEditForm} show={showEditForm}><EditLockContainer id={selectedLockId} /></RightBar>
             
             <Modal
                 title="Удаление замка"
