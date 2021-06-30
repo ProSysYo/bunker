@@ -19,6 +19,7 @@ export const AddLockForm = () => {
     useEffect(() => {
         if (lockValidErrors.name) setError("name", {message: lockValidErrors.name})
         if (lockValidErrors.type) setError("type", {message: lockValidErrors.type})
+        if (lockValidErrors.insertPlace) setError("insertPlace", {message: lockValidErrors.insertPlace})
         if (lockValidErrors.isLatch) setError("isLatch", {message: lockValidErrors.isLatch})
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -33,10 +34,10 @@ export const AddLockForm = () => {
 
     const onSubmit = (data, e) => {
         e.preventDefault()
-        if (!data.name || !data.type) {
+        if (!data.name || !data.type || !data.insertPlace) {
             return dispatch(acSetMessage("Не все поля заполнены"))
         }
-        dispatch(addLock(data.name, data.type, data.isLatch))
+        dispatch(addLock(data.name, data.type, data.insertPlace, data.isLatch))
     }
     return (
         <Wrapper>
@@ -61,14 +62,30 @@ export const AddLockForm = () => {
                             defaultValue=""                         
                         >
                             <option disabled value=""> --выберите из списка-- </option>
-                            <option value="Основной">Основной</option>
-                            <option value="Дополнительный">Дополнительный</option>
+                            <option value="Сувальда">Сувальда</option>
+                            <option value="Цилиндр">Цилиндр</option>
                             <option value="Двухсистемный">Двухсистемный</option>
                         </Select>
                         {errors.type && <FormInputError>{errors.type.message}</FormInputError>}
                     </FormItemInput>
                 </FormItem>
 
+                <FormItem>
+                    <FormItemTitle>Место установки:</FormItemTitle>
+                    <FormItemInput>
+                        <Select
+                            {...register("insertPlace", { required: "Выберите место установки" })}
+                            defaultValue=""                         
+                        >
+                            <option disabled value=""> --выберите из списка-- </option>
+                            <option value="Основной">Основной</option>
+                            <option value="Дополнительный">Дополнительный</option>
+                            <option value="Комбинированный">Комбинированный</option>
+                        </Select>
+                        {errors.insertPlace && <FormInputError>{errors.insertPlace.message}</FormInputError>}
+                    </FormItemInput>
+                </FormItem>
+                
                 <FormItem>
                     <FormItemTitle>Засов:</FormItemTitle>
                     <FormItemInput>

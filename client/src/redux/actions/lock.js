@@ -30,12 +30,12 @@ export function getLocks() {
     }
 }
 
-export const addLock = (name, type, isLatch) => {
+export const addLock = (name, type, insertPlace, isLatch) => {
     return async dispatch => {
         try {
             dispatch(acSetLoading())
             dispatch(acClearLockValidErrors())
-            const response = await http.post('/lock', { name, type, isLatch })
+            const response = await http.post('/lock', { name, type, insertPlace, isLatch })
             dispatch(acSetAddLockStatus(true))
             dispatch(acAddLock(response.data.lock))
             dispatch(acSetMessage(response.data.message))

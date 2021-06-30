@@ -62,6 +62,7 @@ export const Locks = () => {
             <Table dataSource={locks} size="small" rowKey="_id" pagination={{ pageSize: 20 }}>
                 <Column title="Наименование" dataIndex="name" />
                 <Column title="Тип" dataIndex="type" />
+                <Column title="Место установки" dataIndex="insertPlace" />
                 <Column 
                     title="Задвижка" 
                     dataIndex="isLatch" 

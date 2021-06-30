@@ -14,7 +14,7 @@ class lockController {
                 return res.status(400).json({message: "Ошибка валидации", errors: formatedErrors})
             }
 
-            const { name, type, isLatch } = req.body
+            const { name, type, insertPlace, isLatch } = req.body
 
             const findLock = await Lock.findOne({name})
 
@@ -22,7 +22,7 @@ class lockController {
                 return res.status(403).json({message: 'Замок с таким именем уже существует'})
             }
 
-            const newLock = new Lock({name, type, isLatch})
+            const newLock = new Lock({name, type, insertPlace, isLatch})
 
             const lock = await newLock.save()
 

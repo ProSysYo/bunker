@@ -21,7 +21,7 @@ export const EditLockForm = () => {
         if (lockValidErrors.name) setError("name", {message: lockValidErrors.name})
         if (lockValidErrors.type) setError("type", {message: lockValidErrors.type})
         if (lockValidErrors.isLatch) setError("isLatch", {message: lockValidErrors.isLatch})
-
+        if (lockValidErrors.insertPlace) setError("insertPlace", {message: lockValidErrors.insertPlace})
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [lockValidErrors])
 
@@ -34,13 +34,14 @@ export const EditLockForm = () => {
 
     const onSubmit = (data, e) => {
         e.preventDefault()
-        if (!data.name || !data.type) {
+        if (!data.name || !data.type || !data.insertPlace) {
             return dispatch(acSetMessage("Не все поля заполнены"))
         }
         const updatedLok = {
             id: lock._id,
             name: data.name,
             type: data.type,
+            insertPlace: data.insertPlace,
             isLatch: data.isLatch     
         }
 
@@ -70,11 +71,27 @@ export const EditLockForm = () => {
                             defaultValue={lock.type}                        
                         >
                             <option disabled value=""> --выберите из списка-- </option>
-                            <option value="Основной">Основной</option>
-                            <option value="Дополнительный">Дополнительный</option>
+                            <option value="Сувальда">Сувальда</option>
+                            <option value="Цилиндр">Цилиндр</option>
                             <option value="Двухсистемный">Двухсистемный</option>
                         </Select>
                         {errors.type && <FormInputError>{errors.type.message}</FormInputError>}
+                    </FormItemInput>
+                </FormItem>
+
+                <FormItem>
+                    <FormItemTitle>Место установки:</FormItemTitle>
+                    <FormItemInput>
+                        <Select
+                            {...register("insertPlace", { required: "Выберите место установки" })}
+                            defaultValue={lock.insertPlace}                        
+                        >
+                            <option disabled value=""> --выберите из списка-- </option>
+                            <option value="Основной">Основной</option>
+                            <option value="Дополнительный">Дополнительный</option>
+                            <option value="Комбинированный">Комбинированный</option>
+                        </Select>
+                        {errors.insertPlace && <FormInputError>{errors.insertPlace.message}</FormInputError>}
                     </FormItemInput>
                 </FormItem>
 
