@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { getCustomer } from '../../../redux/actions/customer'
-import { acClearCastomerValidateErrors, acRemoveSelectedCustomer } from '../../../redux/reducers/customer'
+import { getCustomer } from '../../redux/actions/customer'
+import { acClearCastomerValidateErrors, acRemoveSelectedCustomer } from '../../redux/reducers/customer'
 import { EditCustomerForm } from './EditCustomerForm'
 
-export const EditCustomer = ({id}) => {
+export const EditCustomerContainer = ({id}) => {
     const dispatch = useDispatch()    
     const customer = useSelector(state => state.customer.customer)
     

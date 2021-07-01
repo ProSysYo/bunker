@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-
+import styled from 'styled-components';
 
 import { Table, Space, Modal } from 'antd'
 
@@ -9,10 +9,10 @@ import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux'
 import { deleteCustomer, getCustomers } from '../../redux/actions/customer'
 
-import './Customers.css'
 import { RightBar } from '../../components/RightBar/RightBar';
-import { AddCustomer } from './AddCustomer/AddCustomer';
-import { EditCustomer } from './EditCustomer/EditCustomer';
+import { AddCustomerForm } from './AddCustomerForm';
+import { EditCustomerContainer } from './EditCustomerContainer';
+
 
 const { Column } = Table
 
@@ -59,8 +59,8 @@ export const Customers = () => {
 
     return (
         <div>
-            <h2 className="customerPageTitle">Заказчики</h2>
-            <span className="addIcon" onClick={() => setShowAddForm(true)}><PlusOutlined /></span>
+            <Title>Заказчики</Title>
+            <AddIcon onClick={() => setShowAddForm(true)}><PlusOutlined /></AddIcon>
             <Table dataSource={customers} size="small" rowKey="_id" pagination={{ pageSize: 20 }}>
                 <Column title="Код" dataIndex="code" />
                 <Column title="Имя заказчика" dataIndex="name" />
@@ -72,14 +72,14 @@ export const Customers = () => {
                     key="actions"
                     render={(record) => (
                         <Space size="middle">
-                            <span className="tableItemAction" onClick={() => editClick(record._id)}><EditOutlined /></span>
-                            <span className="tableItemAction" onClick={() => deleteClick(record._id)}><DeleteOutlined /></span>
+                            <ActionItem onClick={() => editClick(record._id)}><EditOutlined /></ActionItem>
+                            <ActionItem onClick={() => deleteClick(record._id)}><DeleteOutlined /></ActionItem>
                         </Space>
                     )} />
             </Table>
 
-            <RightBar close={setShowAddForm} show={showAddForm}><AddCustomer /></RightBar>
-            <RightBar close={setShowEditForm} show={showEditForm}><EditCustomer id={selectedCustomerId} /></RightBar>
+            <RightBar close={setShowAddForm} show={showAddForm}><AddCustomerForm /></RightBar>
+            <RightBar close={setShowEditForm} show={showEditForm}><EditCustomerContainer id={selectedCustomerId} /></RightBar>
             <Modal
                 title="Удаление заказчика"
                 visible={isModalVisible}
@@ -95,3 +95,19 @@ export const Customers = () => {
         </div>
     )
 }
+
+const Title = styled.h2`
+    text-align: center;    
+`
+
+const AddIcon = styled.span`
+    font-size: 30px;
+    :hover {
+        cursor: pointer;
+    }  
+`
+const ActionItem = styled.span`    
+    :hover {
+        cursor: pointer;
+    }  
+`
