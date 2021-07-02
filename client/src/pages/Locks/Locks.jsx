@@ -66,9 +66,7 @@ export const Locks = () => {
                 <Column 
                     title="Задвижка" 
                     dataIndex="isLatch" 
-                    render={(isLatch) => (
-                            <span>{isLatch ? "да" : "нет"}</span>
-                    )}
+                    render={(isLatch) => <span>{isLatch ? "да" : "нет"}</span>}
                 />               
                 <Column
                     title="Действия"

@@ -31,12 +31,12 @@ export function getModelDoors() {
     }
 }
 
-export const addModelDoor = (abbreviation, name) => {
+export const addModelDoor = (data) => {
     return async dispatch => {
         try {
             dispatch(acSetLoading())
             dispatch(acClearModelDoorValidErrors())
-            const response = await http.post('/modeldoor', { abbreviation, name })
+            const response = await http.post('/modeldoor', data)
             dispatch(acSetAddModelDoorStatus(true))
             dispatch(acAddModelDoor(response.data.modelDoor))
             dispatch(acSetMessage(response.data.message))

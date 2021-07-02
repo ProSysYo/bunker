@@ -28,7 +28,10 @@ class modelDoorController {
                 const formatedErrors = FormatError(errors)                
                 return res.status(400).json({message: "Ошибка валидации", errors: formatedErrors})
             }
-            const {abbreviation, name} = req.body
+            
+            const {
+                abbreviation, name, trimOutside, trimInside, isDoubleDoors, insulation, countContour
+            } = req.body
 
             const model = await ModelDoor.findOne({abbreviation})
 
@@ -36,7 +39,9 @@ class modelDoorController {
                 return res.status(403).json({message: 'Такая модель двери уже существует'})
             }
 
-            const newModelDoor = new ModelDoor({abbreviation, name})
+            const newModelDoor = new ModelDoor({
+                abbreviation, name, trimOutside, trimInside, isDoubleDoors, insulation, countContour
+            })
 
             const modelDoor = await newModelDoor.save()
 

@@ -10,7 +10,7 @@ import './App.css';
 import Topbar from "./components/Topbar/Topbar"
 import Sidebar from "./components/Sidebar/Sidebar"
 
-import Home from "./pages/Home/Home"
+import { Home } from "./pages/Home/Home"
 import Registration from "./pages/Registration/Registration"
 import { Login } from "./pages/Login/Login"
 

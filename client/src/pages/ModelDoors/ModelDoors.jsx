@@ -58,7 +58,16 @@ export const ModelDoors = () => {
             <AddIcon onClick={() => setShowAddForm(true)}><PlusOutlined /></AddIcon>
             <Table dataSource={modelDoors} size="small" rowKey="_id" pagination={{ pageSize: 20 }}>
                 <Column title="Сокращение" dataIndex="abbreviation" />
-                <Column title="Наименование" dataIndex="name" />                
+                <Column title="Наименование" dataIndex="name" />
+                <Column title="Наружная отделка" dataIndex="trimOutside" />
+                <Column title="Внутренная отделка" dataIndex="trimInside" />
+                <Column 
+                    title="Двустворчатая" 
+                    dataIndex="isDoubleDoors" 
+                    render={(isDoubleDoors) => <span>{isDoubleDoors ? "да" : "нет"}</span>}
+                />
+                <Column title="Утеплитель" dataIndex="insulation" /> 
+                <Column title="Кол-во конутров" dataIndex="countContour" />                 
                 <Column
                     title="Действия"
                     key="actions"
