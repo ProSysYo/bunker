@@ -12,7 +12,7 @@ import Sidebar from "./components/Sidebar/Sidebar"
 
 import Home from "./pages/Home/Home"
 import Registration from "./pages/Registration/Registration"
-import Login from "./pages/Login/Login"
+import { Login } from "./pages/Login/Login"
 
 import { auth } from './redux/actions/auth';
 import { Customers } from './pages/Customers/Customers';

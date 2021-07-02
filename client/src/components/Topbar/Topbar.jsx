@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-
 import { Avatar, Popover, Button} from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 
 import './Topbar.css'
+import logo from '../../assets/img/logo.png'
 import { acLogout } from '../../redux/reducers/auth';
 
 const Topbar = ({ user }) => {
@@ -24,8 +24,8 @@ const Topbar = ({ user }) => {
     return (
         <div className="topbar">
             <div className="topbarWrapper">
-                <div className="topLeft">
-                    <span className="logo">Бункер</span>
+                <div className="topLeft">                    
+                    <img src={logo} alt="logo" />
                 </div>
                 <div className="topRight">
                     <Popover content={<Button onClick={leaveHandle} type="text">Выйти</Button>}                         
