@@ -22,15 +22,14 @@ const FormatError = (errors) => {
 class modelDoorController {
     async addModel(req, res) {
         try {
-            const errors = validationResult(req)
-            
+            const errors = validationResult(req)            
             if (!errors.isEmpty()) {
                 const formatedErrors = FormatError(errors)                
                 return res.status(400).json({message: "Ошибка валидации", errors: formatedErrors})
             }
             
             const {
-                abbreviation, name, trimOutside, trimInside, isDoubleDoors, insulation, countContour
+                abbreviation, trimOutside, trimInside, isDoubleDoors, insulation, countContour
             } = req.body
 
             const model = await ModelDoor.findOne({abbreviation})
@@ -40,7 +39,7 @@ class modelDoorController {
             }
 
             const newModelDoor = new ModelDoor({
-                abbreviation, name, trimOutside, trimInside, isDoubleDoors, insulation, countContour
+                abbreviation, trimOutside, trimInside, isDoubleDoors, insulation, countContour
             })
 
             const modelDoor = await newModelDoor.save()

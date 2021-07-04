@@ -7,6 +7,7 @@ const authRouter = require('./routes/auth.routes')
 const customerRouter = require('./routes/customer.routes')
 const modelDoorRouter = require('./routes/modelDoor.routes')
 const lockRouter = require('./routes/lock.routes')
+const typeCanvasRouter = require('./routes/typeCanvas.routes')
 
 const app = express()
 
@@ -18,6 +19,7 @@ app.use(express.json())
 app.use('/api', authRouter)
 app.use('/api/customer', customerRouter)
 app.use('/api/modeldoor', modelDoorRouter)
+app.use('/api/typecanvas', typeCanvasRouter)
 app.use('/api/lock', lockRouter)
 
 async function start() {

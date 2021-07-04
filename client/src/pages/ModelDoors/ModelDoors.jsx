@@ -57,8 +57,7 @@ export const ModelDoors = () => {
             <Title>Модели дверей</Title>
             <AddIcon onClick={() => setShowAddForm(true)}><PlusOutlined /></AddIcon>
             <Table dataSource={modelDoors} size="small" rowKey="_id" pagination={{ pageSize: 20 }}>
-                <Column title="Сокращение" dataIndex="abbreviation" />
-                <Column title="Наименование" dataIndex="name" />
+                <Column title="Сокращение" dataIndex="abbreviation" />                
                 <Column title="Наружная отделка" dataIndex="trimOutside" />
                 <Column title="Внутренная отделка" dataIndex="trimInside" />
                 <Column 

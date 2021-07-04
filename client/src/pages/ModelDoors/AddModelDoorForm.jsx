@@ -8,15 +8,14 @@ import { addModelDoor } from '../../redux/actions/model-door'
 import { acClearModelDoorValidErrors } from '../../redux/reducers/model-door'
 
 export const AddModelDoorForm = () => {
-    const { register, handleSubmit, setError, formState: { errors, touchedFields}, setValue, getValues } = useForm()
+    const { register, handleSubmit, setError, formState: { errors }, setValue, watch } = useForm()
     const dispatch = useDispatch()    
 
     const modelDoorValidErrors = useSelector(state => state.modelDoor.modelDoorValidErrors)
     const isLoading = useSelector(state => state.loading.isLoading)    
 
     useEffect(() => {
-        if (modelDoorValidErrors.abbreviation) setError("abbreviation", {message: modelDoorValidErrors.abbreviation})
-        if (modelDoorValidErrors.name) setError("name", {message: modelDoorValidErrors.name})
+        if (modelDoorValidErrors.abbreviation) setError("abbreviation", {message: modelDoorValidErrors.abbreviation})        
         if (modelDoorValidErrors.trimOutside) setError("trimOutside", {message: modelDoorValidErrors.trimOutside})
         if (modelDoorValidErrors.trimInside) setError("trimInside", {message: modelDoorValidErrors.trimInside})
         if (modelDoorValidErrors.isDoubleDoors) setError("isDoubleDoors", {message: modelDoorValidErrors.isDoubleDoors})
@@ -32,13 +31,30 @@ export const AddModelDoorForm = () => {
         }
     }, [dispatch])
 
+    const typeCanvas = watch("typeCanvas")
+    const countContour = watch("countContour")
+    const insulation = watch("insulation")
+    const isDoubleDoors = watch("isDoubleDoors")
+
     useEffect(() => {
-        console.log("dssd");
-        setValue("abbreviation", getValues("typeCanvas") && getValues("insulation") && getValues("countContour"))
-    },[setValue])
+        const doubleDoor = isDoubleDoors ? "Д" : ""
+        const typeCanvasValue = typeCanvas ? typeCanvas : ""
+        const countContourValue = countContour ? countContour : ""
+        
+        let prefixInsulation
+        if (insulation) {
+            if (insulation === "пенопласт") prefixInsulation = "_Пена"
+            if (insulation === "базальт") prefixInsulation = ""
+        } else {
+            prefixInsulation = ""
+        }
+
+        setValue("abbreviation", `${doubleDoor}${typeCanvasValue}${prefixInsulation}${countContourValue}`)
+    },[typeCanvas, countContour, insulation, isDoubleDoors, setValue])
 
     const onSubmit = (data, e) => {
         e.preventDefault()
+        console.log(data);
         dispatch(addModelDoor(data))
     }
     return (
@@ -51,20 +67,10 @@ export const AddModelDoorForm = () => {
                         <InputText
                             {...register("abbreviation", { required: "Введите сокращение модели" })}
                                                      
-                            placeholder="Введите сокращение модели"                            
+                            placeholder="Введите сокращение модели"
+                                                     
                         />
                         {errors.abbreviation && <FormInputError>{errors.abbreviation.message}</FormInputError>}
-                    </FormItemInput>
-                </FormItem>
-
-                <FormItem>
-                    <FormItemTitle>Наименование:</FormItemTitle>
-                    <FormItemInput>
-                        <InputText
-                            {...register("name", { required: "Введите наименование модели" })}                        
-                            placeholder="Введите наименование модели"
-                        />
-                        {errors.name && <FormInputError>{errors.name.message}</FormInputError>}
                     </FormItemInput>
                 </FormItem>
 
@@ -123,14 +129,14 @@ export const AddModelDoorForm = () => {
                     </FormItemInput>
                 </FormItem>
                 <FormItem>
-                    <FormItemTitle>Тип уплотнителя:</FormItemTitle>
+                    <FormItemTitle>Тип утеплителя:</FormItemTitle>
                     <FormItemInput>
                         <Select
-                            {...register("insulation", { required: "Выберите тип уплотнителя" })}
+                            {...register("insulation")}
                             defaultValue=""                         
                         >
                             <option disabled value=""> --выберите из списка-- </option>
-                            <option value="Пена">пенопласт</option>
+                            <option value="пенопласт">пенопласт</option>
                             <option value="базальт">базальт</option>                            
                         </Select>
                         {errors.insulation && <FormInputError>{errors.insulation.message}</FormInputError>}
