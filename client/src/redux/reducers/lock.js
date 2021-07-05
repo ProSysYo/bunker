@@ -55,4 +55,4 @@ export const acRemoveSelectedLock = () => ({ type: LockTypes.REMOVE_SELECTED_LOC
 
 export const acUpdateLock = (lock) => ({ type: LockTypes.UPDATE_LOCK, payload: lock })
 
-export const acSetUpdateLocktatus = (isSuccess) => ({ type: LockTypes.SET_UPDATE_LOCK_STATUS, payload: isSuccess })
+export const acSetUpdateLockStatus = (isSuccess) => ({ type: LockTypes.SET_UPDATE_LOCK_STATUS, payload: isSuccess })

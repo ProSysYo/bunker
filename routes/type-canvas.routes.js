@@ -1,6 +1,6 @@
 const Router = require('express')
 
-const typeCanvasController = require('../controllers/typeCanvas.controller')
+const typeCanvasController = require('../controllers/type-canvas.controller')
 const { typeCanvasValidate } = require('../models/TypeCanvas')
 
 const router = new Router()

@@ -19,6 +19,7 @@ import { Customers } from './pages/Customers/Customers';
 import { acClearMessage } from './redux/reducers/message';
 import { Locks } from './pages/Locks/Locks';
 import { TypeCanvases } from './pages/TypeCanvas/TypeCanvases'
+import { PadColors } from './pages/PadColor/PadColors'
 
 function App() {
     const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
@@ -68,6 +69,7 @@ function App() {
                                 <Route exact path="/customers" component={Customers} />
                                 <Route exact path="/locks" component={Locks} />
                                 <Route exact path="/typecanvases" component={TypeCanvases} /> 
+                                <Route exact path="/padcolors" component={PadColors} /> 
                                 <Redirect to='/' />
                             </Switch>
                         </div>

@@ -4,7 +4,7 @@ import { acClearLoading, acSetLoading } from "../reducers/loading"
 
 import { acAddLock, acClearLockValidErrors, acDeleteLock, acSetAddLockStatus, 
     acSetLocks, acSetLockValidErrors, acSetSelectedLock,
-    acSetUpdateLocktatus, acUpdateLock
+    acSetUpdateLockStatus, acUpdateLock
 } from "../reducers/lock"
 
 import { acSetMessage } from "../reducers/message"
@@ -105,11 +105,11 @@ export const updateLock = (id, data) => {
             dispatch(acSetLoading())
             dispatch(acClearLockValidErrors())
             const response = await http.patch(`/lock/${id}`, data)
-            dispatch(acSetUpdateLocktatus(true))
+            dispatch(acSetUpdateLockStatus(true))
             dispatch(acUpdateLock(response.data.lock))
             dispatch(acSetMessage(response.data.message))
         } catch (e) {
-            dispatch(acSetUpdateLocktatus(false))
+            dispatch(acSetUpdateLockStatus(false))
             if (e.response) {
                 if (e.response.data?.message) dispatch(acSetMessage(e.response.data.message))
                 if (e.response.data?.errors) dispatch(acSetLockValidErrors(e.response.data.errors))

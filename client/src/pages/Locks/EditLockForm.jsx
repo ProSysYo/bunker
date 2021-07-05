@@ -5,7 +5,6 @@ import { useForm } from "react-hook-form";
 
 import { acClearLockValidErrors } from '../../redux/reducers/lock'
 
-import { acSetMessage } from '../../redux/reducers/message'
 import { updateLock } from '../../redux/actions/lock';
 
 export const EditLockForm = () => {
@@ -33,23 +32,12 @@ export const EditLockForm = () => {
     }, [dispatch])
 
     const onSubmit = (data, e) => {
-        e.preventDefault()
-        if (!data.name || !data.type || !data.insertPlace) {
-            return dispatch(acSetMessage("Не все поля заполнены"))
-        }
-        const updatedLok = {
-            id: lock._id,
-            name: data.name,
-            type: data.type,
-            insertPlace: data.insertPlace,
-            isLatch: data.isLatch     
-        }
-
-        dispatch(updateLock(updatedLok.id, updatedLok))
+        e.preventDefault()  
+        dispatch(updateLock(lock._id, data))
     }
     return (
         <Wrapper>
-            <Title>Добавление нового замка</Title>
+            <Title>Редактирование замка</Title>
             <Form onSubmit={handleSubmit(onSubmit)}>
                 <FormItem>
                     <FormItemTitle>Наименование:</FormItemTitle>

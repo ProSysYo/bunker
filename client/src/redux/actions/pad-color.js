@@ -1,21 +1,16 @@
 import { http } from "../../http-common"
-import { acClearLoading, acSetLoading } from "../reducers/loading"
-import { acSetMessage } from "../reducers/message"
-import {
-    acAddModelDoor, acClearModelDoorValidErrors, acDeleteModelDoor, acSetAddModelDoorStatus,
-    acSetModelDoors,
-    acSetModelDoorValidErrors,
-    acSetSelectedModelDoor,
-    acSetUpdateModelDoorStatus,
-    acUpdateModelDoor
-} from "../reducers/model-door"
 
-export function getModelDoors() {
+import { acClearLoading, acSetLoading } from "../reducers/loading"
+
+import { acSetMessage } from "../reducers/message"
+import { acAddPadColor, acClearPadColorValidErrors, acDeletePadColor, acSetAddPadColorStatus, acSetPadColors, acSetPadColorValidErrors, acSetSelectedPadColor, acSetUpdatePadColorStatus, acUpdatePadColor } from "../reducers/pad-color"
+
+export function getPadColors() {
     return async dispatch => {
         try {
             dispatch(acSetLoading())
-            const response = await http.get('/modeldoor')
-            dispatch(acSetModelDoors(response.data))
+            const response = await http.get('/padcolor')
+            dispatch(acSetPadColors(response.data))
         } catch (e) {
             if (e.response) {
                 if (e.response.data?.message) dispatch(acSetMessage(e.response.data.message))
@@ -31,20 +26,20 @@ export function getModelDoors() {
     }
 }
 
-export const addModelDoor = (data) => {
+export const addPadColor = (data) => {
     return async dispatch => {
         try {
             dispatch(acSetLoading())
-            dispatch(acClearModelDoorValidErrors())
-            const response = await http.post('/modeldoor', data)
-            dispatch(acSetAddModelDoorStatus(true))
-            dispatch(acAddModelDoor(response.data.modelDoor))
+            dispatch(acClearPadColorValidErrors())
+            const response = await http.post('/padcolor', data)
+            dispatch(acSetAddPadColorStatus(true))
+            dispatch(acAddPadColor(response.data.padColor))
             dispatch(acSetMessage(response.data.message))
         } catch (e) {
-            dispatch(acSetAddModelDoorStatus(false))
+            dispatch(acSetAddPadColorStatus(false))
             if (e.response) {
                 if (e.response.data?.message) dispatch(acSetMessage(e.response.data.message))
-                if (e.response.data?.errors) dispatch(acSetModelDoorValidErrors(e.response.data.errors))
+                if (e.response.data?.errors) dispatch(acSetPadColorValidErrors(e.response.data.errors))
             } else if (e.isAxiosError && !e.response) {
                 dispatch(acSetMessage("Нет соединения с сервером"))                
             } else {
@@ -57,12 +52,12 @@ export const addModelDoor = (data) => {
     }
 }
 
-export const deleteModelDoor = (id) => {
+export const deletePadColor = (id) => {
     return async dispatch => {
         try {
             dispatch(acSetLoading())
-            const response = await http.delete(`/modeldoor/${id}`)
-            dispatch(acDeleteModelDoor(id))
+            const response = await http.delete(`/padcolor/${id}`)
+            dispatch(acDeletePadColor(id))
             dispatch(acSetMessage(response.data.message))
         } catch (e) {
             if (e.response) {
@@ -79,12 +74,12 @@ export const deleteModelDoor = (id) => {
     }
 }
 
-export function getModelDoor(id) {
+export function getPadColor(id) {
     return async dispatch => {
         try {
             dispatch(acSetLoading())
-            const response = await http.get(`/modeldoor/${id}`)
-            dispatch(acSetSelectedModelDoor(response.data))
+            const response = await http.get(`/padcolor/${id}`)
+            dispatch(acSetSelectedPadColor(response.data))
         } catch (e) {
             if (e.response) {
                 if (e.response.data?.message) dispatch(acSetMessage(e.response.data.message))                
@@ -100,20 +95,20 @@ export function getModelDoor(id) {
     }
 }
 
-export const updateModelDoor = (id, data) => {
+export const updatePadColor = (id, data) => {
     return async dispatch => {
         try {
             dispatch(acSetLoading())
-            dispatch(acClearModelDoorValidErrors())
-            const response = await http.patch(`/modeldoor/${id}`, data)
-            dispatch(acSetUpdateModelDoorStatus(true))
-            dispatch(acUpdateModelDoor(response.data.model))
+            dispatch(acClearPadColorValidErrors())
+            const response = await http.patch(`/padcolor/${id}`, data)
+            dispatch(acSetUpdatePadColorStatus(true))
+            dispatch(acUpdatePadColor(response.data.padColor))
             dispatch(acSetMessage(response.data.message))
         } catch (e) {
-            dispatch(acSetUpdateModelDoorStatus(false))
+            dispatch(acSetUpdatePadColorStatus(false))
             if (e.response) {
                 if (e.response.data?.message) dispatch(acSetMessage(e.response.data.message))
-                if (e.response.data?.errors) dispatch(acSetModelDoorValidErrors(e.response.data.errors))
+                if (e.response.data?.errors) dispatch(acSetPadColorValidErrors(e.response.data.errors))
             } else if (e.isAxiosError && !e.response) {
                 dispatch(acSetMessage("Нет соединения с сервером"))                
             } else {

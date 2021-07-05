@@ -5,7 +5,6 @@ import { useForm } from "react-hook-form"
 
 import { addCustomer } from '../../redux/actions/customer'
 import { acClearCastomerValidateErrors } from '../../redux/reducers/customer'
-import { acSetMessage } from '../../redux/reducers/message'
 
 export const AddCustomerForm = () => {    
     const { register, handleSubmit, setError, formState: { errors } } = useForm()
@@ -31,11 +30,8 @@ export const AddCustomerForm = () => {
     }, [dispatch])
 
     const onSubmit = (data, e) => {
-        e.preventDefault()
-        if (!data.code || !data.name || !data.phone || !data.email || !data.adress) {
-            return dispatch(acSetMessage("Не все поля заполнены"))            
-        }
-        dispatch(addCustomer(data.code, data.name, data.phone, data.email, data.adress))
+        e.preventDefault()        
+        dispatch(addCustomer(data))
     }
     return (
         <Wrapper>

@@ -5,6 +5,7 @@ import { messageReducer } from "./message";
 import { customerReducer } from "./customer"
 import { lockReducer } from "./lock"
 import { typeCanvasReducer } from './type-canvas'
+import { padColorReducer } from './pad-color'
 
 const reducers = combineReducers({
   auth: authReducer, 
@@ -13,6 +14,7 @@ const reducers = combineReducers({
   customer: customerReducer,
   typeCanvas: typeCanvasReducer,
   lock: lockReducer,
+  padColor: padColorReducer
 });
 
 export default reducers;

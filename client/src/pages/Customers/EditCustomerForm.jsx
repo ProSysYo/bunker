@@ -5,7 +5,6 @@ import { useForm } from "react-hook-form"
 
 import { updateCustomer } from '../../redux/actions/customer'
 import { acClearCastomerValidateErrors } from '../../redux/reducers/customer'
-import { acSetMessage } from '../../redux/reducers/message'
 
 export const EditCustomerForm = () => {    
     const { register, handleSubmit, setError, formState: { errors } } = useForm()
@@ -32,25 +31,13 @@ export const EditCustomerForm = () => {
     }, [dispatch])
 
     const onSubmit = (data, e) => {
-        e.preventDefault()
-        if (!data.code || !data.name || !data.phone || !data.email || !data.adress) {
-            return dispatch(acSetMessage("Не все поля заполнены"))            
-        }
+        e.preventDefault()        
 
-        const updatedCustomer = {
-            id: customer._id,
-            code: data.code,
-            name: data.name,
-            phone: data.phone,
-            email: data.email,
-            adress: data.adress
-        }
-
-        dispatch(updateCustomer(updatedCustomer.id, updatedCustomer))
+        dispatch(updateCustomer(customer._id, data))
     }
     return (
         <Wrapper>
-            <Title>Добавление нового заказчика</Title>
+            <Title>Редактирование заказчика</Title>
             <Form onSubmit={handleSubmit(onSubmit)}>
                 <FormItem>
                     <FormItemTitle>Код:</FormItemTitle>

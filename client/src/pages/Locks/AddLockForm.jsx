@@ -6,8 +6,6 @@ import { useForm } from "react-hook-form";
 import { addLock } from '../../redux/actions/lock'
 import { acClearLockValidErrors } from '../../redux/reducers/lock'
 
-import { acSetMessage } from '../../redux/reducers/message'
-
 export const AddLockForm = () => {
     const { register, handleSubmit, setError, formState: { errors } } = useForm()    
 
@@ -33,11 +31,8 @@ export const AddLockForm = () => {
     }, [dispatch])
 
     const onSubmit = (data, e) => {
-        e.preventDefault()
-        if (!data.name || !data.type || !data.insertPlace) {
-            return dispatch(acSetMessage("Не все поля заполнены"))
-        }
-        dispatch(addLock(data.name, data.type, data.insertPlace, data.isLatch))
+        e.preventDefault()        
+        dispatch(addLock(data))
     }
     return (
         <Wrapper>
