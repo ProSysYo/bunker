@@ -2,7 +2,7 @@ const { validationResult } = require("express-validator")
 
 const { FormatError } = require("../utils/format-error")
 
-const { TypeCanvas } = require("../models/typeCanvas")
+const { TypeCanvas } = require("../models/TypeCanvas")
 
 class typeCanvasController {
     async add(req, res) {
@@ -14,22 +14,22 @@ class typeCanvasController {
                 return res.status(400).json({message: "Ошибка валидации", errors: formatedErrors})
             }
 
-            const { value, description, trimOutside, trimInside } = req.body
+            const { value, description, trimOutside, trimInside, insulation } = req.body
 
-            const findTypeCanvas = await Lock.findOne({value})
+            const findTypeCanvas = await TypeCanvas.findOne({value})
 
             if (findTypeCanvas) {
                 return res.status(403).json({message: 'Тип полотна с таким именем уже существует'})
             }
 
-            const newTypeCanvas = new TypeCanvas({value, description, trimOutside, trimInside})
+            const newTypeCanvas = new TypeCanvas({value, description, trimOutside, trimInside, insulation})
 
             const typeCanvas = await newTypeCanvas.save()
 
             return res.status(200).json({message: 'Новый тип полотна добавлен', typeCanvas})
         } catch (e) {
             console.log(e)
-            return res.status(400).json({message: 'Ошибка при добавлении типа полотнаа', e})
+            return res.status(400).json({message: 'Ошибка при добавлении типа полотна', e})
         }
     }
 

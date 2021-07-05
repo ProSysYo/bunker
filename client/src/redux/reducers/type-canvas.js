@@ -7,7 +7,7 @@ const initialState = {
     submitSuccess: false,
 }
 
-export const lockReducer = (state = initialState, action) => {
+export const typeCanvasReducer = (state = initialState, action) => {
     switch (action.type) {
         case TypeCanvasTypes.SET_TYPE_CANVASES: return { ...state, typeCanvases: action.payload }
         case TypeCanvasTypes.SET_ADD_TYPE_CANVAS_STATUS: return { ...state, submitSuccess: action.payload }
@@ -47,7 +47,7 @@ export const acSetTypeCanvasValidErrors = (errors) => ({ type: TypeCanvasTypes.S
 
 export const acClearTypeCanvasValidErrors = () => ({ type: TypeCanvasTypes.CLEAR_TYPE_CANVAS_VALID_ERRORS })
 
-export const acDeleteTypeVanvas = (id) => ({ type: TypeCanvasTypes.DELETE_TYPE_CANVAS, payload: id })
+export const acDeleteTypeCanvas = (id) => ({ type: TypeCanvasTypes.DELETE_TYPE_CANVAS, payload: id })
 
 export const acSetSelectedTypeCanvas = (typeCanvas) => ({ type: TypeCanvasTypes.SET_SELECTED_TYPE_CANVAS, payload: typeCanvas })
 

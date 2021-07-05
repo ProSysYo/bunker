@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react'
-
+import styled from 'styled-components'
+import { useDispatch, useSelector } from 'react-redux'
 import { Table, Space, Modal } from 'antd'
 
 import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 
-import { useDispatch, useSelector } from 'react-redux'
-
-import './Locks.css'
 import { RightBar } from '../../components/RightBar/RightBar';
 import { AddLockForm } from './AddLockForm'
 
@@ -57,8 +55,8 @@ export const Locks = () => {
 
     return (
         <div>
-            <h2 className="locksTitle">Модели замков</h2>
-            <span className="locksAddIcon" onClick={() => setShowAddForm(true)}><PlusOutlined /></span>
+            <Title>Модели замков</Title>
+            <AddIcon onClick={() => setShowAddForm(true)}><PlusOutlined /></AddIcon>
             <Table dataSource={locks} size="small" rowKey="_id" pagination={{ pageSize: 20 }}>
                 <Column title="Наименование" dataIndex="name" />
                 <Column title="Тип" dataIndex="type" />
@@ -73,8 +71,8 @@ export const Locks = () => {
                     key="actions"
                     render={(record) => (
                         <Space size="middle">
-                            <span className="locksTableItemAction" onClick={() => editClick(record._id)}><EditOutlined /></span>
-                            <span className="locksTableItemAction" onClick={() => deleteClick(record._id)}><DeleteOutlined /></span>
+                            <ActionItem onClick={() => editClick(record._id)}><EditOutlined /></ActionItem>
+                            <ActionItem onClick={() => deleteClick(record._id)}><DeleteOutlined /></ActionItem>
                         </Space>
                     )} />
             </Table>
@@ -97,3 +95,19 @@ export const Locks = () => {
         </div>
     )
 }
+
+const Title = styled.h2`
+    text-align: center;    
+`
+
+const AddIcon = styled.span`
+    font-size: 30px;
+    :hover {
+        cursor: pointer;
+    }  
+`
+const ActionItem = styled.span`    
+    :hover {
+        cursor: pointer;
+    }  
+`

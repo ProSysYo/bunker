@@ -1,30 +1,30 @@
 import React, { useEffect, useState } from 'react'
+import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
 import { Table, Space, Modal } from 'antd'
-import styled from 'styled-components'
 
-import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons'
+import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 
 import { RightBar } from '../../components/RightBar/RightBar';
-import { deleteModelDoor, getModelDoors } from '../../redux/actions/model-door'
-import { AddModelDoorForm } from './AddModelDoorForm';
-import { EditModelDoorContainer } from './EditModelDoorContainer';
+import { deleteTypeCanvas, getTypeCanvases } from '../../redux/actions/type-canvas';
+import { AddTypeCanvasForm } from './AddTypeCanvasForm';
+import { EditTypeCanvasContainer } from './EditTypeCanvasContainer';
 
 const { Column } = Table
 
-export const ModelDoors = () => {
+export const TypeCanvases = () => {
     const dispatch = useDispatch()
-    const modelDoors = useSelector(state => state.modelDoor.modelDoors)
-    const submitSuccess = useSelector(state => state.modelDoor.submitSuccess)
+    const typeCanvases = useSelector(state => state.typeCanvas.typeCanvases)
+    const submitSuccess = useSelector(state => state.typeCanvas.submitSuccess)
 
     const [showAddForm, setShowAddForm] = useState(false)
     const [showEditForm, setShowEditForm] = useState(false)
-    const [selectedModelDoorId, setSelectedModelDoorId] = useState("")
-    const [deleteModelDoorId, setDeleteModelDoorId] = useState("")
+    const [selectedTypeCanvasId, setSelectedLockId] = useState("")
+    const [deleteTypeCanvasId, setDeleteLockId] = useState("")
     const [isModalVisible, setIsModalVisible] = useState(false);
 
     useEffect(() => {
-        dispatch(getModelDoors())
+        dispatch(getTypeCanvases())
         // eslint-disable-next-line
     }, [])
 
@@ -34,12 +34,12 @@ export const ModelDoors = () => {
     }, [submitSuccess])
 
     const deleteClick = (id) => {
-        setDeleteModelDoorId(id)
+        setDeleteLockId(id)
         setIsModalVisible(true)
     }
 
     const handleOkModal = () => {
-        dispatch(deleteModelDoor(deleteModelDoorId))
+        dispatch(deleteTypeCanvas(deleteTypeCanvasId))
         setIsModalVisible(false)
     }
 
@@ -48,25 +48,20 @@ export const ModelDoors = () => {
     }
 
     const editClick = (id) => {
-        setSelectedModelDoorId(id)
+        setSelectedLockId(id)
         setShowEditForm(true)
     }
 
     return (
         <div>
-            <Title>Модели дверей</Title>
+            <Title>Типы полотен</Title>
             <AddIcon onClick={() => setShowAddForm(true)}><PlusOutlined /></AddIcon>
-            <Table dataSource={modelDoors} size="small" rowKey="_id" pagination={{ pageSize: 20 }}>
-                <Column title="Сокращение" dataIndex="abbreviation" />                
-                <Column title="Наружная отделка" dataIndex="trimOutside" />
-                <Column title="Внутренная отделка" dataIndex="trimInside" />
-                <Column 
-                    title="Двустворчатая" 
-                    dataIndex="isDoubleDoors" 
-                    render={(isDoubleDoors) => <span>{isDoubleDoors ? "да" : "нет"}</span>}
-                />
-                <Column title="Утеплитель" dataIndex="insulation" /> 
-                <Column title="Кол-во конутров" dataIndex="countContour" />                 
+            <Table dataSource={typeCanvases} size="small" rowKey="_id" pagination={{ pageSize: 15 }}>
+                <Column title="Сокращение" dataIndex="value" />
+                <Column title="Описание" dataIndex="description" />
+                <Column title="Отделка снаружи" dataIndex="trimOutside" />
+                <Column title="Отделка внутри" dataIndex="trimInside" />              
+                <Column title="Утеплитель" dataIndex="insulation" />              
                 <Column
                     title="Действия"
                     key="actions"
@@ -78,11 +73,11 @@ export const ModelDoors = () => {
                     )} />
             </Table>
 
-            <RightBar close={setShowAddForm} show={showAddForm}><AddModelDoorForm /></RightBar>
-            <RightBar close={setShowEditForm} show={showEditForm}><EditModelDoorContainer id={selectedModelDoorId} /></RightBar>
+            <RightBar close={setShowAddForm} show={showAddForm}><AddTypeCanvasForm /></RightBar>
+            <RightBar close={setShowEditForm} show={showEditForm}><EditTypeCanvasContainer id={selectedTypeCanvasId} /></RightBar>
             
             <Modal
-                title="Удаление модели двери"
+                title="Удаление типа полотна"
                 visible={isModalVisible}
                 cancelText="Нет"
                 okText="Да"
@@ -90,7 +85,7 @@ export const ModelDoors = () => {
                 onCancel={handleCancelModal}
                 centered                
             >
-                <p>Вы действительно хотите удалить модель двери?</p>
+                <p>Вы действительно хотите удалить тип полотна?</p>
                 <span>Удаление нельзя отменить</span>
             </Modal>
         </div>

@@ -3,15 +3,15 @@ import { authReducer } from "./auth";
 import { loadingReducer } from "./loading";
 import { messageReducer } from "./message";
 import { customerReducer } from "./customer"
-import { modelDoorReducer } from "./model-door"
 import { lockReducer } from "./lock"
+import { typeCanvasReducer } from './type-canvas'
 
 const reducers = combineReducers({
   auth: authReducer, 
   message: messageReducer,
   loading: loadingReducer,
   customer: customerReducer,
-  modelDoor: modelDoorReducer,
+  typeCanvas: typeCanvasReducer,
   lock: lockReducer,
 });
 
