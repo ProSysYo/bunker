@@ -1,4 +1,15 @@
-import { PadColorTypes } from '../constants/pad-color-types'
+const types = {
+    SET_ALL: "furnityreColor/set-all ",
+    ADD: "furnityreColor/add",
+    SET_ADD_STATUS: "furnityreColor/set-add-status",
+    SET_VALID_ERRORS: "furnityreColor/set-valid-errors",
+    CLEAR_VALID_ERRORS: "furnityreColor/clear-valid-errors",
+    DELETE: "furnityreColor/delete",
+    SET_SELECTED: "furnityreColor/set-selected",
+    REMOVE_SELECTED: "furnityreColor/remove-selected",
+    UPDATE: "furnityreColor/update",
+    SET_UPDATE_STATUS: "furnityreColor/set-update-status"
+}
 
 const initialState = {
     padColors: [],
@@ -9,18 +20,18 @@ const initialState = {
 
 export const padColorReducer = (state = initialState, action) => {
     switch (action.type) {
-        case PadColorTypes.SET_PAD_COLORS: return { ...state, padColors: action.payload }
-        case PadColorTypes.SET_ADD_PAD_COLOR_STATUS: return { ...state, submitSuccess: action.payload }
-        case PadColorTypes.ADD_PAD_COLOR: return { ...state, padColors: [...state.padColors, action.payload] }
-        case PadColorTypes.SET_PAD_COLOR_VALID_ERRORS: return { ...state, padColorValidErrors: action.payload }
-        case PadColorTypes.CLEAR_PAD_COLOR_VALID_ERRORS: return { ...state, padColorValidErrors: {}, submitSuccess: false}
-        case PadColorTypes.DELETE_PAD_COLOR: return {
+        case types.SET_ALL: return { ...state, padColors: action.payload }
+        case types.ADD: return { ...state, submitSuccess: action.payload }
+        case types.SET_ADD_STATUS: return { ...state, padColors: [...state.padColors, action.payload] }
+        case types.SET_VALID_ERRORS: return { ...state, padColorValidErrors: action.payload }
+        case types.CLEAR_VALID_ERRORS: return { ...state, padColorValidErrors: {}, submitSuccess: false}
+        case types.DELETE: return {
             ...state,
             padColors: [...state.padColors.filter(padColor => padColor._id !== action.payload)]
         }
-        case PadColorTypes.SET_SELECTED_PAD_COLOR: return { ...state, padColor: action.payload }
-        case PadColorTypes.REMOVE_SELECTED_PAD_COLOR: return { ...state, padColor: null }
-        case PadColorTypes.UPDATE_PAD_COLOR: return {
+        case types.SET_SELECTED: return { ...state, padColor: action.payload }
+        case types.REMOVE_SELECTED: return { ...state, padColor: null }
+        case types.UPDATE: return {
             ...state,
             padColors: [...state.padColors.map((padColor) => {
                 if (padColor._id === action.payload._id) {
@@ -30,29 +41,29 @@ export const padColorReducer = (state = initialState, action) => {
                 }
             })]           
         }
-        case PadColorTypes.SET_UPDATE_PAD_COLOR_STATUS: return { ...state, submitSuccess: action.payload }
+        case types.SET_UPDATE_STATUS: return { ...state, submitSuccess: action.payload }
 
         default:
             return state
     }
 }
 
-export const acSetPadColors = (padColors) => ({ type: PadColorTypes.SET_PAD_COLORS, payload: padColors})
+export const acSetPadColors = (padColors) => ({ type: types.SET_ALL, payload: padColors})
 
-export const acSetAddPadColorStatus = (isSuccess) => ({ type: PadColorTypes.SET_ADD_PAD_COLOR_STATUS, payload: isSuccess })
+export const acSetAddPadColorStatus = (isSuccess) => ({ type: types.SET_ADD_STATUS, payload: isSuccess })
 
-export const acAddPadColor = (padColor) => ({ type: PadColorTypes.ADD_PAD_COLOR, payload: padColor })
+export const acAddPadColor = (padColor) => ({ type: types.ADD, payload: padColor })
 
-export const acSetPadColorValidErrors = (errors) => ({ type: PadColorTypes.SET_PAD_COLOR_VALID_ERRORS, payload: errors })
+export const acSetPadColorValidErrors = (errors) => ({ type: types.SET_VALID_ERRORS, payload: errors })
 
-export const acClearPadColorValidErrors = () => ({ type: PadColorTypes.CLEAR_PAD_COLOR_VALID_ERRORS })
+export const acClearPadColorValidErrors = () => ({ type: types.CLEAR_VALID_ERRORS })
 
-export const acDeletePadColor = (id) => ({ type: PadColorTypes.DELETE_PAD_COLOR, payload: id })
+export const acDeletePadColor = (id) => ({ type: types.DELETE, payload: id })
 
-export const acSetSelectedPadColor = (padColor) => ({ type: PadColorTypes.SET_SELECTED_PAD_COLOR, payload: padColor })
+export const acSetSelectedPadColor = (padColor) => ({ type: types.SET_SELECTED, payload: padColor })
 
-export const acRemoveSelectedPadColor = () => ({ type: PadColorTypes.REMOVE_SELECTED_PAD_COLOR })
+export const acRemoveSelectedPadColor = () => ({ type: types.REMOVE_SELECTED })
 
-export const acUpdatePadColor = (padColor) => ({ type: PadColorTypes.UPDATE_PAD_COLOR, payload: padColor })
+export const acUpdatePadColor = (padColor) => ({ type: types.UPDATE, payload: padColor })
 
-export const acSetUpdatePadColorStatus = (isSuccess) => ({ type: PadColorTypes.SET_UPDATE_PAD_COLOR_STATUS, payload: isSuccess })
+export const acSetUpdatePadColorStatus = (isSuccess) => ({ type: types.SET_UPDATE_STATUS, payload: isSuccess })
