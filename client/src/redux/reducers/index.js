@@ -6,6 +6,7 @@ import { customerReducer } from "./customer"
 import { lockReducer } from "./lock"
 import { typeCanvasReducer } from './type-canvas'
 import { furnitureColorReducer } from './furniture-color'
+import { boltReducer } from "./bolt";
 
 const reducers = combineReducers({
   auth: authReducer, 
@@ -14,7 +15,8 @@ const reducers = combineReducers({
   customer: customerReducer,
   typeCanvas: typeCanvasReducer,
   lock: lockReducer,
-  furnitureColor: furnitureColorReducer
+  furnitureColor: furnitureColorReducer,
+  bolt: boltReducer,
 });
 
 export default reducers;

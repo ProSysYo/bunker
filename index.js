@@ -8,6 +8,7 @@ const customerRouter = require('./routes/customer.routes')
 const lockRouter = require('./routes/lock.routes')
 const typeCanvasRouter = require('./routes/type-canvas.routes')
 const furnitureColorRouter = require('./routes/furniture-color.routes')
+const boltRouter = require('./routes/bolt.routes')
 
 const app = express()
 
@@ -21,6 +22,7 @@ app.use('/api/customer', customerRouter)
 app.use('/api/typecanvas', typeCanvasRouter)
 app.use('/api/lock', lockRouter)
 app.use('/api/furniturecolor', furnitureColorRouter)
+app.use('/api/bolt', boltRouter)
 
 async function start() {
     try {
