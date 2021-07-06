@@ -38,6 +38,7 @@ const Sidebar = () => {
                     <Menu.Item key="7"><Link to="/locks">Замки</Link></Menu.Item>
                     <Menu.Item key="8"><Link to="/furniturecolors">Цвета фурнитуры</Link></Menu.Item>
                     <Menu.Item key="9"><Link to="/bolts">Засовы</Link></Menu.Item>
+                    <Menu.Item key="10"><Link to="/covers">Накладки</Link></Menu.Item>
                 </SubMenu>
             </Menu>
         </div>

@@ -21,6 +21,7 @@ import { Locks } from './pages/Locks/Locks';
 import { TypeCanvases } from './pages/TypeCanvas/TypeCanvases'
 import { FurnitureColors } from './pages/FurnitureColor/FurnitureColors'
 import { Bolts } from './pages/Bolt/Bolts'
+import { Covers } from './pages/Cover/Covers'
 
 function App() {
     const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
@@ -71,7 +72,8 @@ function App() {
                                 <Route exact path="/locks" component={Locks} />
                                 <Route exact path="/typecanvases" component={TypeCanvases} /> 
                                 <Route exact path="/furniturecolors" component={FurnitureColors} /> 
-                                <Route exact path="/bolts" component={Bolts} /> 
+                                <Route exact path="/bolts" component={Bolts} />
+                                <Route exact path="/covers" component={Covers} />
 
                                 <Redirect to='/' />
                             </Switch>
