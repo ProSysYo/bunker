@@ -7,8 +7,8 @@ import {
     acSetRegisterValidateErrors
 } from '../reducers/auth'
 
-import { acClearLoading, acSetLoading } from '../reducers/loading'
-import { acSetMessage } from '../reducers/message'
+import { loadingActions } from '../reducers/loading'
+import { messageActions } from '../reducers/message'
 
 export const auth = () => {
     return async dispatch => {
@@ -21,9 +21,9 @@ export const auth = () => {
                 dispatch(acAuthFail())
                 localStorage.removeItem('token')
             } else if (e.isAxiosError && !e.response) {
-                dispatch(acSetMessage("Нет соединения с сервером"))                
+                dispatch(messageActions.setMessage("Нет соединения с сервером"))                
             } else {
-                dispatch(acSetMessage(e.message))                
+                dispatch(messageActions.setMessage(e.message))                
             }
             console.log(e)
         }
@@ -33,25 +33,25 @@ export const auth = () => {
 export const login = (username, password) => {
     return async dispatch => {
         try {
-            dispatch(acSetLoading())
+            dispatch(loadingActions.setLoading())
             const response = await httpDefault.post('/login', { username, password })
             dispatch(acClearLoginValidateErrors())
             dispatch(acLoginSuccess(response.data.user))
-            dispatch(acSetMessage(response.data.message))
+            dispatch(messageActions.setMessage(response.data.message))
             localStorage.setItem('token', response.data.token)
         } catch (e) {
             dispatch((acLoginFail()))
             if (e.response) {
-                if (e.response.data?.message) dispatch(acSetMessage(e.response.data.message))
+                if (e.response.data?.message) dispatch(messageActions.setMessage(e.response.data.message))
                 if (e.response.data?.errors) dispatch(acSetLoginValidateErrors(e.response.data.errors))
             } else if (e.isAxiosError && !e.response) {                
-                dispatch(acSetMessage("Нет соединения с сервером"))                
+                dispatch(messageActions.setMessage("Нет соединения с сервером"))                
             } else {
-                dispatch(acSetMessage(e.message))                
+                dispatch(messageActions.setMessage(e.message))                
             }
             console.log(e)
         } finally {
-            dispatch(acClearLoading())
+            dispatch(loadingActions.clearLoading())
         }
     }
 }
@@ -59,24 +59,24 @@ export const login = (username, password) => {
 export const registration = (username, password) => {
     return async dispatch => {
         try {
-            dispatch(acSetLoading())
+            dispatch(loadingActions.setLoading())
             dispatch(acClearRegisterValidateErrors())
             const response = await httpDefault.post('/registration', { username, password })
             dispatch(acRegisterSuccess())
-            dispatch(acSetMessage(response.data.message))
+            dispatch(messageActions.setMessage(response.data.message))
         } catch (e) {
             dispatch(acRegisterFail())
             if (e.response) {
-                if (e.response.data?.message) dispatch(acSetMessage(e.response.data.message))
+                if (e.response.data?.message) dispatch(messageActions.setMessage(e.response.data.message))
                 if (e.response.data?.errors) dispatch(acSetRegisterValidateErrors(e.response.data.errors))
             } else if (e.isAxiosError && !e.response) {
-                dispatch(acSetMessage("Нет соединения с сервером"))                
+                dispatch(messageActions.setMessage("Нет соединения с сервером"))                
             } else {
-                dispatch(acSetMessage(e.message))                
+                dispatch(messageActions.setMessage(e.message))                
             } 
             console.log(e)          
         } finally {
-            dispatch(acClearLoading())
+            dispatch(loadingActions.clearLoading())
         }
     }
 }

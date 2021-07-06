@@ -7,7 +7,7 @@ const authRouter = require('./routes/auth.routes')
 const customerRouter = require('./routes/customer.routes')
 const lockRouter = require('./routes/lock.routes')
 const typeCanvasRouter = require('./routes/type-canvas.routes')
-const padColorRouter = require('./routes/pad-color.routes')
+const furnitureColorRouter = require('./routes/furniture-color.routes')
 
 const app = express()
 
@@ -20,7 +20,7 @@ app.use('/api', authRouter)
 app.use('/api/customer', customerRouter)
 app.use('/api/typecanvas', typeCanvasRouter)
 app.use('/api/lock', lockRouter)
-app.use('/api/padcolor', padColorRouter)
+app.use('/api/furniturecolor', furnitureColorRouter)
 
 async function start() {
     try {

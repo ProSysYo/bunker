@@ -1,20 +1,17 @@
 import { http } from "../../http-common"
+import { furnitureColorActions} from "../reducers/furniture-color"
 
 import { loadingActions } from "../reducers/loading"
 
-import { acAddLock, acClearLockValidErrors, acDeleteLock, acSetAddLockStatus, 
-    acSetLocks, acSetLockValidErrors, acSetSelectedLock,
-    acSetUpdateLockStatus, acUpdateLock
-} from "../reducers/lock"
-
 import { messageActions } from "../reducers/message"
 
-export function getLocks() {
+
+export function getFurnitureColors() {
     return async dispatch => {
         try {
             dispatch(loadingActions.setLoading())
-            const response = await http.get('/lock')
-            dispatch(acSetLocks(response.data))
+            const response = await http.get('/furniturecolor')
+            dispatch(furnitureColorActions.setAll(response.data))
         } catch (e) {
             if (e.response) {
                 if (e.response.data?.message) dispatch(messageActions.setMessage(e.response.data.message))
@@ -30,20 +27,20 @@ export function getLocks() {
     }
 }
 
-export const addLock = (name, type, insertPlace, isLatch) => {
+export const addFurnitureColor = (data) => {
     return async dispatch => {
         try {
             dispatch(loadingActions.setLoading())
-            dispatch(acClearLockValidErrors())
-            const response = await http.post('/lock', { name, type, insertPlace, isLatch })
-            dispatch(acSetAddLockStatus(true))
-            dispatch(acAddLock(response.data.lock))
+            dispatch(furnitureColorActions.clearErrors())
+            const response = await http.post('/furniturecolor', data)
+            dispatch(furnitureColorActions.setAddStatus(true))
+            dispatch(furnitureColorActions.add(response.data.furnitureColor))
             dispatch(messageActions.setMessage(response.data.message))
         } catch (e) {
-            dispatch(acSetAddLockStatus(false))
+            dispatch(furnitureColorActions.setAddStatus(false))
             if (e.response) {
                 if (e.response.data?.message) dispatch(messageActions.setMessage(e.response.data.message))
-                if (e.response.data?.errors) dispatch(acSetLockValidErrors(e.response.data.errors))
+                if (e.response.data?.errors) dispatch(furnitureColorActions.setErrors(e.response.data.errors))
             } else if (e.isAxiosError && !e.response) {
                 dispatch(messageActions.setMessage("Нет соединения с сервером"))                
             } else {
@@ -56,12 +53,12 @@ export const addLock = (name, type, insertPlace, isLatch) => {
     }
 }
 
-export const deleteLock = (id) => {
+export const deleteFurnitureColor = (id) => {
     return async dispatch => {
         try {
             dispatch(loadingActions.setLoading())
-            const response = await http.delete(`/lock/${id}`)
-            dispatch(acDeleteLock(id))
+            const response = await http.delete(`/furniturecolor/${id}`)
+            dispatch(furnitureColorActions.deleteBy(id))
             dispatch(messageActions.setMessage(response.data.message))
         } catch (e) {
             if (e.response) {
@@ -78,12 +75,12 @@ export const deleteLock = (id) => {
     }
 }
 
-export function getLock(id) {
+export function getFurnitureColor(id) {
     return async dispatch => {
         try {
             dispatch(loadingActions.setLoading())
-            const response = await http.get(`/lock/${id}`)
-            dispatch(acSetSelectedLock(response.data))
+            const response = await http.get(`/furniturecolor/${id}`)
+            dispatch(furnitureColorActions.setSelected(response.data))
         } catch (e) {
             if (e.response) {
                 if (e.response.data?.message) dispatch(messageActions.setMessage(e.response.data.message))                
@@ -99,20 +96,20 @@ export function getLock(id) {
     }
 }
 
-export const updateLock = (id, data) => {
+export const updateFurnitureColor = (id, data) => {
     return async dispatch => {
         try {
             dispatch(loadingActions.setLoading())
-            dispatch(acClearLockValidErrors())
-            const response = await http.patch(`/lock/${id}`, data)
-            dispatch(acSetUpdateLockStatus(true))
-            dispatch(acUpdateLock(response.data.lock))
+            dispatch(furnitureColorActions.clearErrors())
+            const response = await http.patch(`/furniturecolor/${id}`, data)
+            dispatch(furnitureColorActions.setUpdateStatus(true))
+            dispatch(furnitureColorActions.update(response.data.furnitureColor))
             dispatch(messageActions.setMessage(response.data.message))
         } catch (e) {
-            dispatch(acSetUpdateLockStatus(false))
+            dispatch(furnitureColorActions.setUpdateStatus(false))
             if (e.response) {
                 if (e.response.data?.message) dispatch(messageActions.setMessage(e.response.data.message))
-                if (e.response.data?.errors) dispatch(acSetLockValidErrors(e.response.data.errors))
+                if (e.response.data?.errors) dispatch(furnitureColorActions.setErrors(e.response.data.errors))
             } else if (e.isAxiosError && !e.response) {
                 dispatch(messageActions.setMessage("Нет соединения с сервером"))                
             } else {

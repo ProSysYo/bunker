@@ -2,37 +2,36 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { useForm } from "react-hook-form";
-import { acClearPadColorValidErrors } from '../../redux/reducers/pad-color';
-import { updatePadColor } from '../../redux/actions/pad-color';
+import { addFurnitureColor } from '../../redux/actions/furniture-color'
+import { furnitureColorActions } from '../../redux/reducers/furniture-color'
 
-export const EditPadColorForm= () => {
+export const AddFurnitureColorForm= () => {
     const { register, handleSubmit, setError, formState: { errors } } = useForm()    
 
     const dispatch = useDispatch()
 
-    const padColorValidErrors = useSelector(state => state.padColor.padColorValidErrors)
+    const errorsValidate = useSelector(state => state.furnitureColor.errors)
     const isLoading = useSelector(state => state.loading.isLoading)
-    const padColor = useSelector(state => state.padColor.padColor)
 
     useEffect(() => {
-        if (padColorValidErrors.shortName) setError("shortName", {message: padColorValidErrors.shortName})
-        if (padColorValidErrors.fullName) setError("fullName", {message: padColorValidErrors.fullName})        
+        if (errorsValidate.shortName) setError("shortName", {message: errorsValidate.shortName})
+        if (errorsValidate.fullName) setError("fullName", {message: errorsValidate.fullName})        
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [padColorValidErrors])
+    }, [errorsValidate])
 
     useEffect(() => {        
         return () => {
-            dispatch(acClearPadColorValidErrors())
+            dispatch(furnitureColorActions.clearErrors())
         }
     }, [dispatch])
 
     const onSubmit = (data, e) => {
         e.preventDefault()        
-        dispatch(updatePadColor(padColor._id, data))
+        dispatch(addFurnitureColor(data))
     }
     return (
         <Wrapper>
-            <Title>Изменение цвета накладки</Title>
+            <Title>Добавление нового цвета фурнитуры</Title>
             <Form onSubmit={handleSubmit(onSubmit)}>
                 <FormItem>
                     <FormItemTitle>Сокращение цвета:</FormItemTitle>
@@ -40,7 +39,6 @@ export const EditPadColorForm= () => {
                         <InputText
                             {...register("shortName", { required: "Введите сокращенное значение" })}
                             placeholder="Введите сокращенное значение"
-                            defaultValue={padColor.shortName}
                         />
                         {errors.shortName && <FormInputError>{errors.shortName.message}</FormInputError>}
                     </FormItemInput>
@@ -52,14 +50,13 @@ export const EditPadColorForm= () => {
                         <InputText
                             {...register("fullName", { required: "Введите цвет" })}
                             placeholder="Введите цвет"
-                            defaultValue={padColor.fullName}
                         />
                         {errors.fullName && <FormInputError>{errors.fullName.message}</FormInputError>}
                     </FormItemInput>
                 </FormItem>
 
                 
-                <button disabled={isLoading} type="submit">Изменить</button>
+                <button disabled={isLoading} type="submit">Добавить</button>
             </Form>
         </Wrapper>
     )

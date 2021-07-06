@@ -15,6 +15,10 @@ export const messageReducer = (state = initialState, action) => {
     }
 }
 
-export const acSetMessage = (message) => ({ type: ServiceTypes.SET_MESSAGE, payload: message})
+const setMessage = (message) => ({ type: ServiceTypes.SET_MESSAGE, payload: message})
 
-export const acClearMessage = () => ({ type: ServiceTypes.CLEAR_MESSAGE})
+const clearMessage = () => ({ type: ServiceTypes.CLEAR_MESSAGE})
+
+export const messageActions = {
+    setMessage, clearMessage
+}

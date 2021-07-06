@@ -6,16 +6,16 @@ import { Table, Space, Modal } from 'antd'
 import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 
 import { RightBar } from '../../components/RightBar/RightBar';
-import { deletePadColor, getPadColors } from '../../redux/actions/pad-color';
-import { AddPadColorForm } from './AddPadColorForm';
-import { EditPadColorContainer } from './EditPadColorContainer';
+import { AddFurnitureColorForm } from './AddFurnitureColorForm';
+import { EditFurnitureColorContainer } from './EditFurnitureColorContainer';
+import { deleteFurnitureColor, getFurnitureColors } from '../../redux/actions/furniture-color';
 
 const { Column } = Table
 
-export const PadColors = () => {
+export const FurnitureColors = () => {
     const dispatch = useDispatch()
-    const padColors = useSelector(state => state.padColor.padColors)
-    const submitSuccess = useSelector(state => state.padColor.submitSuccess)
+    const furnitureColors = useSelector(state => state.furnitureColor.furnitureColors)
+    const submitSuccess = useSelector(state => state.furnitureColor.submitSuccess)
 
     const [showAddForm, setShowAddForm] = useState(false)
     const [showEditForm, setShowEditForm] = useState(false)
@@ -24,7 +24,7 @@ export const PadColors = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
 
     useEffect(() => {
-        dispatch(getPadColors())
+        dispatch(getFurnitureColors())
         // eslint-disable-next-line
     }, [])
 
@@ -39,7 +39,7 @@ export const PadColors = () => {
     }
 
     const handleOkModal = () => {
-        dispatch(deletePadColor(deleteId))
+        dispatch(deleteFurnitureColor(deleteId))
         setIsModalVisible(false)
     }
 
@@ -54,9 +54,9 @@ export const PadColors = () => {
 
     return (
         <div>
-            <Title>Цвета накладок</Title>
+            <Title>Цвета фурнитуры</Title>
             <AddIcon onClick={() => setShowAddForm(true)}><PlusOutlined /></AddIcon>
-            <Table dataSource={padColors} size="small" rowKey="_id" pagination={{ pageSize: 15 }}>
+            <Table dataSource={furnitureColors} size="small" rowKey="_id" pagination={{ pageSize: 15 }}>
                 <Column title="Сокращение" dataIndex="shortName" />
                 <Column title="Цвет" dataIndex="fullName" />                             
                 <Column
@@ -70,11 +70,11 @@ export const PadColors = () => {
                     )} />
             </Table>
 
-            <RightBar close={setShowAddForm} show={showAddForm}><AddPadColorForm /></RightBar>
-            <RightBar close={setShowEditForm} show={showEditForm}><EditPadColorContainer id={selectedId} /></RightBar>
+            <RightBar close={setShowAddForm} show={showAddForm}><AddFurnitureColorForm /></RightBar>
+            <RightBar close={setShowEditForm} show={showEditForm}><EditFurnitureColorContainer id={selectedId} /></RightBar>
             
             <Modal
-                title="Удаление цвета накладки"
+                title="Удаление цвета фурнитуры"
                 visible={isModalVisible}
                 cancelText="Нет"
                 okText="Да"
@@ -82,7 +82,7 @@ export const PadColors = () => {
                 onCancel={handleCancelModal}
                 centered                
             >
-                <p>Вы действительно хотите удалить цвет накладки?</p>
+                <p>Вы действительно хотите удалить цвет фурнитуры?</p>
                 <span>Удаление нельзя отменить</span>
             </Modal>
         </div>

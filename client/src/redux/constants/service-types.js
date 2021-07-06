@@ -1,7 +1,7 @@
 export const ServiceTypes = {
     LOGOUT: "LOGOUT",
-    SET_MESSAGE: "SET_MESSAGE",
-    CLEAR_MESSAGE: "CLEAR_MESSAGE",
-    SET_LOADING: "SET_LOADING",
-    CLEAR_LOADING: "CLEAR_LOADING"
+    SET_MESSAGE: "message/set",
+    CLEAR_MESSAGE: "message/clear",
+    SET_LOADING: "loading/set",
+    CLEAR_LOADING: "loading/clear"
 }

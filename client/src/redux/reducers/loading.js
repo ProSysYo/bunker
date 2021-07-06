@@ -17,6 +17,10 @@ export const loadingReducer = (state = initialState, action) => {
     }
 }
 
-export const acSetLoading = () => ({ type: ServiceTypes.SET_LOADING })
+const setLoading = () => ({ type: ServiceTypes.SET_LOADING })
 
-export const acClearLoading = () => ({ type: ServiceTypes.CLEAR_LOADING })
+const clearLoading = () => ({ type: ServiceTypes.CLEAR_LOADING })
+
+export const loadingActions = {
+    setLoading, clearLoading
+}

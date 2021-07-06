@@ -1,8 +1,8 @@
 import { http } from "../../http-common"
 
-import { acClearLoading, acSetLoading } from "../reducers/loading"
+import { loadingActions } from "../reducers/loading"
 
-import { acSetMessage } from "../reducers/message"
+import { messageActions } from "../reducers/message"
 import { 
     acAddTypeCanvas, acClearTypeCanvasValidErrors, acDeleteTypeCanvas, 
     acSetAddTypeCanvasStatus, acSetSelectedTypeCanvas, acSetTypeCanvases, 
@@ -12,20 +12,20 @@ import {
 export function getTypeCanvases() {
     return async dispatch => {
         try {
-            dispatch(acSetLoading())
+            dispatch(loadingActions.setLoading())
             const response = await http.get('/typecanvas')
             dispatch(acSetTypeCanvases(response.data))
         } catch (e) {
             if (e.response) {
-                if (e.response.data?.message) dispatch(acSetMessage(e.response.data.message))
+                if (e.response.data?.message) dispatch(messageActions.setMessage(e.response.data.message))
             } else if (e.isAxiosError && !e.response) {
-                dispatch(acSetMessage("Нет соединения с сервером"))                
+                dispatch(messageActions.setMessage("Нет соединения с сервером"))                
             } else {
-                dispatch(acSetMessage(e.message))                
+                dispatch(messageActions.setMessage(e.message))                
             }
             console.log(e)
         } finally {
-            dispatch(acClearLoading())
+            dispatch(loadingActions.clearLoading())
         }
     }
 }
@@ -33,25 +33,25 @@ export function getTypeCanvases() {
 export const addTypeCanvas = (data) => {
     return async dispatch => {
         try {
-            dispatch(acSetLoading())
+            dispatch(loadingActions.setLoading())
             dispatch(acClearTypeCanvasValidErrors())
             const response = await http.post('/typecanvas', data)
             dispatch(acSetAddTypeCanvasStatus(true))
             dispatch(acAddTypeCanvas(response.data.typeCanvas))
-            dispatch(acSetMessage(response.data.message))
+            dispatch(messageActions.setMessage(response.data.message))
         } catch (e) {
             dispatch(acSetAddTypeCanvasStatus(false))
             if (e.response) {
-                if (e.response.data?.message) dispatch(acSetMessage(e.response.data.message))
+                if (e.response.data?.message) dispatch(messageActions.setMessage(e.response.data.message))
                 if (e.response.data?.errors) dispatch(acSetTypeCanvasValidErrors(e.response.data.errors))
             } else if (e.isAxiosError && !e.response) {
-                dispatch(acSetMessage("Нет соединения с сервером"))                
+                dispatch(messageActions.setMessage("Нет соединения с сервером"))                
             } else {
-                dispatch(acSetMessage(e.message))                
+                dispatch(messageActions.setMessage(e.message))                
             }
             console.log(e)
         } finally {
-            dispatch(acClearLoading())
+            dispatch(loadingActions.clearLoading())
         }
     }
 }
@@ -59,21 +59,21 @@ export const addTypeCanvas = (data) => {
 export const deleteTypeCanvas = (id) => {
     return async dispatch => {
         try {
-            dispatch(acSetLoading())
+            dispatch(loadingActions.setLoading())
             const response = await http.delete(`/typecanvas/${id}`)
             dispatch(acDeleteTypeCanvas(id))
-            dispatch(acSetMessage(response.data.message))
+            dispatch(messageActions.setMessage(response.data.message))
         } catch (e) {
             if (e.response) {
-                if (e.response.data?.message) dispatch(acSetMessage(e.response.data.message))                
+                if (e.response.data?.message) dispatch(messageActions.setMessage(e.response.data.message))                
             } else if (e.isAxiosError && !e.response) {
-                dispatch(acSetMessage("Нет соединения с сервером"))                
+                dispatch(messageActions.setMessage("Нет соединения с сервером"))                
             } else {
-                dispatch(acSetMessage(e.message))                
+                dispatch(messageActions.setMessage(e.message))                
             }
             console.log(e)
         } finally {
-            dispatch(acClearLoading())
+            dispatch(loadingActions.clearLoading())
         }
     }
 }
@@ -81,20 +81,20 @@ export const deleteTypeCanvas = (id) => {
 export function getTypeCanvas(id) {
     return async dispatch => {
         try {
-            dispatch(acSetLoading())
+            dispatch(loadingActions.setLoading())
             const response = await http.get(`/typecanvas/${id}`)
             dispatch(acSetSelectedTypeCanvas(response.data))
         } catch (e) {
             if (e.response) {
-                if (e.response.data?.message) dispatch(acSetMessage(e.response.data.message))                
+                if (e.response.data?.message) dispatch(messageActions.setMessage(e.response.data.message))                
             } else if (e.isAxiosError && !e.response) {
-                dispatch(acSetMessage("Нет соединения с сервером"))                
+                dispatch(messageActions.setMessage("Нет соединения с сервером"))                
             } else {
-                dispatch(acSetMessage(e.message))                
+                dispatch(messageActions.setMessage(e.message))                
             }
             console.log(e);
         } finally {
-            dispatch(acClearLoading())
+            dispatch(loadingActions.clearLoading())
         }
     }
 }
@@ -102,25 +102,25 @@ export function getTypeCanvas(id) {
 export const updateTypeCanvas = (id, data) => {
     return async dispatch => {
         try {
-            dispatch(acSetLoading())
+            dispatch(loadingActions.setLoading())
             dispatch(acClearTypeCanvasValidErrors())
             const response = await http.patch(`/typecanvas/${id}`, data)
             dispatch(acSetUpdateTypeCanvasStatus(true))
             dispatch(acUpdateTypeCanvas(response.data.typeCanvas))
-            dispatch(acSetMessage(response.data.message))
+            dispatch(messageActions.setMessage(response.data.message))
         } catch (e) {
             dispatch(acSetUpdateTypeCanvasStatus(false))
             if (e.response) {
-                if (e.response.data?.message) dispatch(acSetMessage(e.response.data.message))
+                if (e.response.data?.message) dispatch(messageActions.setMessage(e.response.data.message))
                 if (e.response.data?.errors) dispatch(acSetTypeCanvasValidErrors(e.response.data.errors))
             } else if (e.isAxiosError && !e.response) {
-                dispatch(acSetMessage("Нет соединения с сервером"))                
+                dispatch(messageActions.setMessage("Нет соединения с сервером"))                
             } else {
-                dispatch(acSetMessage(e.message))                
+                dispatch(messageActions.setMessage(e.message))                
             }
             console.log(e);            
         } finally {
-            dispatch(acClearLoading())
+            dispatch(loadingActions.clearLoading())
         }
     }
 }
