@@ -31,7 +31,7 @@ export const addCover = (data) => {
             dispatch(loadingActions.setLoading())
             dispatch(coverActions.clearErrors())
             const response = await http.post('/cover', data)
-            dispatch(coverActions.setAddStatus(true))            
+            dispatch(coverActions.setAddStatus(true))                  
             dispatch(coverActions.add(response.data.cover))
             dispatch(messageActions.setMessage(response.data.message))
         } catch (e) {

@@ -24,9 +24,9 @@ class coverController {
 
             const newCover = new Cover({name, type})
 
-            const сover = await newCover.save()
+            const cover = await newCover.save()
 
-            return res.status(200).json({message: 'Новая накладка добавлена', сover})
+            return res.status(200).json({message: 'Новая накладка добавлена', cover})
         } catch (e) {
             console.log(e)
             return res.status(400).json({message: 'Ошибка при добавлении накладки', e})
