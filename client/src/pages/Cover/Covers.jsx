@@ -55,11 +55,11 @@ export const Covers = () => {
 
     return (
         <div>
-            <Title>Засовы</Title>
+            <Title>Накладки</Title>
             <AddIcon onClick={() => setShowAddForm(true)}><PlusOutlined /></AddIcon>
             <Table dataSource={covers} size="small" rowKey="_id" pagination={{ pageSize: 15 }}>
                 <Column title="Наименование" dataIndex="name" />
-                <Column title="Тип" dataIndex="type" />                             
+                <Column title="Тип" dataIndex="type" /> 
                 <Column
                     title="Действия"
                     key="actions"
