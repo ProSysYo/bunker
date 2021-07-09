@@ -25,7 +25,7 @@ const Topbar = ({ user }) => {
         <div className="topbar">
             <div className="topbarWrapper">
                 <div className="topLeft">                    
-                    <img src={logo} alt="logo" />
+                    <img src={logo} alt="logo" className="logoImg"/>
                 </div>
                 <div className="topRight">
                     <Popover content={<Button onClick={leaveHandle} type="text">Выйти</Button>}                         

@@ -64,8 +64,7 @@ function App() {
                 <Topbar user={activeUser}/>
                 {isLoggedIn
                     ? <div className="container">                       
-                        <Sidebar />                   
-                        
+                        <Sidebar /> 
                         <div className="pages">
                             <Switch>
                                 <Route exact path="/" component={Home} />
@@ -80,7 +79,6 @@ function App() {
                                 <Redirect to='/' />
                             </Switch>
                         </div>
-
                     </div>
                     :
                     <div className="containerCenter">

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from "react-router-dom";
 import { Menu } from 'antd';
-import { AppstoreOutlined, MailOutlined } from '@ant-design/icons';
+import { AppstoreOutlined, MailOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 
 import './Sidebar.css'
 
@@ -12,6 +12,7 @@ const rootSubmenuKeys = ['sub1', 'sub2'];
 
 const Sidebar = () => {
     const [openKeys, setOpenKeys] = React.useState(['']);
+    const [collapseSidebar, setCollapseSidebar] = React.useState(true);
 
     const onOpenChange = keys => {
         const latestOpenKey = keys.find(key => openKeys.indexOf(key) === -1);
@@ -23,9 +24,10 @@ const Sidebar = () => {
     };
 
     return (
-
-        <div className="sidebar">
-            <Menu mode="inline" openKeys={openKeys} onOpenChange={onOpenChange}>
+        <>              
+            <MenuUnfoldOutlined className={collapseSidebar ? "nocollapse" : "collapse"} onClick={() => setCollapseSidebar(prev => !prev)}/>
+               
+            <Menu mode="inline" openKeys={openKeys} onOpenChange={onOpenChange} inlineCollapsed={collapseSidebar} style={{maxWidth: 280}}>                
                 <Menu.Item icon={<AppstoreOutlined />} key="1"><Link to="/">Главная</Link></Menu.Item>
                 <SubMenu key="sub1" icon={<MailOutlined />} title="Заказы">
                     <Menu.Item key="2">Текущие</Menu.Item>
@@ -41,9 +43,8 @@ const Sidebar = () => {
                     <Menu.Item key="10"><Link to="/covers">Накладки</Link></Menu.Item>
                     <Menu.Item key="11"><Link to="/cylindres">Цилиндровые механизмы</Link></Menu.Item>
                 </SubMenu>
-            </Menu>
-        </div>
-
+            </Menu>   
+        </>     
     );
 };
 
