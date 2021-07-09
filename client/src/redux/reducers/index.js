@@ -8,6 +8,7 @@ import { typeCanvasReducer } from './type-canvas'
 import { furnitureColorReducer } from './furniture-color'
 import { boltReducer } from "./bolt"
 import { coverReducer } from "./cover"
+import { cylinderReducer } from "./cylinder"
 
 const reducers = combineReducers({
   auth: authReducer, 
@@ -19,6 +20,7 @@ const reducers = combineReducers({
   furnitureColor: furnitureColorReducer,
   bolt: boltReducer,
   cover: coverReducer,
+  cylinder: cylinderReducer,
 });
 
 export default reducers;

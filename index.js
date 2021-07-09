@@ -10,6 +10,7 @@ const typeCanvasRouter = require('./routes/type-canvas.routes')
 const furnitureColorRouter = require('./routes/furniture-color.routes')
 const boltRouter = require('./routes/bolt.routes')
 const coverRouter = require('./routes/cover.routes')
+const cylinderRouter = require('./routes/cylinder.routes')
 
 const app = express()
 
@@ -25,6 +26,7 @@ app.use('/api/lock', lockRouter)
 app.use('/api/furniturecolor', furnitureColorRouter)
 app.use('/api/bolt', boltRouter)
 app.use('/api/cover', coverRouter)
+app.use('/api/cylinder', cylinderRouter)
 
 async function start() {
     try {
