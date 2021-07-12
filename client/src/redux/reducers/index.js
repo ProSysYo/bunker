@@ -10,6 +10,7 @@ import { boltReducer } from "./bolt"
 import { coverReducer } from "./cover"
 import { cylinderReducer } from "./cylinder"
 import { handleReducer } from "./handle"
+import { peepholeReducer } from "./peephole";
 
 const reducers = combineReducers({
   auth: authReducer, 
@@ -23,6 +24,7 @@ const reducers = combineReducers({
   cover: coverReducer,
   cylinder: cylinderReducer,
   handle: handleReducer,
+  peephole: peepholeReducer,
 });
 
 export default reducers;

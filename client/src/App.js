@@ -24,6 +24,7 @@ import { Bolts } from './pages/Bolt/Bolts'
 import { Covers } from './pages/Cover/Covers'
 import { Cylinders } from './pages/Cylinder/Cylinders'
 import { Handles } from './pages/Handle/Handles'
+import { Peepholes } from './pages/Peephole/Peepholes'
 
 function App() {
     const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
@@ -47,7 +48,7 @@ function App() {
 
         if (message) {
             openNotification()
-            dispatch(messageActions.clearMessage)
+            dispatch(messageActions.clearMessage())
         }
     }, [message, dispatch]);
 
@@ -77,6 +78,7 @@ function App() {
                                 <Route exact path="/covers" component={Covers} />
                                 <Route exact path="/cylindres" component={Cylinders} />
                                 <Route exact path="/handles" component={Handles} />
+                                <Route exact path="/peepholes" component={Peepholes} />
 
                                 <Redirect to='/' />
                             </Switch>

@@ -20,7 +20,7 @@ export const authReducer = (state = initialState, action) => {
         case AuthTypes.SET_LOGIN_VALIDATE_ERRORS: return { ...state, loginValidateErrors: action.payload }
         case AuthTypes.CLEAR_LOGIN_VALIDATE_ERRORS: return { ...state, loginValidateErrors: {} }
         case AuthTypes.LOGOUT:
-            localStorage.removeItem('token')
+            localStorage.removeItem('token')          
             return { ...state, isLoggedIn: false, user: null }
         default:
             return state

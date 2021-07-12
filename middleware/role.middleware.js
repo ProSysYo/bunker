@@ -26,8 +26,7 @@ module.exports = function(roles) {
                 if (roles.includes(role)) {
                     hasRole = true
                 }
-            })
-
+            }) 
             //Если такой роли у пользователя нет, возвращаем ошибку
             if (!hasRole) {
                 return res.status(403).json({message: 'У вас нет доступа'})
