@@ -23,6 +23,7 @@ import { FurnitureColors } from './pages/FurnitureColor/FurnitureColors'
 import { Bolts } from './pages/Bolt/Bolts'
 import { Covers } from './pages/Cover/Covers'
 import { Cylinders } from './pages/Cylinder/Cylinders'
+import { Handles } from './pages/Handle/Handles'
 
 function App() {
     const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
@@ -75,6 +76,7 @@ function App() {
                                 <Route exact path="/bolts" component={Bolts} />
                                 <Route exact path="/covers" component={Covers} />
                                 <Route exact path="/cylindres" component={Cylinders} />
+                                <Route exact path="/handles" component={Handles} />
 
                                 <Redirect to='/' />
                             </Switch>

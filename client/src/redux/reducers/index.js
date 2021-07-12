@@ -9,6 +9,7 @@ import { furnitureColorReducer } from './furniture-color'
 import { boltReducer } from "./bolt"
 import { coverReducer } from "./cover"
 import { cylinderReducer } from "./cylinder"
+import { handleReducer } from "./handle"
 
 const reducers = combineReducers({
   auth: authReducer, 
@@ -21,6 +22,7 @@ const reducers = combineReducers({
   bolt: boltReducer,
   cover: coverReducer,
   cylinder: cylinderReducer,
+  handle: handleReducer,
 });
 
 export default reducers;
