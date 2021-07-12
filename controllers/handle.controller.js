@@ -35,8 +35,8 @@ class handleController {
 
     async getAll(req, res) {
         try {            
-            const сovers = await Handle.find().sort({name: 1}).exec()
-            return res.json(сovers)
+            const handles = await Handle.find().sort({name: 1}).exec()
+            return res.json(handles)
         } catch (e) {
             res.status(400).json({message: 'Ошибка при получении ручек', e})
         }

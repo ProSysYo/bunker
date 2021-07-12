@@ -13,6 +13,7 @@ const coverRouter = require('./routes/cover.routes')
 const cylinderRouter = require('./routes/cylinder.routes')
 const handlerRouter = require('./routes/handle.routes')
 const peepholeRouter = require('./routes/peephole.routes')
+const peepholeLocationRouter = require('./routes/peephole-location.routes')
 
 const app = express()
 
@@ -31,6 +32,7 @@ app.use('/api/cover', coverRouter)
 app.use('/api/cylinder', cylinderRouter)
 app.use('/api/handle', handlerRouter)
 app.use('/api/peephole', peepholeRouter)
+app.use('/api/peepholelocation', peepholeLocationRouter)
 
 async function start() {
     try {

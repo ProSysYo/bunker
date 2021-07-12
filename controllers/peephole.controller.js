@@ -35,8 +35,8 @@ class peepholeController {
 
     async getAll(req, res) {
         try {            
-            const сovers = await Peephole.find().sort({name: 1}).exec()
-            return res.json(сovers)
+            const peepholes = await Peephole.find().sort({name: 1}).exec()
+            return res.json(peepholes)
         } catch (e) {
             res.status(400).json({message: 'Ошибка при получении глазков', e})
         }

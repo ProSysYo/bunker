@@ -35,8 +35,8 @@ class cylinderController {
 
     async getAll(req, res) {
         try {            
-            const сovers = await Cylinder.find().sort({name: 1}).exec()
-            return res.json(сovers)
+            const cylinders = await Cylinder.find().sort({name: 1}).exec()
+            return res.json(cylinders)
         } catch (e) {
             res.status(400).json({message: 'Ошибка при получении цилиндров', e})
         }

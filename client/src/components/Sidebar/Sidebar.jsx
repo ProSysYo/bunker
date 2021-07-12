@@ -44,6 +44,7 @@ const Sidebar = () => {
                     <Menu.Item key="11"><Link to="/cylindres">Цилиндровые механизмы</Link></Menu.Item>
                     <Menu.Item key="12"><Link to="/handles">Ручки</Link></Menu.Item>
                     <Menu.Item key="13"><Link to="/peepholes">Глазки</Link></Menu.Item>
+                    <Menu.Item key="14"><Link to="/peepholelocations">Расположения глазков</Link></Menu.Item>
                 </SubMenu>
             </Menu>   
         </>     
