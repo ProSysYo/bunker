@@ -1,7 +1,7 @@
-import { combineReducers } from "redux";
-import { authReducer } from "./auth";
-import { loadingReducer } from "./loading";
-import { messageReducer } from "./message";
+import { combineReducers } from "redux"
+import { authReducer } from "./auth"
+import { loadingReducer } from "./loading"
+import { messageReducer } from "./message"
 import { customerReducer } from "./customer"
 import { lockReducer } from "./lock"
 import { typeCanvasReducer } from './type-canvas'
@@ -10,8 +10,9 @@ import { boltReducer } from "./bolt"
 import { coverReducer } from "./cover"
 import { cylinderReducer } from "./cylinder"
 import { handleReducer } from "./handle"
-import { peepholeReducer } from "./peephole";
-import { peepholeLocationReducer } from "./peephole-location";
+import { peepholeReducer } from "./peephole"
+import { peepholeLocationReducer } from "./peephole-location"
+import { doorColorReducer } from "./door-color"
 
 const reducers = combineReducers({
   auth: authReducer, 
@@ -27,6 +28,7 @@ const reducers = combineReducers({
   handle: handleReducer,
   peephole: peepholeReducer,
   peepholeLocation: peepholeLocationReducer,
+  doorColor: doorColorReducer,
 });
 
 export default reducers;

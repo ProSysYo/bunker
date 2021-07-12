@@ -1,19 +1,19 @@
 const Router = require('express')
 
-const peepholeLoactionController = require('../controllers/peephole-location.controller')
+const peepholeLocationController = require('../controllers/peephole-location.controller')
 const roleMiddleware = require('../middleware/role.middleware')
 const { peepholeLocationValidate } = require('../models/PeepholeLocation')
 
 const router = new Router()
 
-router.post('/', peepholeLocationValidate, peepholeLoactionController.add)
+router.post('/', peepholeLocationValidate, peepholeLocationController.add)
 
-router.get('/', peepholeLoactionController.getAll)
+router.get('/', peepholeLocationController.getAll)
 
-router.get('/:id', peepholeLoactionController.getById)
+router.get('/:id', peepholeLocationController.getById)
 
-router.delete('/:id', roleMiddleware(["ADMIN"]), peepholeLoactionController.delete)
+router.delete('/:id', roleMiddleware(["ADMIN"]), peepholeLocationController.delete)
 
-router.patch('/:id', peepholeLocationValidate, peepholeLoactionController.update)
+router.patch('/:id', peepholeLocationValidate, peepholeLocationController.update)
 
 module.exports = router
