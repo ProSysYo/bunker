@@ -27,6 +27,7 @@ import { Handles } from './pages/Handle/Handles'
 import { Peepholes } from './pages/Peephole/Peepholes'
 import { PeepholeLocations } from './pages/PeepholeLocation/PeepholeLocations'
 import { DoorColors } from './pages/DoorColor/DoorColors'
+import { TypePanels } from './pages/TypePanel/TypePanels'
 
 function App() {
     const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
@@ -83,6 +84,7 @@ function App() {
                                 <Route exact path="/peepholes" component={Peepholes} />
                                 <Route exact path="/peepholelocations" component={PeepholeLocations} />
                                 <Route exact path="/doorcolors" component={DoorColors} />
+                                <Route exact path="/typepanels" component={TypePanels} />
 
                                 <Redirect to='/' />
                             </Switch>

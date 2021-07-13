@@ -6,17 +6,17 @@ import { Table, Space, Modal } from 'antd'
 import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 
 import { RightBar } from '../../components/RightBar/RightBar';
-import { AddDoorColorForm } from './AddDoorColorForm';
-import { EditDoorColorContainer } from './EditDoorColorContainer';
+import { AddTypePanelForm } from './AddTypePanelForm';
+import { EditTypePanelContainer } from './EditTypePanelContainer';
 
-import { deleteDoorColor, getDoorColors } from '../../redux/actions/door-color';
+import { deleteTypePanel, getTypePanels } from '../../redux/actions/type-panel';
 
 const { Column } = Table
 
-export const DoorColors = () => {
+export const TypePanels = () => {
     const dispatch = useDispatch()
-    const doorColors = useSelector(state => state.doorColor.doorColors)
-    const submitSuccess = useSelector(state => state.doorColor.submitSuccess)
+    const typePanels = useSelector(state => state.typePanel.typePanels)
+    const submitSuccess = useSelector(state => state.typePanel.submitSuccess)
 
     const [showAddForm, setShowAddForm] = useState(false)
     const [showEditForm, setShowEditForm] = useState(false)
@@ -25,7 +25,7 @@ export const DoorColors = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
 
     useEffect(() => {
-        dispatch(getDoorColors())
+        dispatch(getTypePanels())
         // eslint-disable-next-line
     }, [])
 
@@ -40,7 +40,7 @@ export const DoorColors = () => {
     }
 
     const handleOkModal = () => {
-        dispatch(deleteDoorColor(deleteId))
+        dispatch(deleteTypePanel(deleteId))
         setIsModalVisible(false)
     }
 
@@ -55,10 +55,16 @@ export const DoorColors = () => {
 
     return (
         <div>
-            <Title>Цвета дверей</Title>
+            <Title>Типы панелей</Title>
             <AddIcon onClick={() => setShowAddForm(true)}><PlusOutlined /></AddIcon>
-            <Table dataSource={doorColors} size="small" rowKey="_id" pagination={{ pageSize: 15 }}>
-                <Column title="Наименование" dataIndex="name" />                
+            <Table dataSource={typePanels} size="small" rowKey="_id" pagination={{ pageSize: 15 }}>
+                <Column title="Наименование" dataIndex="name" />
+                <Column title="Толщина" dataIndex="thick" />
+                <Column 
+                    title="Возможность фрезеровки" 
+                    dataIndex="isMilling" 
+                    render={(isMilling) => <span>{isMilling ? "да" : "нет"}</span>}
+                />                 
                 <Column
                     title="Действия"
                     key="actions"
@@ -70,8 +76,8 @@ export const DoorColors = () => {
                     )} />
             </Table>
 
-            <RightBar close={setShowAddForm} show={showAddForm}><AddDoorColorForm /></RightBar>
-            <RightBar close={setShowEditForm} show={showEditForm}><EditDoorColorContainer id={selectedId} /></RightBar>
+            <RightBar close={setShowAddForm} show={showAddForm}><AddTypePanelForm /></RightBar>
+            <RightBar close={setShowEditForm} show={showEditForm}><EditTypePanelContainer id={selectedId} /></RightBar>
             
             <Modal
                 title="Удаление расположения цилиндра"
@@ -82,7 +88,7 @@ export const DoorColors = () => {
                 onCancel={handleCancelModal}
                 centered                
             >
-                <p>Вы действительно хотите удалить расположение цилиндра?</p>
+                <p>Вы действительно хотите удалить тип?</p>
                 <span>Удаление нельзя отменить</span>
             </Modal>
         </div>

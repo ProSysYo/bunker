@@ -15,6 +15,7 @@ const handlerRouter = require('./routes/handle.routes')
 const peepholeRouter = require('./routes/peephole.routes')
 const peepholeLocationRouter = require('./routes/peephole-location.routes')
 const doorColorRouter = require('./routes/door-color.routes')
+const typePanelRouter = require('./routes/type-panel.routes')
 
 const app = express()
 
@@ -35,6 +36,7 @@ app.use('/api/handle', handlerRouter)
 app.use('/api/peephole', peepholeRouter)
 app.use('/api/peepholelocation', peepholeLocationRouter)
 app.use('/api/doorcolor', doorColorRouter)
+app.use('/api/typepanel', typePanelRouter)
 
 async function start() {
     try {

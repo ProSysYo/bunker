@@ -2,14 +2,14 @@ import { http } from "../../http-common"
 import { loadingActions } from "../reducers/loading"
 
 import { messageActions } from "../reducers/message"
-import { doorColorActions } from "../reducers/door-color"
+import { typePanelActions } from "../reducers/type-panel"
 
-export function getDoorColors() {
+export function getTypePanels() {
     return async dispatch => {
         try {
             dispatch(loadingActions.setLoading())
-            const response = await http.get('/doorcolor')
-            dispatch(doorColorActions.setAll(response.data))
+            const response = await http.get('/typepanel')
+            dispatch(typePanelActions.setAll(response.data))
         } catch (e) {
             if (e.response) {
                 if (e.response.data?.message) dispatch(messageActions.setMessage(e.response.data.message))
@@ -25,20 +25,20 @@ export function getDoorColors() {
     }
 }
 
-export const addDoorColor = (data) => {
+export const addTypePanel = (data) => {
     return async dispatch => {
         try {
             dispatch(loadingActions.setLoading())
-            dispatch(doorColorActions.clearErrors())
-            const response = await http.post('/doorcolor', data)
-            dispatch(doorColorActions.setAddStatus(true))                  
-            dispatch(doorColorActions.add(response.data.doorColor))
+            dispatch(typePanelActions.clearErrors())
+            const response = await http.post('/typepanel', data)
+            dispatch(typePanelActions.setAddStatus(true))                  
+            dispatch(typePanelActions.add(response.data.typePanel))
             dispatch(messageActions.setMessage(response.data.message))
         } catch (e) {
-            dispatch(doorColorActions.setAddStatus(false))
+            dispatch(typePanelActions.setAddStatus(false))
             if (e.response) {
                 if (e.response.data?.message) dispatch(messageActions.setMessage(e.response.data.message))
-                if (e.response.data?.errors) dispatch(doorColorActions.setErrors(e.response.data.errors))
+                if (e.response.data?.errors) dispatch(typePanelActions.setErrors(e.response.data.errors))
             } else if (e.isAxiosError && !e.response) {
                 dispatch(messageActions.setMessage("Нет соединения с сервером"))                
             } else {
@@ -51,12 +51,12 @@ export const addDoorColor = (data) => {
     }
 }
 
-export const deleteDoorColor = (id) => {
+export const deleteTypePanel = (id) => {
     return async dispatch => {
         try {
             dispatch(loadingActions.setLoading())
-            const response = await http.delete(`/doorcolor/${id}`)
-            dispatch(doorColorActions.deleteBy(id))
+            const response = await http.delete(`/typepanel/${id}`)
+            dispatch(typePanelActions.deleteBy(id))
             dispatch(messageActions.setMessage(response.data.message))
         } catch (e) {
             if (e.response) {
@@ -73,12 +73,12 @@ export const deleteDoorColor = (id) => {
     }
 }
 
-export function getDoorColor(id) {
+export function getTypePanel(id) {
     return async dispatch => {
         try {
             dispatch(loadingActions.setLoading())
-            const response = await http.get(`/doorcolor/${id}`)
-            dispatch(doorColorActions.setSelected(response.data))
+            const response = await http.get(`/typepanel/${id}`)
+            dispatch(typePanelActions.setSelected(response.data))
         } catch (e) {
             if (e.response) {
                 if (e.response.data?.message) dispatch(messageActions.setMessage(e.response.data.message))                
@@ -94,20 +94,20 @@ export function getDoorColor(id) {
     }
 }
 
-export const updateDoorColor = (id, data) => {
+export const updateTypePanel = (id, data) => {
     return async dispatch => {
         try {
             dispatch(loadingActions.setLoading())
-            dispatch(doorColorActions.clearErrors())
-            const response = await http.patch(`/doorcolor/${id}`, data)
-            dispatch(doorColorActions.setUpdateStatus(true))
-            dispatch(doorColorActions.update(response.data.doorColor))
+            dispatch(typePanelActions.clearErrors())
+            const response = await http.patch(`/typepanel/${id}`, data)
+            dispatch(typePanelActions.setUpdateStatus(true))
+            dispatch(typePanelActions.update(response.data.typePanel))
             dispatch(messageActions.setMessage(response.data.message))
         } catch (e) {
-            dispatch(doorColorActions.setUpdateStatus(false))
+            dispatch(typePanelActions.setUpdateStatus(false))
             if (e.response) {
                 if (e.response.data?.message) dispatch(messageActions.setMessage(e.response.data.message))
-                if (e.response.data?.errors) dispatch(doorColorActions.setErrors(e.response.data.errors))
+                if (e.response.data?.errors) dispatch(typePanelActions.setErrors(e.response.data.errors))
             } else if (e.isAxiosError && !e.response) {
                 dispatch(messageActions.setMessage("Нет соединения с сервером"))                
             } else {
