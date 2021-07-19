@@ -14,6 +14,7 @@ import { peepholeReducer } from "./peephole"
 import { peepholeLocationReducer } from "./peephole-location"
 import { doorColorReducer } from "./door-color"
 import { typePanelReducer } from "./type-panel"
+import { wrapReducer } from "./wrap"
 
 const reducers = combineReducers({
   auth: authReducer, 
@@ -31,6 +32,7 @@ const reducers = combineReducers({
   peepholeLocation: peepholeLocationReducer,
   doorColor: doorColorReducer,
   typePanel: typePanelReducer,
+  wrap: wrapReducer,
 });
 
 export default reducers;

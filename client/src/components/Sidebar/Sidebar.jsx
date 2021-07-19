@@ -47,6 +47,7 @@ const Sidebar = () => {
                     <Menu.Item key="14"><Link to="/peepholelocations">Расположения глазков</Link></Menu.Item>
                     <Menu.Item key="15"><Link to="/doorcolors">Цвета дверей</Link></Menu.Item>
                     <Menu.Item key="16"><Link to="/typepanels">Типы панелей</Link></Menu.Item>
+                    <Menu.Item key="17"><Link to="/wraps">Список пленок</Link></Menu.Item>
                 </SubMenu>
             </Menu>   
         </>     
