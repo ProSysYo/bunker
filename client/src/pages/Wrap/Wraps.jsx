@@ -31,7 +31,7 @@ export const Wraps = () => {
 
     useEffect(() => {
         setShowEditForm(false)
-        setShowAddForm(false)             
+        setShowAddForm(false)
     }, [submitSuccess])
 
     const deleteClick = (id) => {
@@ -57,9 +57,9 @@ export const Wraps = () => {
         <div>
             <Title>Список пленок</Title>
             <AddIcon onClick={() => setShowAddForm(true)}><PlusOutlined /></AddIcon>
-            <Table dataSource={wraps} size="small" rowKey="_id" pagination={{ pageSize: 15 }}>
+            <MyTable dataSource={wraps} size="small" rowKey="_id" pagination={{ pageSize: 15 }}>
                 <Column title="Наименование" dataIndex="name" />
-                <Column title="Оригинальное название" dataIndex="originalName" /> 
+                <Column title="Оригинальное название" dataIndex="originalName" />
                 <Column
                     title="Действия"
                     key="actions"
@@ -69,11 +69,11 @@ export const Wraps = () => {
                             <ActionItem onClick={() => deleteClick(record._id)}><DeleteOutlined /></ActionItem>
                         </Space>
                     )} />
-            </Table>
+            </MyTable>
 
             <RightBar close={setShowAddForm} show={showAddForm}><AddWrapForm /></RightBar>
             <RightBar close={setShowEditForm} show={showEditForm}><EditWrapContainer id={selectedId} /></RightBar>
-            
+
             <Modal
                 title="Удаление пленки"
                 visible={isModalVisible}
@@ -81,7 +81,7 @@ export const Wraps = () => {
                 okText="Да"
                 onOk={handleOkModal}
                 onCancel={handleCancelModal}
-                centered                
+                centered
             >
                 <p>Вы действительно хотите удалить пленку?</p>
                 <span>Удаление нельзя отменить</span>
@@ -92,6 +92,13 @@ export const Wraps = () => {
 
 const Title = styled.h2`
     text-align: center;    
+`
+const MyTable = styled(Table)`
+  tbody {
+    tr {             
+        font-size: 13px;
+    }    
+  }
 `
 
 const AddIcon = styled.span`

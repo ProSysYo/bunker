@@ -15,6 +15,7 @@ import { peepholeLocationReducer } from "./peephole-location"
 import { doorColorReducer } from "./door-color"
 import { typePanelReducer } from "./type-panel"
 import { wrapReducer } from "./wrap"
+import { partisanshipReducer } from "./partisanship"
 
 const reducers = combineReducers({
   auth: authReducer, 
@@ -33,6 +34,7 @@ const reducers = combineReducers({
   doorColor: doorColorReducer,
   typePanel: typePanelReducer,
   wrap: wrapReducer,
+  partisanship: partisanshipReducer,
 });
 
 export default reducers;

@@ -56,7 +56,7 @@ export const TypeCanvases = () => {
         <div>
             <Title>Типы полотен</Title>
             <AddIcon onClick={() => setShowAddForm(true)}><PlusOutlined /></AddIcon>
-            <Table dataSource={typeCanvases} size="small" rowKey="_id" pagination={{ pageSize: 15 }}>
+            <MyTable dataSource={typeCanvases} size="small" rowKey="_id" pagination={{ pageSize: 15 }}>
                 <Column title="Сокращение" dataIndex="value" />
                 <Column title="Описание" dataIndex="description" />
                 <Column title="Отделка снаружи" dataIndex="trimOutside" />
@@ -71,7 +71,7 @@ export const TypeCanvases = () => {
                             <ActionItem onClick={() => deleteClick(record._id)}><DeleteOutlined /></ActionItem>
                         </Space>
                     )} />
-            </Table>
+            </MyTable>
 
             <RightBar close={setShowAddForm} show={showAddForm}><AddTypeCanvasForm /></RightBar>
             <RightBar close={setShowEditForm} show={showEditForm}><EditTypeCanvasContainer id={selectedTypeCanvasId} /></RightBar>
@@ -95,7 +95,13 @@ export const TypeCanvases = () => {
 const Title = styled.h2`
     text-align: center;    
 `
-
+const MyTable = styled(Table)`
+  tbody {
+    tr {             
+        font-size: 13px;        
+    }
+} 
+`
 const AddIcon = styled.span`
     font-size: 30px;
     :hover {

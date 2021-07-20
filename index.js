@@ -17,6 +17,7 @@ const peepholeLocationRouter = require('./routes/peephole-location.routes')
 const doorColorRouter = require('./routes/door-color.routes')
 const typePanelRouter = require('./routes/type-panel.routes')
 const wrapRouter = require('./routes/wrap.routes')
+const partisanshipRouter = require('./routes/partisanship.routes')
 
 const app = express()
 
@@ -39,6 +40,7 @@ app.use('/api/peepholelocation', peepholeLocationRouter)
 app.use('/api/doorcolor', doorColorRouter)
 app.use('/api/typepanel', typePanelRouter)
 app.use('/api/wrap', wrapRouter)
+app.use('/api/partisanship', partisanshipRouter)
 
 async function start() {
     try {

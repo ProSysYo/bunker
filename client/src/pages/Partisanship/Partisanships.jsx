@@ -1,50 +1,46 @@
 import React, { useEffect, useState } from 'react'
-import styled from 'styled-components';
-
+import styled from 'styled-components'
+import { useDispatch, useSelector } from 'react-redux'
 import { Table, Space, Modal } from 'antd'
-
 
 import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 
-import { useDispatch, useSelector } from 'react-redux'
-import { deleteCustomer, getCustomers } from '../../redux/actions/customer'
-
 import { RightBar } from '../../components/RightBar/RightBar';
-import { AddCustomerForm } from './AddCustomerForm';
-import { EditCustomerContainer } from './EditCustomerContainer';
+import { AddPartisanshipForm } from './AddPartisanshipForm';
+import { EditPartisanshipContainer } from './EditPartisanshipContainer';
 
+import { deletePartisanship, getPartisanships } from '../../redux/actions/partisanship';
 
 const { Column } = Table
 
-export const Customers = () => {
+export const Partisanships = () => {
     const dispatch = useDispatch()
-    const customers = useSelector(state => state.customer.customers)
-    const submitSuccess = useSelector(state => state.customer.submitSuccess)
+    const partisanships = useSelector(state => state.partisanship.partisanships)
+    const submitSuccess = useSelector(state => state.partisanship.submitSuccess)
 
     const [showAddForm, setShowAddForm] = useState(false)
     const [showEditForm, setShowEditForm] = useState(false)
-    const [selectedCustomerId, setSelectedCustomerId] = useState("")
-    const [deleteCustomerId, setDeleteCustomerId] = useState("")
+    const [selectedId, setSelectedId] = useState("")
+    const [deleteId, setDeleteId] = useState("")
     const [isModalVisible, setIsModalVisible] = useState(false);
 
     useEffect(() => {
-        dispatch(getCustomers())
+        dispatch(getPartisanships())
         // eslint-disable-next-line
     }, [])
 
     useEffect(() => {
         setShowEditForm(false)
-        setShowAddForm(false)
-        // eslint-disable-next-line
+        setShowAddForm(false)             
     }, [submitSuccess])
 
     const deleteClick = (id) => {
-        setDeleteCustomerId(id)
+        setDeleteId(id)
         setIsModalVisible(true)
     }
 
     const handleOkModal = () => {
-        dispatch(deleteCustomer(deleteCustomerId))
+        dispatch(deletePartisanship(deleteId))
         setIsModalVisible(false)
     }
 
@@ -53,20 +49,16 @@ export const Customers = () => {
     }
 
     const editClick = (id) => {
-        setSelectedCustomerId(id)
+        setSelectedId(id)
         setShowEditForm(true)
     }
 
     return (
         <div>
-            <Title>Заказчики</Title>
+            <Title>Список партийностей</Title>
             <AddIcon onClick={() => setShowAddForm(true)}><PlusOutlined /></AddIcon>
-            <MyTable dataSource={customers} size="small" rowKey="_id" pagination={{ pageSize: 20 }}>
-                <Column title="Код" dataIndex="code" />
-                <Column title="Имя заказчика" dataIndex="name" />
-                <Column title="Телефон" dataIndex="phone" />
-                <Column title="Email" dataIndex="email" />
-                <Column title="Адрес" dataIndex="adress" />
+            <Table dataSource={partisanships} size="small" rowKey="_id" pagination={{ pageSize: 15 }}>
+                <Column title="Наименование" dataIndex="name" />                
                 <Column
                     title="Действия"
                     key="actions"
@@ -76,20 +68,21 @@ export const Customers = () => {
                             <ActionItem onClick={() => deleteClick(record._id)}><DeleteOutlined /></ActionItem>
                         </Space>
                     )} />
-            </MyTable>
+            </Table>
 
-            <RightBar close={setShowAddForm} show={showAddForm}><AddCustomerForm /></RightBar>
-            <RightBar close={setShowEditForm} show={showEditForm}><EditCustomerContainer id={selectedCustomerId} /></RightBar>
+            <RightBar close={setShowAddForm} show={showAddForm}><AddPartisanshipForm /></RightBar>
+            <RightBar close={setShowEditForm} show={showEditForm}><EditPartisanshipContainer id={selectedId} /></RightBar>
+            
             <Modal
-                title="Удаление заказчика"
+                title="Удаление партийности"
                 visible={isModalVisible}
                 cancelText="Нет"
                 okText="Да"
                 onOk={handleOkModal}
                 onCancel={handleCancelModal}
-                centered
+                centered                
             >
-                <p>Вы действительно хотите удалить заказчика?</p>
+                <p>Вы действительно хотите удалить партийность?</p>
                 <span>Удаление нельзя отменить</span>
             </Modal>
         </div>
@@ -98,13 +91,6 @@ export const Customers = () => {
 
 const Title = styled.h2`
     text-align: center;    
-`
-const MyTable = styled(Table)`
-  tbody {
-    tr {             
-        font-size: 13px;
-    }
-} 
 `
 
 const AddIcon = styled.span`
