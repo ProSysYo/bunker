@@ -16,6 +16,7 @@ import { doorColorReducer } from "./door-color"
 import { typePanelReducer } from "./type-panel"
 import { wrapReducer } from "./wrap"
 import { partisanshipReducer } from "./partisanship"
+import { hingeSideReducer } from "./hinge-side"
 
 const reducers = combineReducers({
   auth: authReducer, 
@@ -35,6 +36,7 @@ const reducers = combineReducers({
   typePanel: typePanelReducer,
   wrap: wrapReducer,
   partisanship: partisanshipReducer,
+  hingeSide: hingeSideReducer,
 });
 
 export default reducers;

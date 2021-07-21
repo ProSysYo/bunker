@@ -18,6 +18,7 @@ const doorColorRouter = require('./routes/door-color.routes')
 const typePanelRouter = require('./routes/type-panel.routes')
 const wrapRouter = require('./routes/wrap.routes')
 const partisanshipRouter = require('./routes/partisanship.routes')
+const hingeSideRouter = require('./routes/hinge-side.routes')
 
 const app = express()
 
@@ -41,6 +42,7 @@ app.use('/api/doorcolor', doorColorRouter)
 app.use('/api/typepanel', typePanelRouter)
 app.use('/api/wrap', wrapRouter)
 app.use('/api/partisanship', partisanshipRouter)
+app.use('/api/hingeside', hingeSideRouter)
 
 async function start() {
     try {

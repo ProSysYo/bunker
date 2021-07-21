@@ -30,6 +30,7 @@ import { DoorColors } from './pages/DoorColor/DoorColors'
 import { TypePanels } from './pages/TypePanel/TypePanels'
 import { Wraps } from './pages/Wrap/Wraps'
 import { Partisanships } from './pages/Partisanship/Partisanships'
+import { HingeSides } from './pages/HingeSide/HingeSides.jsx'
 
 function App() {
     const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
@@ -89,6 +90,7 @@ function App() {
                                 <Route exact path="/typepanels" component={TypePanels} />
                                 <Route exact path="/wraps" component={Wraps} />
                                 <Route exact path="/partisanships" component={Partisanships} />
+                                <Route exact path="/hingesides" component={HingeSides} />
 
                                 <Redirect to='/' />
                             </Switch>

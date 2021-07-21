@@ -1,14 +1,14 @@
 const {Schema, model} = require('mongoose')
 const {check} = require('express-validator')
 
-const partisanshipValidate = [
+const hingeSideValidate = [
     check('name', 'Не может быть пустым').notEmpty(),     
 ]
 
-const partisanshipSchema = new Schema({
+const hingeSideSchema = new Schema({
     name: {type: String, unique: true, required: true},
 })
 
-const Partisanship = model('Partisanship', partisanshipSchema)
+const HingeSide = model('HingeSide', hingeSideSchema)
 
-module.exports = { Partisanship, partisanshipValidate }
+module.exports = { HingeSide, hingeSideValidate }
