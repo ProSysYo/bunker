@@ -17,6 +17,7 @@ import { typePanelReducer } from "./type-panel"
 import { wrapReducer } from "./wrap"
 import { partisanshipReducer } from "./partisanship"
 import { hingeSideReducer } from "./hinge-side"
+import { hingeTypeReducer } from "./hinge-type"
 
 const reducers = combineReducers({
   auth: authReducer, 
@@ -37,6 +38,7 @@ const reducers = combineReducers({
   wrap: wrapReducer,
   partisanship: partisanshipReducer,
   hingeSide: hingeSideReducer,
+  hingeType: hingeTypeReducer,
 });
 
 export default reducers;

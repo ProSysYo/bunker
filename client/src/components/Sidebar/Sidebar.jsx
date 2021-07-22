@@ -50,6 +50,7 @@ const Sidebar = () => {
                     <Menu.Item key="17"><Link to="/wraps">Пленки</Link></Menu.Item>
                     <Menu.Item key="18"><Link to="/partisanships">Партийности</Link></Menu.Item>
                     <Menu.Item key="19"><Link to="/hingesides">Сторонности петель</Link></Menu.Item>
+                    <Menu.Item key="20"><Link to="/hingetypes">Типы петель</Link></Menu.Item>
                 </SubMenu>
             </Menu>   
         </>     

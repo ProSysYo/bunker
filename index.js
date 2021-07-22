@@ -19,6 +19,7 @@ const typePanelRouter = require('./routes/type-panel.routes')
 const wrapRouter = require('./routes/wrap.routes')
 const partisanshipRouter = require('./routes/partisanship.routes')
 const hingeSideRouter = require('./routes/hinge-side.routes')
+const hingeTypeRouter = require('./routes/hinge-type.routes')
 
 const app = express()
 
@@ -43,6 +44,7 @@ app.use('/api/typepanel', typePanelRouter)
 app.use('/api/wrap', wrapRouter)
 app.use('/api/partisanship', partisanshipRouter)
 app.use('/api/hingeside', hingeSideRouter)
+app.use('/api/hingetype', hingeTypeRouter)
 
 async function start() {
     try {
