@@ -2,37 +2,37 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { useForm } from "react-hook-form";
-import { wrapActions } from '../../redux/reducers/wrap';
-import { updateWrap } from '../../redux/actions/wrap';
+import { packagingActions } from '../../redux/reducers/packaging';
+import { updatePackaging } from '../../redux/actions/packaging';
 
-export const EditWrapForm = () => {
+export const EditPackagingForm = () => {
     const { register, handleSubmit, setError, formState: { errors } } = useForm()
 
     const dispatch = useDispatch()
 
-    const errorsValidate = useSelector(state => state.wrap.errors)
+    const errorsValidate = useSelector(state => state.packaging.errors)
     const isLoading = useSelector(state => state.loading.isLoading)
-    const wrap = useSelector(state => state.wrap.wrap)
+    const packaging = useSelector(state => state.packaging.packaging)
 
     useEffect(() => {
         if (errorsValidate.name) setError("name", { message: errorsValidate.name })
-        if (errorsValidate.originalName) setError("type", { message: errorsValidate.originalName })
+        if (errorsValidate.owner) setError("owner", { message: errorsValidate.owner })
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [errorsValidate])
 
     useEffect(() => {
         return () => {
-            dispatch(wrapActions.clearErrors())
+            dispatch(packagingActions.clearErrors())
         }
     }, [dispatch])
 
     const onSubmit = (data, e) => {
         e.preventDefault()
-        dispatch(updateWrap(wrap._id, data))
+        dispatch(updatePackaging(packaging._id, data))
     }
     return (
         <Wrapper>
-            <Title>Редактирование пленки</Title>
+            <Title>Редактирование упаковки</Title>
             <Form onSubmit={handleSubmit(onSubmit)}>
                 <FormItem>
                     <FormItemTitle>Наименование:</FormItemTitle>
@@ -40,21 +40,21 @@ export const EditWrapForm = () => {
                         <InputText
                             {...register("name", { required: "Введите наименование" })}
                             placeholder="Введите наименование"
-                            defaultValue={wrap.name}
+                            defaultValue={packaging.name}
                         />
                         {errors.name && <FormInputError>{errors.name.message}</FormInputError>}
                     </FormItemInput>
                 </FormItem>
 
                 <FormItem>
-                    <FormItemTitle>Оригинальное название:</FormItemTitle>
+                    <FormItemTitle>Владелец упаковки:</FormItemTitle>
                     <FormItemInput>
                         <InputText
-                            {...register("originalName", { required: "Введите оригинальное название" })}
+                            {...register("owner", { required: "Введите владельца упаковки" })}
                             placeholder="Введите оригинальное наименование"
-                            defaultValue={wrap.originalName}
+                            defaultValue={packaging.owner}
                         />
-                        {errors.originalName && <FormInputError>{errors.originalName.message}</FormInputError>}
+                        {errors.owner && <FormInputError>{errors.owner.message}</FormInputError>}
                     </FormItemInput>
                 </FormItem>
 

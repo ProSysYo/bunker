@@ -20,6 +20,7 @@ const wrapRouter = require('./routes/wrap.routes')
 const partisanshipRouter = require('./routes/partisanship.routes')
 const hingeSideRouter = require('./routes/hinge-side.routes')
 const hingeTypeRouter = require('./routes/hinge-type.routes')
+const packagingRouter = require('./routes/packaging.routes')
 
 const app = express()
 
@@ -45,6 +46,7 @@ app.use('/api/wrap', wrapRouter)
 app.use('/api/partisanship', partisanshipRouter)
 app.use('/api/hingeside', hingeSideRouter)
 app.use('/api/hingetype', hingeTypeRouter)
+app.use('/api/packaging', packagingRouter)
 
 async function start() {
     try {
