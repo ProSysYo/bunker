@@ -1,4 +1,6 @@
 const types = {
+    SET_LOADING: "packaging/set-loading",
+    CLEAR_LOADING: "packaging/clear-loading",
     SET_ALL: "packaging/set-all ",
     ADD: "packaging/add",
     SET_ADD_STATUS: "packaging/set-add-status",
@@ -16,10 +18,13 @@ const initialState = {
     packaging: null,
     errors: {},
     submitSuccess: false,
+    isLoading: false
 }
 
 export const packagingReducer = (state = initialState, action) => {
     switch (action.type) {
+        case types.SET_LOADING: return { ...state, isLoading: true }
+        case types.CLEAR_LOADING: return { ...state, isLoading: false }
         case types.SET_ALL: return { ...state, packagings: action.payload }
         case types.SET_ADD_STATUS: return { ...state, submitSuccess: action.payload }
         case types.ADD: return { ...state, packagings: [...state.packagings, action.payload] }
@@ -48,6 +53,10 @@ export const packagingReducer = (state = initialState, action) => {
     }
 }
 
+const setLoading = () => ({ type: types.SET_LOADING })
+
+const clearLoading = () => ({ type: types.CLEAR_LOADING })
+
 const setAll = (packagings) => ({ type: types.SET_ALL, payload: packagings})
 
 const setAddStatus = (isSuccess) => ({ type: types.SET_ADD_STATUS, payload: isSuccess })
@@ -69,5 +78,5 @@ const update = (packaging) => ({ type: types.UPDATE, payload: packaging })
 const setUpdateStatus = (isSuccess) => ({ type: types.SET_UPDATE_STATUS, payload: isSuccess })
 
 export const packagingActions = {
-    setAll, setAddStatus, add, setErrors, clearErrors, deleteBy, setSelected, removeSelected, update, setUpdateStatus
+    setLoading, clearLoading, setAll, setAddStatus, add, setErrors, clearErrors, deleteBy, setSelected, removeSelected, update, setUpdateStatus
 }

@@ -1,13 +1,11 @@
 import { http } from "../../http-common"
-import { loadingActions } from "../reducers/loading"
-
 import { messageActions } from "../reducers/message"
 import { hingeSideActions } from "../reducers/hinge-side"
 
 export function getHingeSides() {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(hingeSideActions.setLoading())
             const response = await http.get('/hingeside')
             dispatch(hingeSideActions.setAll(response.data))
         } catch (e) {
@@ -20,7 +18,7 @@ export function getHingeSides() {
             }
             console.log(e)
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(hingeSideActions.clearLoading())
         }
     }
 }
@@ -28,7 +26,7 @@ export function getHingeSides() {
 export const addHingeSide = (data) => {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(hingeSideActions.setLoading())
             dispatch(hingeSideActions.clearErrors())
             const response = await http.post('/hingeside', data)
             dispatch(hingeSideActions.setAddStatus(true))                  
@@ -46,7 +44,7 @@ export const addHingeSide = (data) => {
             }
             console.log(e)
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(hingeSideActions.clearLoading())
         }
     }
 }
@@ -54,7 +52,7 @@ export const addHingeSide = (data) => {
 export const deleteHingeSide = (id) => {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(hingeSideActions.setLoading())
             const response = await http.delete(`/hingeside/${id}`)
             dispatch(hingeSideActions.deleteBy(id))
             dispatch(messageActions.setMessage(response.data.message))
@@ -68,7 +66,7 @@ export const deleteHingeSide = (id) => {
             }
             console.log(e)
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(hingeSideActions.clearLoading())
         }
     }
 }
@@ -76,7 +74,7 @@ export const deleteHingeSide = (id) => {
 export function getHingeSide(id) {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(hingeSideActions.setLoading())
             const response = await http.get(`/hingeside/${id}`)
             dispatch(hingeSideActions.setSelected(response.data))
         } catch (e) {
@@ -89,7 +87,7 @@ export function getHingeSide(id) {
             }
             console.log(e);
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(hingeSideActions.clearLoading())
         }
     }
 }
@@ -97,7 +95,7 @@ export function getHingeSide(id) {
 export const updateHingeSide = (id, data) => {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(hingeSideActions.setLoading())
             dispatch(hingeSideActions.clearErrors())
             const response = await http.patch(`/hingeside/${id}`, data)
             dispatch(hingeSideActions.setUpdateStatus(true))
@@ -115,7 +113,7 @@ export const updateHingeSide = (id, data) => {
             }
             console.log(e);            
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(hingeSideActions.clearLoading())
         }
     }
 }

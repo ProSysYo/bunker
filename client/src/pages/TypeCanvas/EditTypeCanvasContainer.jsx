@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getTypeCanvas } from '../../redux/actions/type-canvas'
-import { acClearTypeCanvasValidErrors, acRemoveSelectedTypeCanvas } from '../../redux/reducers/type-canvas'
+import { typeCanvasActions } from '../../redux/reducers/type-canvas'
 
 import { EditTypeCanvasForm } from './EditTypeCanvasForm'
 
@@ -14,8 +14,7 @@ export const EditTypeCanvasContainer = ({id}) => {
             dispatch(getTypeCanvas(id))
         }
         return () => {
-            dispatch(acRemoveSelectedTypeCanvas())
-            dispatch(acClearTypeCanvasValidErrors())            
+            dispatch(typeCanvasActions.removeSelected())                      
         }
     }, [id, dispatch])
 

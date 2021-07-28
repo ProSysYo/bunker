@@ -1,13 +1,11 @@
 import { http } from "../../http-common"
-import { loadingActions } from "../reducers/loading"
-
 import { messageActions } from "../reducers/message"
 import { peepholeActions } from "../reducers/peephole"
 
 export function getPeepholes() {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(peepholeActions.setLoading())
             const response = await http.get('/peephole')
             dispatch(peepholeActions.setAll(response.data))
         } catch (e) {
@@ -20,7 +18,7 @@ export function getPeepholes() {
             }
             console.log(e)
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(peepholeActions.clearLoading())
         }
     }
 }
@@ -28,7 +26,7 @@ export function getPeepholes() {
 export const addPeephole = (data) => {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(peepholeActions.setLoading())
             dispatch(peepholeActions.clearErrors())
             const response = await http.post('/peephole', data)
             dispatch(peepholeActions.setAddStatus(true))                  
@@ -46,7 +44,7 @@ export const addPeephole = (data) => {
             }
             console.log(e)
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(peepholeActions.clearLoading())
         }
     }
 }
@@ -54,7 +52,7 @@ export const addPeephole = (data) => {
 export const deletePeephole = (id) => {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(peepholeActions.setLoading())
             const response = await http.delete(`/peephole/${id}`)
             dispatch(peepholeActions.deleteBy(id))
             dispatch(messageActions.setMessage(response.data.message))
@@ -68,7 +66,7 @@ export const deletePeephole = (id) => {
             }
             console.log(e)
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(peepholeActions.clearLoading())
         }
     }
 }
@@ -76,7 +74,7 @@ export const deletePeephole = (id) => {
 export function getPeephole(id) {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(peepholeActions.setLoading())
             const response = await http.get(`/peephole/${id}`)
             dispatch(peepholeActions.setSelected(response.data))
         } catch (e) {
@@ -89,7 +87,7 @@ export function getPeephole(id) {
             }
             console.log(e);
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(peepholeActions.clearLoading())
         }
     }
 }
@@ -97,7 +95,7 @@ export function getPeephole(id) {
 export const updatePeephole = (id, data) => {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(peepholeActions.setLoading())
             dispatch(peepholeActions.clearErrors())
             const response = await http.patch(`/peephole/${id}`, data)
             dispatch(peepholeActions.setUpdateStatus(true))
@@ -115,7 +113,7 @@ export const updatePeephole = (id, data) => {
             }
             console.log(e);            
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(peepholeActions.clearLoading())
         }
     }
 }

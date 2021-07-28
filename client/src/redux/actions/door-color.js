@@ -1,13 +1,11 @@
 import { http } from "../../http-common"
-import { loadingActions } from "../reducers/loading"
-
 import { messageActions } from "../reducers/message"
 import { doorColorActions } from "../reducers/door-color"
 
 export function getDoorColors() {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(doorColorActions.setLoading())
             const response = await http.get('/doorcolor')
             dispatch(doorColorActions.setAll(response.data))
         } catch (e) {
@@ -20,7 +18,7 @@ export function getDoorColors() {
             }
             console.log(e)
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(doorColorActions.clearLoading())
         }
     }
 }
@@ -28,7 +26,7 @@ export function getDoorColors() {
 export const addDoorColor = (data) => {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(doorColorActions.setLoading())
             dispatch(doorColorActions.clearErrors())
             const response = await http.post('/doorcolor', data)
             dispatch(doorColorActions.setAddStatus(true))                  
@@ -46,7 +44,7 @@ export const addDoorColor = (data) => {
             }
             console.log(e)
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(doorColorActions.clearLoading())
         }
     }
 }
@@ -54,7 +52,7 @@ export const addDoorColor = (data) => {
 export const deleteDoorColor = (id) => {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(doorColorActions.setLoading())
             const response = await http.delete(`/doorcolor/${id}`)
             dispatch(doorColorActions.deleteBy(id))
             dispatch(messageActions.setMessage(response.data.message))
@@ -68,7 +66,7 @@ export const deleteDoorColor = (id) => {
             }
             console.log(e)
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(doorColorActions.clearLoading())
         }
     }
 }
@@ -76,7 +74,7 @@ export const deleteDoorColor = (id) => {
 export function getDoorColor(id) {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(doorColorActions.setLoading())
             const response = await http.get(`/doorcolor/${id}`)
             dispatch(doorColorActions.setSelected(response.data))
         } catch (e) {
@@ -89,7 +87,7 @@ export function getDoorColor(id) {
             }
             console.log(e);
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(doorColorActions.clearLoading())
         }
     }
 }
@@ -97,7 +95,7 @@ export function getDoorColor(id) {
 export const updateDoorColor = (id, data) => {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(doorColorActions.setLoading())
             dispatch(doorColorActions.clearErrors())
             const response = await http.patch(`/doorcolor/${id}`, data)
             dispatch(doorColorActions.setUpdateStatus(true))
@@ -115,7 +113,7 @@ export const updateDoorColor = (id, data) => {
             }
             console.log(e);            
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(doorColorActions.clearLoading())
         }
     }
 }

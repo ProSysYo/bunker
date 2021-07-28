@@ -1,13 +1,11 @@
 import { http } from "../../http-common"
-import { loadingActions } from "../reducers/loading"
-
 import { messageActions } from "../reducers/message"
 import { handleActions } from "../reducers/handle"
 
 export function getHandles() {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(handleActions.setLoading())
             const response = await http.get('/handle')
             dispatch(handleActions.setAll(response.data))
         } catch (e) {
@@ -20,7 +18,7 @@ export function getHandles() {
             }
             console.log(e)
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(handleActions.clearLoading())
         }
     }
 }
@@ -28,7 +26,7 @@ export function getHandles() {
 export const addHandle = (data) => {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(handleActions.setLoading())
             dispatch(handleActions.clearErrors())
             const response = await http.post('/handle', data)
             dispatch(handleActions.setAddStatus(true))                  
@@ -46,7 +44,7 @@ export const addHandle = (data) => {
             }
             console.log(e)
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(handleActions.clearLoading())
         }
     }
 }
@@ -54,7 +52,7 @@ export const addHandle = (data) => {
 export const deleteHandle = (id) => {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(handleActions.setLoading())
             const response = await http.delete(`/handle/${id}`)
             dispatch(handleActions.deleteBy(id))
             dispatch(messageActions.setMessage(response.data.message))
@@ -68,7 +66,7 @@ export const deleteHandle = (id) => {
             }
             console.log(e)
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(handleActions.clearLoading())
         }
     }
 }
@@ -76,7 +74,7 @@ export const deleteHandle = (id) => {
 export function getHandle(id) {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(handleActions.setLoading())
             const response = await http.get(`/handle/${id}`)
             dispatch(handleActions.setSelected(response.data))
         } catch (e) {
@@ -89,7 +87,7 @@ export function getHandle(id) {
             }
             console.log(e);
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(handleActions.clearLoading())
         }
     }
 }
@@ -97,7 +95,7 @@ export function getHandle(id) {
 export const updateHandle = (id, data) => {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(handleActions.setLoading())
             dispatch(handleActions.clearErrors())
             const response = await http.patch(`/handle/${id}`, data)
             dispatch(handleActions.setUpdateStatus(true))
@@ -115,7 +113,7 @@ export const updateHandle = (id, data) => {
             }
             console.log(e);            
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(handleActions.clearLoading())
         }
     }
 }

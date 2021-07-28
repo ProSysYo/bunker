@@ -1,4 +1,6 @@
 const types = {
+    SET_LOADING: "wrap/set-loading",
+    CLEAR_LOADING: "wrap/clear-loading",
     SET_ALL: "wrap/set-all ",
     ADD: "wrap/add",
     SET_ADD_STATUS: "wrap/set-add-status",
@@ -16,10 +18,13 @@ const initialState = {
     wrap: null,
     errors: {},
     submitSuccess: false,
+    isLoading: false
 }
 
 export const wrapReducer = (state = initialState, action) => {
     switch (action.type) {
+        case types.SET_LOADING: return { ...state, isLoading: true }
+        case types.CLEAR_LOADING: return { ...state, isLoading: false }
         case types.SET_ALL: return { ...state, wraps: action.payload }
         case types.SET_ADD_STATUS: return { ...state, submitSuccess: action.payload }
         case types.ADD: return { ...state, wraps: [...state.wraps, action.payload] }
@@ -48,6 +53,10 @@ export const wrapReducer = (state = initialState, action) => {
     }
 }
 
+const setLoading = () => ({ type: types.SET_LOADING })
+
+const clearLoading = () => ({ type: types.CLEAR_LOADING })
+
 const setAll = (wraps) => ({ type: types.SET_ALL, payload: wraps})
 
 const setAddStatus = (isSuccess) => ({ type: types.SET_ADD_STATUS, payload: isSuccess })
@@ -69,5 +78,5 @@ const update = (wrap) => ({ type: types.UPDATE, payload: wrap })
 const setUpdateStatus = (isSuccess) => ({ type: types.SET_UPDATE_STATUS, payload: isSuccess })
 
 export const wrapActions = {
-    setAll, setAddStatus, add, setErrors, clearErrors, deleteBy, setSelected, removeSelected, update, setUpdateStatus
+    setLoading, clearLoading, setAll, setAddStatus, add, setErrors, clearErrors, deleteBy, setSelected, removeSelected, update, setUpdateStatus
 }

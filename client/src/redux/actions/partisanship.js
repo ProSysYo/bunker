@@ -1,13 +1,11 @@
 import { http } from "../../http-common"
-import { loadingActions } from "../reducers/loading"
-
 import { messageActions } from "../reducers/message"
 import { partisanshipActions } from "../reducers/partisanship"
 
 export function getPartisanships() {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(partisanshipActions.setLoading())
             const response = await http.get('/partisanship')
             dispatch(partisanshipActions.setAll(response.data))
         } catch (e) {
@@ -20,7 +18,7 @@ export function getPartisanships() {
             }
             console.log(e)
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(partisanshipActions.clearLoading())
         }
     }
 }
@@ -28,7 +26,7 @@ export function getPartisanships() {
 export const addPartisanship = (data) => {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(partisanshipActions.setLoading())
             dispatch(partisanshipActions.clearErrors())
             const response = await http.post('/partisanship', data)
             dispatch(partisanshipActions.setAddStatus(true))                  
@@ -46,7 +44,7 @@ export const addPartisanship = (data) => {
             }
             console.log(e)
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(partisanshipActions.clearLoading())
         }
     }
 }
@@ -54,7 +52,7 @@ export const addPartisanship = (data) => {
 export const deletePartisanship = (id) => {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(partisanshipActions.setLoading())
             const response = await http.delete(`/partisanship/${id}`)
             dispatch(partisanshipActions.deleteBy(id))
             dispatch(messageActions.setMessage(response.data.message))
@@ -68,7 +66,7 @@ export const deletePartisanship = (id) => {
             }
             console.log(e)
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(partisanshipActions.clearLoading())
         }
     }
 }
@@ -76,7 +74,7 @@ export const deletePartisanship = (id) => {
 export function getPartisanship(id) {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(partisanshipActions.setLoading())
             const response = await http.get(`/partisanship/${id}`)
             dispatch(partisanshipActions.setSelected(response.data))
         } catch (e) {
@@ -89,7 +87,7 @@ export function getPartisanship(id) {
             }
             console.log(e);
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(partisanshipActions.clearLoading())
         }
     }
 }
@@ -97,7 +95,7 @@ export function getPartisanship(id) {
 export const updatePartisanship = (id, data) => {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(partisanshipActions.setLoading())
             dispatch(partisanshipActions.clearErrors())
             const response = await http.patch(`/partisanship/${id}`, data)
             dispatch(partisanshipActions.setUpdateStatus(true))
@@ -115,7 +113,7 @@ export const updatePartisanship = (id, data) => {
             }
             console.log(e);            
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(partisanshipActions.clearLoading())
         }
     }
 }

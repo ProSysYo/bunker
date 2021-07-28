@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { useForm } from "react-hook-form";
 
 import { addTypeCanvas } from '../../redux/actions/type-canvas';
-import { acClearTypeCanvasValidErrors } from '../../redux/reducers/type-canvas';
+import { typeCanvasActions } from '../../redux/reducers/type-canvas';
 
 export const AddTypeCanvasForm = () => {
     const { register, handleSubmit, setError, formState: { errors } } = useForm()    
@@ -26,7 +26,7 @@ export const AddTypeCanvasForm = () => {
 
     useEffect(() => {        
         return () => {
-            dispatch(acClearTypeCanvasValidErrors())
+            dispatch(typeCanvasActions.clearErrors())
         }
     }, [dispatch])
 

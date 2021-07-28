@@ -2,15 +2,12 @@ import { http } from "../../http-common"
 
 import { boltActions} from "../reducers/bolt"
 
-import { loadingActions } from "../reducers/loading"
-
 import { messageActions } from "../reducers/message"
-
 
 export function getBolts() {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(boltActions.setLoading())
             const response = await http.get('/bolt')
             dispatch(boltActions.setAll(response.data))
         } catch (e) {
@@ -23,7 +20,7 @@ export function getBolts() {
             }
             console.log(e)
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(boltActions.clearLoading())
         }
     }
 }
@@ -31,7 +28,7 @@ export function getBolts() {
 export const addBolt = (data) => {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(boltActions.setLoading())
             dispatch(boltActions.clearErrors())
             const response = await http.post('/bolt', data)
             dispatch(boltActions.setAddStatus(true))
@@ -49,7 +46,7 @@ export const addBolt = (data) => {
             }
             console.log(e)
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(boltActions.clearLoading())
         }
     }
 }
@@ -57,7 +54,7 @@ export const addBolt = (data) => {
 export const deleteBolt = (id) => {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(boltActions.setLoading())
             const response = await http.delete(`/bolt/${id}`)
             dispatch(boltActions.deleteBy(id))
             dispatch(messageActions.setMessage(response.data.message))
@@ -71,7 +68,7 @@ export const deleteBolt = (id) => {
             }
             console.log(e)
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(boltActions.clearLoading())
         }
     }
 }
@@ -79,7 +76,7 @@ export const deleteBolt = (id) => {
 export function getBolt(id) {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(boltActions.setLoading())
             const response = await http.get(`/bolt/${id}`)
             dispatch(boltActions.setSelected(response.data))
         } catch (e) {
@@ -92,7 +89,7 @@ export function getBolt(id) {
             }
             console.log(e);
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(boltActions.clearLoading())
         }
     }
 }
@@ -100,7 +97,7 @@ export function getBolt(id) {
 export const updateBolt = (id, data) => {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(boltActions.setLoading())
             dispatch(boltActions.clearErrors())
             const response = await http.patch(`/bolt/${id}`, data)
             dispatch(boltActions.setUpdateStatus(true))
@@ -118,7 +115,7 @@ export const updateBolt = (id, data) => {
             }
             console.log(e);            
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(boltActions.clearLoading())
         }
     }
 }

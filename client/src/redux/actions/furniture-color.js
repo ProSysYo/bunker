@@ -1,15 +1,11 @@
 import { http } from "../../http-common"
 import { furnitureColorActions} from "../reducers/furniture-color"
-
-import { loadingActions } from "../reducers/loading"
-
 import { messageActions } from "../reducers/message"
-
 
 export function getFurnitureColors() {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(furnitureColorActions.setLoading())
             const response = await http.get('/furniturecolor')
             dispatch(furnitureColorActions.setAll(response.data))
         } catch (e) {
@@ -22,7 +18,7 @@ export function getFurnitureColors() {
             }
             console.log(e)
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(furnitureColorActions.clearLoading())
         }
     }
 }
@@ -30,7 +26,7 @@ export function getFurnitureColors() {
 export const addFurnitureColor = (data) => {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(furnitureColorActions.setLoading())
             dispatch(furnitureColorActions.clearErrors())
             const response = await http.post('/furniturecolor', data)
             dispatch(furnitureColorActions.setAddStatus(true))
@@ -48,7 +44,7 @@ export const addFurnitureColor = (data) => {
             }
             console.log(e)
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(furnitureColorActions.clearLoading())
         }
     }
 }
@@ -56,7 +52,7 @@ export const addFurnitureColor = (data) => {
 export const deleteFurnitureColor = (id) => {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(furnitureColorActions.setLoading())
             const response = await http.delete(`/furniturecolor/${id}`)
             dispatch(furnitureColorActions.deleteBy(id))
             dispatch(messageActions.setMessage(response.data.message))
@@ -70,7 +66,7 @@ export const deleteFurnitureColor = (id) => {
             }
             console.log(e)
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(furnitureColorActions.clearLoading())
         }
     }
 }
@@ -78,7 +74,7 @@ export const deleteFurnitureColor = (id) => {
 export function getFurnitureColor(id) {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(furnitureColorActions.setLoading())
             const response = await http.get(`/furniturecolor/${id}`)
             dispatch(furnitureColorActions.setSelected(response.data))
         } catch (e) {
@@ -91,7 +87,7 @@ export function getFurnitureColor(id) {
             }
             console.log(e);
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(furnitureColorActions.clearLoading())
         }
     }
 }
@@ -99,7 +95,7 @@ export function getFurnitureColor(id) {
 export const updateFurnitureColor = (id, data) => {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(furnitureColorActions.setLoading())
             dispatch(furnitureColorActions.clearErrors())
             const response = await http.patch(`/furniturecolor/${id}`, data)
             dispatch(furnitureColorActions.setUpdateStatus(true))
@@ -117,7 +113,7 @@ export const updateFurnitureColor = (id, data) => {
             }
             console.log(e);            
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(furnitureColorActions.clearLoading())
         }
     }
 }

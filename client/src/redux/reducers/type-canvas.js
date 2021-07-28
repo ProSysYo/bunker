@@ -1,26 +1,42 @@
-import { TypeCanvasTypes } from '../constants/type-canvas-types'
+const types = {
+    SET_LOADING: "typeCanvas/set-loading",
+    CLEAR_LOADING: "typeCanvas/clear-loading",
+    SET_ALL: "typeCanvas/set-all",
+    ADD: "typeCanvas/add",
+    SET_ADD_STATUS: "typeCanvas/set-add-status",
+    SET_ERRORS: "typeCanvas/set-valid-errors",
+    CLEAR_ERRORS: "typeCanvas/clear-valid-errors",
+    DELETE: "typeCanvas/delete",
+    SET_SELECTED: "typeCanvas/set-selected",
+    REMOVE_SELECTED: "typeCanvas/remove-selected",
+    UPDATE: "typeCanvas/update",
+    SET_UPDATE_STATUS: "typeCanvas/set-update-status"
+}
 
 const initialState = {
     typeCanvases: [],
     typeCanvas: null,
     typeCanvasValidErrors: {},
     submitSuccess: false,
+    isLoading: false
 }
 
 export const typeCanvasReducer = (state = initialState, action) => {
     switch (action.type) {
-        case TypeCanvasTypes.SET_TYPE_CANVASES: return { ...state, typeCanvases: action.payload }
-        case TypeCanvasTypes.SET_ADD_TYPE_CANVAS_STATUS: return { ...state, submitSuccess: action.payload }
-        case TypeCanvasTypes.ADD_TYPE_CANVAS: return { ...state, typeCanvases: [...state.typeCanvases, action.payload] }
-        case TypeCanvasTypes.SET_TYPE_CANVAS_VALID_ERRORS: return { ...state, typeCanvasValidErrors: action.payload }
-        case TypeCanvasTypes.CLEAR_TYPE_CANVAS_VALID_ERRORS: return { ...state, typeCanvasValidErrors: {}, submitSuccess: false}
-        case TypeCanvasTypes.DELETE_TYPE_CANVAS: return {
+        case types.SET_LOADING: return { ...state, isLoading: true }
+        case types.CLEAR_LOADING: return { ...state, isLoading: false }
+        case types.SET_ALL: return { ...state, typeCanvases: action.payload }
+        case types.SET_ADD_STATUS: return { ...state, submitSuccess: action.payload }
+        case types.ADD: return { ...state, typeCanvases: [...state.typeCanvases, action.payload] }
+        case types.SET_ERRORS: return { ...state, typeCanvasValidErrors: action.payload }
+        case types.CLEAR_ERRORS: return { ...state, typeCanvasValidErrors: {}, submitSuccess: false}
+        case types.DELETE: return {
             ...state,
             typeCanvases: [...state.typeCanvases.filter(typeCanvas => typeCanvas._id !== action.payload)]
         }
-        case TypeCanvasTypes.SET_SELECTED_TYPE_CANVAS: return { ...state, typeCanvas: action.payload }
-        case TypeCanvasTypes.REMOVE_SELECTED_TYPE_CANVAS: return { ...state, typeCanvas: null }
-        case TypeCanvasTypes.UPDATE_TYPE_CANVAS: return {
+        case types.SET_SELECTED: return { ...state, typeCanvas: action.payload }
+        case types.REMOVE_SELECTED: return { ...state, typeCanvas: null }
+        case types.UPDATE: return {
             ...state,
             typeCanvases: [...state.typeCanvases.map((typeCanvas) => {
                 if (typeCanvas._id === action.payload._id) {
@@ -30,29 +46,37 @@ export const typeCanvasReducer = (state = initialState, action) => {
                 }
             })]           
         }
-        case TypeCanvasTypes.SET_UPDATE_TYPE_CANVAS_STATUS: return { ...state, submitSuccess: action.payload }
+        case types.SET_UPDATE_STATUS: return { ...state, submitSuccess: action.payload }
 
         default:
             return state
     }
 }
 
-export const acSetTypeCanvases = (typeCanvases) => ({ type: TypeCanvasTypes.SET_TYPE_CANVASES, payload: typeCanvases})
+const setLoading = () => ({ type: types.SET_LOADING })
 
-export const acSetAddTypeCanvasStatus = (isSuccess) => ({ type: TypeCanvasTypes.SET_ADD_TYPE_CANVAS_STATUS, payload: isSuccess })
+const clearLoading = () => ({ type: types.CLEAR_LOADING })
 
-export const acAddTypeCanvas = (typeCanvas) => ({ type: TypeCanvasTypes.ADD_TYPE_CANVAS, payload: typeCanvas })
+const setAll = (typeCanvases) => ({ type: types.SET_ALL, payload: typeCanvases})
 
-export const acSetTypeCanvasValidErrors = (errors) => ({ type: TypeCanvasTypes.SET_TYPE_CANVAS_VALID_ERRORS, payload: errors })
+const setAddStatus = (isSuccess) => ({ type: types.SET_ADD_STATUS, payload: isSuccess })
 
-export const acClearTypeCanvasValidErrors = () => ({ type: TypeCanvasTypes.CLEAR_TYPE_CANVAS_VALID_ERRORS })
+const add = (typeCanvas) => ({ type: types.ADD, payload: typeCanvas })
 
-export const acDeleteTypeCanvas = (id) => ({ type: TypeCanvasTypes.DELETE_TYPE_CANVAS, payload: id })
+const setErrors = (errors) => ({ type: types.SET_ERRORS, payload: errors })
 
-export const acSetSelectedTypeCanvas = (typeCanvas) => ({ type: TypeCanvasTypes.SET_SELECTED_TYPE_CANVAS, payload: typeCanvas })
+const clearErrors = () => ({ type: types.CLEAR_ERRORS })
 
-export const acRemoveSelectedTypeCanvas = () => ({ type: TypeCanvasTypes.REMOVE_SELECTED_TYPE_CANVAS})
+const deleteBy = (id) => ({ type: types.DELETE, payload: id })
 
-export const acUpdateTypeCanvas = (typeCanvas) => ({ type: TypeCanvasTypes.UPDATE_TYPE_CANVAS, payload: typeCanvas })
+const setSelected = (typeCanvas) => ({ type: types.SET_SELECTED, payload: typeCanvas })
 
-export const acSetUpdateTypeCanvasStatus = (isSuccess) => ({ type: TypeCanvasTypes.SET_UPDATE_TYPE_CANVAS_STATUS, payload: isSuccess })
+const removeSelected = () => ({ type: types.REMOVE_SELECTED})
+
+const update = (typeCanvas) => ({ type: types.UPDATE, payload: typeCanvas })
+
+const setUpdateStatus = (isSuccess) => ({ type: types.SET_UPDATE_STATUS, payload: isSuccess })
+
+export const typeCanvasActions = {
+    setLoading, clearLoading, setAll, setAddStatus, add, setErrors, clearErrors, deleteBy, setSelected, removeSelected, update, setUpdateStatus
+}

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { useForm } from "react-hook-form";
 
-import { acClearLockValidErrors } from '../../redux/reducers/lock'
+import { lockActions } from '../../redux/reducers/lock'
 
 import { updateLock } from '../../redux/actions/lock';
 
@@ -25,9 +25,9 @@ export const EditLockForm = () => {
     }, [lockValidErrors])
 
     useEffect(() => {
-        dispatch(acClearLockValidErrors())
+        dispatch(lockActions.clearErrors())
         return () => {
-            dispatch(acClearLockValidErrors())
+            dispatch(lockActions.clearErrors())
         }
     }, [dispatch])
 

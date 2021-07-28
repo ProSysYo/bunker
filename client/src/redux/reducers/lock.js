@@ -1,26 +1,42 @@
-import { LockTypes } from '../constants/lock-types'
+const types = {
+    SET_LOADING: "lock/set-loading",
+    CLEAR_LOADING: "lock/clear-loading",
+    SET_ALL: "lock/set-all",
+    ADD: "lock/add",
+    SET_ADD_STATUS: "lock/set-add-status",
+    SET_ERRORS: "lock/set-valid-errors",
+    CLEAR_ERRORS: "lock/clear-valid-errors",
+    DELETE: "lock/delete",
+    SET_SELECTED: "lock/set-selected",
+    REMOVE_SELECTED: "lock/remove-selected",
+    UPDATE: "lock/update",
+    SET_UPDATE_STATUS: "lock/set-update-status"
+}
 
 const initialState = {
     locks: [],
     lock: null,
     lockValidErrors: {},
     submitSuccess: false,
+    isLoading: false
 }
 
 export const lockReducer = (state = initialState, action) => {
     switch (action.type) {
-        case LockTypes.SET_LOCKS: return { ...state, locks: action.payload }
-        case LockTypes.SET_ADD_LOCK_STATUS: return { ...state, submitSuccess: action.payload }
-        case LockTypes.ADD_LOCK: return { ...state, locks: [...state.locks, action.payload] }
-        case LockTypes.SET_LOCK_VALID_ERRORS: return { ...state, lockValidErrors: action.payload }
-        case LockTypes.CLEAR_LOCK_VALID_ERRORS: return { ...state, lockValidErrors: {}, submitSuccess: false}
-        case LockTypes.DELETE_LOCK: return {
+        case types.SET_LOADING: return { ...state, isLoading: true }
+        case types.CLEAR_LOADING: return { ...state, isLoading: false }
+        case types.SET_ALL: return { ...state, locks: action.payload }
+        case types.SET_ADD_STATUS: return { ...state, submitSuccess: action.payload }
+        case types.ADD: return { ...state, locks: [...state.locks, action.payload] }
+        case types.SET_ERRORS: return { ...state, lockValidErrors: action.payload }
+        case types.CLEAR_ERRORS: return { ...state, lockValidErrors: {}, submitSuccess: false}
+        case types.DELETE: return {
             ...state,
             locks: [...state.locks.filter(lock => lock._id !== action.payload)]
         }
-        case LockTypes.SET_SELECTED_LOCK: return { ...state, lock: action.payload }
-        case LockTypes.REMOVE_SELECTED_LOCK: return { ...state, lock: null }
-        case LockTypes.UPDATE_LOCK: return {
+        case types.SET_SELECTED: return { ...state, lock: action.payload }
+        case types.REMOVE_SELECTED: return { ...state, lock: null }
+        case types.UPDATE: return {
             ...state,
             locks: [...state.locks.map((lock) => {
                 if (lock._id === action.payload._id) {
@@ -30,29 +46,37 @@ export const lockReducer = (state = initialState, action) => {
                 }
             })]           
         }
-        case LockTypes.SET_UPDATE_LOCK_STATUS: return { ...state, submitSuccess: action.payload }
+        case types.SET_UPDATE_STATUS: return { ...state, submitSuccess: action.payload }
 
         default:
             return state
     }
 }
 
-export const acSetLocks = (locks) => ({ type: LockTypes.SET_LOCKS, payload: locks})
+const setLoading = () => ({ type: types.SET_LOADING })
 
-export const acSetAddLockStatus = (isSuccess) => ({ type: LockTypes.SET_ADD_LOCK_STATUS, payload: isSuccess })
+const clearLoading = () => ({ type: types.CLEAR_LOADING })
 
-export const acAddLock = (lock) => ({ type: LockTypes.ADD_LOCK, payload: lock })
+const setAll = (locks) => ({ type: types.SET_ALL, payload: locks})
 
-export const acSetLockValidErrors = (errors) => ({ type: LockTypes.SET_LOCK_VALID_ERRORS, payload: errors })
+const setAddStatus = (isSuccess) => ({ type: types.SET_ADD_STATUS, payload: isSuccess })
 
-export const acClearLockValidErrors = () => ({ type: LockTypes.CLEAR_LOCK_VALID_ERRORS })
+const add = (lock) => ({ type: types.ADD, payload: lock })
 
-export const acDeleteLock = (id) => ({ type: LockTypes.DELETE_LOCK, payload: id })
+const setErrors = (errors) => ({ type: types.SET_ERRORS, payload: errors })
 
-export const acSetSelectedLock = (lock) => ({ type: LockTypes.SET_SELECTED_LOCK, payload: lock })
+const clearErrors = () => ({ type: types.CLEAR_ERRORS })
 
-export const acRemoveSelectedLock = () => ({ type: LockTypes.REMOVE_SELECTED_LOCK })
+const deleteBy = (id) => ({ type: types.DELETE, payload: id })
 
-export const acUpdateLock = (lock) => ({ type: LockTypes.UPDATE_LOCK, payload: lock })
+const setSelected = (lock) => ({ type: types.SET_SELECTED, payload: lock })
 
-export const acSetUpdateLockStatus = (isSuccess) => ({ type: LockTypes.SET_UPDATE_LOCK_STATUS, payload: isSuccess })
+const removeSelected = () => ({ type: types.REMOVE_SELECTED })
+
+const update = (lock) => ({ type: types.UPDATE, payload: lock })
+
+const setUpdateStatus = (isSuccess) => ({ type: types.SET_UPDATE_STATUS, payload: isSuccess })
+
+export const lockActions = {
+    setLoading, clearLoading, setAll, setAddStatus, add, setErrors, clearErrors, deleteBy, setSelected, removeSelected, update, setUpdateStatus
+}

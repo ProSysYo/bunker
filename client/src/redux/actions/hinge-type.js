@@ -1,13 +1,11 @@
 import { http } from "../../http-common"
-import { loadingActions } from "../reducers/loading"
-
 import { messageActions } from "../reducers/message"
 import { hingeTypeActions } from "../reducers/hinge-type"
 
 export function getHingeTypes() {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(hingeTypeActions.setLoading())
             const response = await http.get('/hingetype')
             dispatch(hingeTypeActions.setAll(response.data))
         } catch (e) {
@@ -20,7 +18,7 @@ export function getHingeTypes() {
             }
             console.log(e)
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(hingeTypeActions.clearLoading())
         }
     }
 }
@@ -28,7 +26,7 @@ export function getHingeTypes() {
 export const addHingeType = (data) => {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(hingeTypeActions.setLoading())
             dispatch(hingeTypeActions.clearErrors())
             const response = await http.post('/hingetype', data)
             dispatch(hingeTypeActions.setAddStatus(true))                  
@@ -46,7 +44,7 @@ export const addHingeType = (data) => {
             }
             console.log(e)
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(hingeTypeActions.clearLoading())
         }
     }
 }
@@ -54,7 +52,7 @@ export const addHingeType = (data) => {
 export const deleteHingeType = (id) => {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(hingeTypeActions.setLoading())
             const response = await http.delete(`/hingetype/${id}`)
             dispatch(hingeTypeActions.deleteBy(id))
             dispatch(messageActions.setMessage(response.data.message))
@@ -68,7 +66,7 @@ export const deleteHingeType = (id) => {
             }
             console.log(e)
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(hingeTypeActions.clearLoading())
         }
     }
 }
@@ -76,7 +74,7 @@ export const deleteHingeType = (id) => {
 export function getHingeType(id) {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(hingeTypeActions.setLoading())
             const response = await http.get(`/hingetype/${id}`)
             dispatch(hingeTypeActions.setSelected(response.data))
         } catch (e) {
@@ -89,7 +87,7 @@ export function getHingeType(id) {
             }
             console.log(e);
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(hingeTypeActions.clearLoading())
         }
     }
 }
@@ -97,7 +95,7 @@ export function getHingeType(id) {
 export const updateHingeType = (id, data) => {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(hingeTypeActions.setLoading())
             dispatch(hingeTypeActions.clearErrors())
             const response = await http.patch(`/hingetype/${id}`, data)
             dispatch(hingeTypeActions.setUpdateStatus(true))
@@ -115,7 +113,7 @@ export const updateHingeType = (id, data) => {
             }
             console.log(e);            
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(hingeTypeActions.clearLoading())
         }
     }
 }

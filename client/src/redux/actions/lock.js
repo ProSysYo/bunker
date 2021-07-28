@@ -1,20 +1,13 @@
 import { http } from "../../http-common"
-
-import { loadingActions } from "../reducers/loading"
-
-import { acAddLock, acClearLockValidErrors, acDeleteLock, acSetAddLockStatus, 
-    acSetLocks, acSetLockValidErrors, acSetSelectedLock,
-    acSetUpdateLockStatus, acUpdateLock
-} from "../reducers/lock"
-
+import { lockActions} from "../reducers/lock"
 import { messageActions } from "../reducers/message"
 
 export function getLocks() {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(lockActions.setLoading())
             const response = await http.get('/lock')
-            dispatch(acSetLocks(response.data))
+            dispatch(lockActions.setAll(response.data))
         } catch (e) {
             if (e.response) {
                 if (e.response.data?.message) dispatch(messageActions.setMessage(e.response.data.message))
@@ -25,7 +18,7 @@ export function getLocks() {
             }
             console.log(e)
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(lockActions.clearLoading())
         }
     }
 }
@@ -33,17 +26,17 @@ export function getLocks() {
 export const addLock = (name, type, insertPlace, isLatch) => {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
-            dispatch(acClearLockValidErrors())
+            dispatch(lockActions.setLoading())
+            dispatch(lockActions.clearErrors())
             const response = await http.post('/lock', { name, type, insertPlace, isLatch })
-            dispatch(acSetAddLockStatus(true))
-            dispatch(acAddLock(response.data.lock))
+            dispatch(lockActions.setAddStatus(true))
+            dispatch(lockActions.add(response.data.lock))
             dispatch(messageActions.setMessage(response.data.message))
         } catch (e) {
-            dispatch(acSetAddLockStatus(false))
+            dispatch(lockActions.setAddStatus(false))
             if (e.response) {
                 if (e.response.data?.message) dispatch(messageActions.setMessage(e.response.data.message))
-                if (e.response.data?.errors) dispatch(acSetLockValidErrors(e.response.data.errors))
+                if (e.response.data?.errors) dispatch(lockActions.setErrors(e.response.data.errors))
             } else if (e.isAxiosError && !e.response) {
                 dispatch(messageActions.setMessage("Нет соединения с сервером"))                
             } else {
@@ -51,7 +44,7 @@ export const addLock = (name, type, insertPlace, isLatch) => {
             }
             console.log(e)
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(lockActions.clearLoading())
         }
     }
 }
@@ -59,9 +52,9 @@ export const addLock = (name, type, insertPlace, isLatch) => {
 export const deleteLock = (id) => {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(lockActions.setLoading())
             const response = await http.delete(`/lock/${id}`)
-            dispatch(acDeleteLock(id))
+            dispatch(lockActions.deleteBy(id))
             dispatch(messageActions.setMessage(response.data.message))
         } catch (e) {
             if (e.response) {
@@ -73,7 +66,7 @@ export const deleteLock = (id) => {
             }
             console.log(e)
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(lockActions.clearLoading())
         }
     }
 }
@@ -81,9 +74,9 @@ export const deleteLock = (id) => {
 export function getLock(id) {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(lockActions.setLoading())
             const response = await http.get(`/lock/${id}`)
-            dispatch(acSetSelectedLock(response.data))
+            dispatch(lockActions.setSelected(response.data))
         } catch (e) {
             if (e.response) {
                 if (e.response.data?.message) dispatch(messageActions.setMessage(e.response.data.message))                
@@ -94,7 +87,7 @@ export function getLock(id) {
             }
             console.log(e);
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(lockActions.clearLoading())
         }
     }
 }
@@ -102,17 +95,17 @@ export function getLock(id) {
 export const updateLock = (id, data) => {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
-            dispatch(acClearLockValidErrors())
+            dispatch(lockActions.setLoading())
+            dispatch(lockActions.clearErrors())
             const response = await http.patch(`/lock/${id}`, data)
-            dispatch(acSetUpdateLockStatus(true))
-            dispatch(acUpdateLock(response.data.lock))
+            dispatch(lockActions.setUpdateStatus(true))
+            dispatch(lockActions.update(response.data.lock))
             dispatch(messageActions.setMessage(response.data.message))
         } catch (e) {
-            dispatch(acSetUpdateLockStatus(false))
+            dispatch(lockActions.setUpdateStatus(false))
             if (e.response) {
                 if (e.response.data?.message) dispatch(messageActions.setMessage(e.response.data.message))
-                if (e.response.data?.errors) dispatch(acSetLockValidErrors(e.response.data.errors))
+                if (e.response.data?.errors) dispatch(lockActions.setErrors(e.response.data.errors))
             } else if (e.isAxiosError && !e.response) {
                 dispatch(messageActions.setMessage("Нет соединения с сервером"))                
             } else {
@@ -120,7 +113,7 @@ export const updateLock = (id, data) => {
             }
             console.log(e);            
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(lockActions.clearLoading())
         }
     }
 }

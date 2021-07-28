@@ -1,4 +1,6 @@
 const types = {
+    SET_LOADING: "cylinder/set-loading",
+    CLEAR_LOADING: "cylinder/clear-loading",
     SET_ALL: "cylinder/set-all ",
     ADD: "cylinder/add",
     SET_ADD_STATUS: "cylinder/set-add-status",
@@ -16,10 +18,13 @@ const initialState = {
     cylinder: null,
     errors: {},
     submitSuccess: false,
+    isLoading: false
 }
 
 export const cylinderReducer = (state = initialState, action) => {
     switch (action.type) {
+        case types.SET_LOADING: return { ...state, isLoading: true }
+        case types.CLEAR_LOADING: return { ...state, isLoading: false }
         case types.SET_ALL: return { ...state, cylinders: action.payload }
         case types.SET_ADD_STATUS: return { ...state, submitSuccess: action.payload }
         case types.ADD: return { ...state, cylinders: [...state.cylinders, action.payload] }
@@ -47,6 +52,9 @@ export const cylinderReducer = (state = initialState, action) => {
             return state
     }
 }
+const setLoading = () => ({ type: types.SET_LOADING })
+
+const clearLoading = () => ({ type: types.CLEAR_LOADING })
 
 const setAll = (cylinders) => ({ type: types.SET_ALL, payload: cylinders})
 
@@ -69,5 +77,5 @@ const update = (cylinder) => ({ type: types.UPDATE, payload: cylinder })
 const setUpdateStatus = (isSuccess) => ({ type: types.SET_UPDATE_STATUS, payload: isSuccess })
 
 export const cylinderActions = {
-    setAll, setAddStatus, add, setErrors, clearErrors, deleteBy, setSelected, removeSelected, update, setUpdateStatus
+    setLoading, clearLoading, setAll, setAddStatus, add, setErrors, clearErrors, deleteBy, setSelected, removeSelected, update, setUpdateStatus
 }

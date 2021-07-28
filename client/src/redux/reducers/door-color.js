@@ -1,4 +1,6 @@
 const types = {
+    SET_LOADING: "doorColor/set-loading",
+    CLEAR_LOADING: "doorColor/clear-loading",
     SET_ALL: "doorColor/set-all ",
     ADD: "doorColor/add",
     SET_ADD_STATUS: "doorColor/set-add-status",
@@ -16,10 +18,13 @@ const initialState = {
     doorColor: null,
     errors: {},
     submitSuccess: false,
+    isLoading: false
 }
 
 export const doorColorReducer = (state = initialState, action) => {
     switch (action.type) {
+        case types.SET_LOADING: return { ...state, isLoading: true }
+        case types.CLEAR_LOADING: return { ...state, isLoading: false }
         case types.SET_ALL: return { ...state, doorColors: action.payload }
         case types.SET_ADD_STATUS: return { ...state, submitSuccess: action.payload }
         case types.ADD: return { ...state, doorColors: [...state.doorColors, action.payload] }
@@ -47,6 +52,9 @@ export const doorColorReducer = (state = initialState, action) => {
             return state
     }
 }
+const setLoading = () => ({ type: types.SET_LOADING })
+
+const clearLoading = () => ({ type: types.CLEAR_LOADING })
 
 const setAll = (doorColors) => ({ type: types.SET_ALL, payload: doorColors})
 
@@ -69,5 +77,5 @@ const update = (doorColor) => ({ type: types.UPDATE, payload: doorColor })
 const setUpdateStatus = (isSuccess) => ({ type: types.SET_UPDATE_STATUS, payload: isSuccess })
 
 export const doorColorActions = {
-    setAll, setAddStatus, add, setErrors, clearErrors, deleteBy, setSelected, removeSelected, update, setUpdateStatus
+    setLoading, clearLoading, setAll, setAddStatus, add, setErrors, clearErrors, deleteBy, setSelected, removeSelected, update, setUpdateStatus
 }

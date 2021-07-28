@@ -1,13 +1,11 @@
 import { http } from "../../http-common"
-import { loadingActions } from "../reducers/loading"
-
 import { messageActions } from "../reducers/message"
 import { typePanelActions } from "../reducers/type-panel"
 
 export function getTypePanels() {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(typePanelActions.setLoading())
             const response = await http.get('/typepanel')
             dispatch(typePanelActions.setAll(response.data))
         } catch (e) {
@@ -20,7 +18,7 @@ export function getTypePanels() {
             }
             console.log(e)
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(typePanelActions.clearLoading())
         }
     }
 }
@@ -28,7 +26,7 @@ export function getTypePanels() {
 export const addTypePanel = (data) => {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(typePanelActions.setLoading())
             dispatch(typePanelActions.clearErrors())
             const response = await http.post('/typepanel', data)
             dispatch(typePanelActions.setAddStatus(true))                  
@@ -46,7 +44,7 @@ export const addTypePanel = (data) => {
             }
             console.log(e)
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(typePanelActions.clearLoading())
         }
     }
 }
@@ -54,7 +52,7 @@ export const addTypePanel = (data) => {
 export const deleteTypePanel = (id) => {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(typePanelActions.setLoading())
             const response = await http.delete(`/typepanel/${id}`)
             dispatch(typePanelActions.deleteBy(id))
             dispatch(messageActions.setMessage(response.data.message))
@@ -68,7 +66,7 @@ export const deleteTypePanel = (id) => {
             }
             console.log(e)
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(typePanelActions.clearLoading())
         }
     }
 }
@@ -76,7 +74,7 @@ export const deleteTypePanel = (id) => {
 export function getTypePanel(id) {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(typePanelActions.setLoading())
             const response = await http.get(`/typepanel/${id}`)
             dispatch(typePanelActions.setSelected(response.data))
         } catch (e) {
@@ -89,7 +87,7 @@ export function getTypePanel(id) {
             }
             console.log(e);
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(typePanelActions.clearLoading())
         }
     }
 }
@@ -97,7 +95,7 @@ export function getTypePanel(id) {
 export const updateTypePanel = (id, data) => {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(typePanelActions.setLoading())
             dispatch(typePanelActions.clearErrors())
             const response = await http.patch(`/typepanel/${id}`, data)
             dispatch(typePanelActions.setUpdateStatus(true))
@@ -115,7 +113,7 @@ export const updateTypePanel = (id, data) => {
             }
             console.log(e);            
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(typePanelActions.clearLoading())
         }
     }
 }

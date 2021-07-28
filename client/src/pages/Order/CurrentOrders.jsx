@@ -1,51 +1,46 @@
 import React, { useEffect, useState } from 'react'
-import styled from 'styled-components';
-
-import { Table, Space, Modal, Spin } from 'antd'
-
+import styled from 'styled-components'
+import { useDispatch, useSelector } from 'react-redux'
+import { Table, Space, Modal } from 'antd'
 
 import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 
-import { useDispatch, useSelector } from 'react-redux'
-import { deleteCustomer, getCustomers } from '../../redux/actions/customer'
-
 import { RightBar } from '../../components/RightBar/RightBar';
-import { AddCustomerForm } from './AddCustomerForm';
-import { EditCustomerContainer } from './EditCustomerContainer';
+import { AddPackagingForm } from './AddOrderContainer';
+import { EditPackagingContainer } from './EditPackagingContainer';
 
+import { deletePackaging, getPackagings } from '../../redux/actions/packaging';
 
 const { Column } = Table
 
-export const Customers = () => {
+export const Packagings = () => {
     const dispatch = useDispatch()
-    const customers = useSelector(state => state.customer.customers)
-    const submitSuccess = useSelector(state => state.customer.submitSuccess)
-    const isLoading = useSelector(state => state.customer.isLoading)
+    const packagings = useSelector(state => state.packaging.packagings)
+    const submitSuccess = useSelector(state => state.packaging.submitSuccess)
 
     const [showAddForm, setShowAddForm] = useState(false)
     const [showEditForm, setShowEditForm] = useState(false)
-    const [selectedCustomerId, setSelectedCustomerId] = useState("")
-    const [deleteCustomerId, setDeleteCustomerId] = useState("")
+    const [selectedId, setSelectedId] = useState("")
+    const [deleteId, setDeleteId] = useState("")
     const [isModalVisible, setIsModalVisible] = useState(false);
 
     useEffect(() => {
-        dispatch(getCustomers())
+        dispatch(getPackagings())
         // eslint-disable-next-line
     }, [])
 
     useEffect(() => {
         setShowEditForm(false)
         setShowAddForm(false)
-        // eslint-disable-next-line
     }, [submitSuccess])
 
     const deleteClick = (id) => {
-        setDeleteCustomerId(id)
+        setDeleteId(id)
         setIsModalVisible(true)
     }
 
     const handleOkModal = () => {
-        dispatch(deleteCustomer(deleteCustomerId))
+        dispatch(deletePackaging(deleteId))
         setIsModalVisible(false)
     }
 
@@ -54,22 +49,17 @@ export const Customers = () => {
     }
 
     const editClick = (id) => {
-        setSelectedCustomerId(id)
+        setSelectedId(id)
         setShowEditForm(true)
     }
 
-    if (isLoading) return <Spinner><Spin size="large"/></Spinner>
-
     return (
         <div>
-            <Title>Заказчики</Title>
+            <Title>Текущие заказы</Title>
             <AddIcon onClick={() => setShowAddForm(true)}><PlusOutlined /></AddIcon>
-            <MyTable dataSource={customers} size="small" rowKey="_id" pagination={{ pageSize: 20 }}>
-                <Column title="Код" dataIndex="code" />
-                <Column title="Имя заказчика" dataIndex="name" />
-                <Column title="Телефон" dataIndex="phone" />
-                <Column title="Email" dataIndex="email" />
-                <Column title="Адрес" dataIndex="adress" />
+            <MyTable dataSource={packagings} size="small" rowKey="_id" pagination={{ pageSize: 15 }}>
+                <Column title="Наименование" dataIndex="name" />
+                <Column title="Владелец" dataIndex="owner" />
                 <Column
                     title="Действия"
                     key="actions"
@@ -81,10 +71,11 @@ export const Customers = () => {
                     )} />
             </MyTable>
 
-            <RightBar close={setShowAddForm} show={showAddForm}><AddCustomerForm /></RightBar>
-            <RightBar close={setShowEditForm} show={showEditForm}><EditCustomerContainer id={selectedCustomerId} /></RightBar>
+            <RightBar close={setShowAddForm} show={showAddForm}><AddPackagingForm /></RightBar>
+            <RightBar close={setShowEditForm} show={showEditForm}><EditPackagingContainer id={selectedId} /></RightBar>
+
             <Modal
-                title="Удаление заказчика"
+                title="Удаление упаковки"
                 visible={isModalVisible}
                 cancelText="Нет"
                 okText="Да"
@@ -92,7 +83,7 @@ export const Customers = () => {
                 onCancel={handleCancelModal}
                 centered
             >
-                <p>Вы действительно хотите удалить заказчика?</p>
+                <p>Вы действительно хотите удалить упаковку?</p>
                 <span>Удаление нельзя отменить</span>
             </Modal>
         </div>
@@ -106,8 +97,8 @@ const MyTable = styled(Table)`
   tbody {
     tr {             
         font-size: 13px;
-    }
-} 
+    }    
+  }
 `
 
 const AddIcon = styled.span`
@@ -120,11 +111,4 @@ const ActionItem = styled.span`
     :hover {
         cursor: pointer;
     }  
-`
-const Spinner = styled.span`    
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    width: 300px;
-    height: 300px;
 `

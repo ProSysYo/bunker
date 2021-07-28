@@ -1,5 +1,4 @@
 import { http } from "../../http-common"
-import { loadingActions } from "../reducers/loading"
 
 import { messageActions } from "../reducers/message"
 import { coverActions } from "../reducers/cover"
@@ -7,7 +6,7 @@ import { coverActions } from "../reducers/cover"
 export function getCovers() {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(coverActions.setLoading())
             const response = await http.get('/cover')
             dispatch(coverActions.setAll(response.data))
         } catch (e) {
@@ -20,7 +19,7 @@ export function getCovers() {
             }
             console.log(e)
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(coverActions.clearLoading())
         }
     }
 }
@@ -28,7 +27,7 @@ export function getCovers() {
 export const addCover = (data) => {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(coverActions.setLoading())
             dispatch(coverActions.clearErrors())
             const response = await http.post('/cover', data)
             dispatch(coverActions.setAddStatus(true))                  
@@ -46,7 +45,7 @@ export const addCover = (data) => {
             }
             console.log(e)
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(coverActions.clearLoading())
         }
     }
 }
@@ -54,7 +53,7 @@ export const addCover = (data) => {
 export const deleteCover = (id) => {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(coverActions.setLoading())
             const response = await http.delete(`/cover/${id}`)
             dispatch(coverActions.deleteBy(id))
             dispatch(messageActions.setMessage(response.data.message))
@@ -68,7 +67,7 @@ export const deleteCover = (id) => {
             }
             console.log(e)
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(coverActions.clearLoading())
         }
     }
 }
@@ -76,7 +75,7 @@ export const deleteCover = (id) => {
 export function getCover(id) {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(coverActions.setLoading())
             const response = await http.get(`/cover/${id}`)
             dispatch(coverActions.setSelected(response.data))
         } catch (e) {
@@ -89,7 +88,7 @@ export function getCover(id) {
             }
             console.log(e);
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(coverActions.clearLoading())
         }
     }
 }
@@ -97,7 +96,7 @@ export function getCover(id) {
 export const updateCover = (id, data) => {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(coverActions.setLoading())
             dispatch(coverActions.clearErrors())
             const response = await http.patch(`/cover/${id}`, data)
             dispatch(coverActions.setUpdateStatus(true))
@@ -115,7 +114,7 @@ export const updateCover = (id, data) => {
             }
             console.log(e);            
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(coverActions.clearLoading())
         }
     }
 }

@@ -1,4 +1,6 @@
 const types = {
+    SET_LOADING: "partisanship/set-loading",
+    CLEAR_LOADING: "partisanship/clear-loading",
     SET_ALL: "partisanship/set-all ",
     ADD: "partisanship/add",
     SET_ADD_STATUS: "partisanship/set-add-status",
@@ -16,10 +18,13 @@ const initialState = {
     partisanship: null,
     errors: {},
     submitSuccess: false,
+    isLoading: false
 }
 
 export const partisanshipReducer = (state = initialState, action) => {
     switch (action.type) {
+        case types.SET_LOADING: return { ...state, isLoading: true }
+        case types.CLEAR_LOADING: return { ...state, isLoading: false }
         case types.SET_ALL: return { ...state, partisanships: action.payload }
         case types.SET_ADD_STATUS: return { ...state, submitSuccess: action.payload }
         case types.ADD: return { ...state, partisanships: [...state.partisanships, action.payload] }
@@ -48,6 +53,10 @@ export const partisanshipReducer = (state = initialState, action) => {
     }
 }
 
+const setLoading = () => ({ type: types.SET_LOADING })
+
+const clearLoading = () => ({ type: types.CLEAR_LOADING })
+
 const setAll = (partisanships) => ({ type: types.SET_ALL, payload: partisanships})
 
 const setAddStatus = (isSuccess) => ({ type: types.SET_ADD_STATUS, payload: isSuccess })
@@ -69,5 +78,5 @@ const update = (partisanship) => ({ type: types.UPDATE, payload: partisanship })
 const setUpdateStatus = (isSuccess) => ({ type: types.SET_UPDATE_STATUS, payload: isSuccess })
 
 export const partisanshipActions = {
-    setAll, setAddStatus, add, setErrors, clearErrors, deleteBy, setSelected, removeSelected, update, setUpdateStatus
+    setLoading, clearLoading, setAll, setAddStatus, add, setErrors, clearErrors, deleteBy, setSelected, removeSelected, update, setUpdateStatus
 }

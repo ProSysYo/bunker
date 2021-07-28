@@ -1,13 +1,11 @@
 import { http } from "../../http-common"
-import { loadingActions } from "../reducers/loading"
-
 import { messageActions } from "../reducers/message"
 import { wrapActions } from "../reducers/wrap"
 
 export function getWraps() {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(wrapActions.setLoading())
             const response = await http.get('/wrap')
             dispatch(wrapActions.setAll(response.data))
         } catch (e) {
@@ -20,7 +18,7 @@ export function getWraps() {
             }
             console.log(e)
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(wrapActions.clearLoading())
         }
     }
 }
@@ -28,7 +26,7 @@ export function getWraps() {
 export const addWrap = (data) => {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(wrapActions.setLoading())
             dispatch(wrapActions.clearErrors())
             const response = await http.post('/wrap', data)
             dispatch(wrapActions.setAddStatus(true))                  
@@ -46,7 +44,7 @@ export const addWrap = (data) => {
             }
             console.log(e)
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(wrapActions.clearLoading())
         }
     }
 }
@@ -54,7 +52,7 @@ export const addWrap = (data) => {
 export const deleteWrap = (id) => {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(wrapActions.setLoading())
             const response = await http.delete(`/wrap/${id}`)
             dispatch(wrapActions.deleteBy(id))
             dispatch(messageActions.setMessage(response.data.message))
@@ -68,7 +66,7 @@ export const deleteWrap = (id) => {
             }
             console.log(e)
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(wrapActions.clearLoading())
         }
     }
 }
@@ -76,7 +74,7 @@ export const deleteWrap = (id) => {
 export function getWrap(id) {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(wrapActions.setLoading())
             const response = await http.get(`/wrap/${id}`)
             dispatch(wrapActions.setSelected(response.data))
         } catch (e) {
@@ -89,7 +87,7 @@ export function getWrap(id) {
             }
             console.log(e);
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(wrapActions.clearLoading())
         }
     }
 }
@@ -97,7 +95,7 @@ export function getWrap(id) {
 export const updateWrap = (id, data) => {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(wrapActions.setLoading())
             dispatch(wrapActions.clearErrors())
             const response = await http.patch(`/wrap/${id}`, data)
             dispatch(wrapActions.setUpdateStatus(true))
@@ -115,7 +113,7 @@ export const updateWrap = (id, data) => {
             }
             console.log(e);            
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(wrapActions.clearLoading())
         }
     }
 }

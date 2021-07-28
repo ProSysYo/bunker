@@ -1,4 +1,6 @@
 const types = {
+    SET_LOADING: "cover/set-loading",
+    CLEAR_LOADING: "cover/clear-loading",
     SET_ALL: "cover/set-all ",
     ADD: "cover/add",
     SET_ADD_STATUS: "cover/set-add-status",
@@ -16,10 +18,13 @@ const initialState = {
     cover: null,
     errors: {},
     submitSuccess: false,
+    isLoading: false
 }
 
 export const coverReducer = (state = initialState, action) => {
     switch (action.type) {
+        case types.SET_LOADING: return { ...state, isLoading: true }
+        case types.CLEAR_LOADING: return { ...state, isLoading: false }
         case types.SET_ALL: return { ...state, covers: action.payload }
         case types.SET_ADD_STATUS: return { ...state, submitSuccess: action.payload }
         case types.ADD: return { ...state, covers: [...state.covers, action.payload] }
@@ -48,6 +53,10 @@ export const coverReducer = (state = initialState, action) => {
     }
 }
 
+const setLoading = () => ({ type: types.SET_LOADING })
+
+const clearLoading = () => ({ type: types.CLEAR_LOADING })
+
 const setAll = (covers) => ({ type: types.SET_ALL, payload: covers})
 
 const setAddStatus = (isSuccess) => ({ type: types.SET_ADD_STATUS, payload: isSuccess })
@@ -69,5 +78,5 @@ const update = (cover) => ({ type: types.UPDATE, payload: cover })
 const setUpdateStatus = (isSuccess) => ({ type: types.SET_UPDATE_STATUS, payload: isSuccess })
 
 export const coverActions = {
-    setAll, setAddStatus, add, setErrors, clearErrors, deleteBy, setSelected, removeSelected, update, setUpdateStatus
+    setLoading, clearLoading, setAll, setAddStatus, add, setErrors, clearErrors, deleteBy, setSelected, removeSelected, update, setUpdateStatus
 }

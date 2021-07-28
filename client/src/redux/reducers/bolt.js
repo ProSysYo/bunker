@@ -1,4 +1,6 @@
 const types = {
+    SET_LOADING: "bolt/set-loading",
+    CLEAR_LOADING: "bolt/clear-loading",
     SET_ALL: "bolt/set-all ",
     ADD: "bolt/add",
     SET_ADD_STATUS: "bolt/set-add-status",
@@ -16,10 +18,13 @@ const initialState = {
     bolt: null,
     errors: {},
     submitSuccess: false,
+    isLoading: false
 }
 
 export const boltReducer = (state = initialState, action) => {
     switch (action.type) {
+        case types.SET_LOADING: return { ...state, isLoading: true }
+        case types.CLEAR_LOADING: return { ...state, isLoading: false }
         case types.SET_ALL: return { ...state, bolts: action.payload }
         case types.SET_ADD_STATUS: return { ...state, submitSuccess: action.payload }
         case types.ADD: return { ...state, bolts: [...state.bolts, action.payload] }
@@ -47,6 +52,9 @@ export const boltReducer = (state = initialState, action) => {
             return state
     }
 }
+const setLoading = () => ({ type: types.SET_LOADING })
+
+const clearLoading = () => ({ type: types.CLEAR_LOADING })
 
 const setAll = (bolts) => ({ type: types.SET_ALL, payload: bolts})
 
@@ -69,5 +77,5 @@ const update = (bolt) => ({ type: types.UPDATE, payload: bolt })
 const setUpdateStatus = (isSuccess) => ({ type: types.SET_UPDATE_STATUS, payload: isSuccess })
 
 export const boltActions = {
-    setAll, setAddStatus, add, setErrors, clearErrors, deleteBy, setSelected, removeSelected, update, setUpdateStatus
+    setLoading, clearLoading, setAll, setAddStatus, add, setErrors, clearErrors, deleteBy, setSelected, removeSelected, update, setUpdateStatus
 }

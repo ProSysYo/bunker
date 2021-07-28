@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { useForm } from "react-hook-form";
 
-import { acClearTypeCanvasValidErrors } from '../../redux/reducers/type-canvas';
+import { typeCanvasActions } from '../../redux/reducers/type-canvas';
 import { updateTypeCanvas } from '../../redux/actions/type-canvas';
 
 export const EditTypeCanvasForm = () => {
@@ -27,7 +27,7 @@ export const EditTypeCanvasForm = () => {
 
     useEffect(() => {        
         return () => {
-            dispatch(acClearTypeCanvasValidErrors())
+            dispatch(typeCanvasActions.clearErrors())
         }
     }, [dispatch])
 

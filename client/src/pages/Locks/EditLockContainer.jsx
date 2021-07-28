@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getLock } from '../../redux/actions/lock'
-import { acClearLockValidErrors, acRemoveSelectedLock } from '../../redux/reducers/lock'
+import { lockActions } from '../../redux/reducers/lock'
 import { EditLockForm } from './EditLockForm'
 
 export const EditLockContainer = ({id}) => {
@@ -13,8 +13,7 @@ export const EditLockContainer = ({id}) => {
             dispatch(getLock(id))
         }
         return () => {
-            dispatch(acRemoveSelectedLock())
-            dispatch(acClearLockValidErrors())            
+            dispatch(lockActions.removeSelected())                     
         }
     }, [id, dispatch])
 

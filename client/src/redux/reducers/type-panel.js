@@ -1,4 +1,6 @@
 const types = {
+    SET_LOADING: "typePanel/set-loading",
+    CLEAR_LOADING: "typePanel/clear-loading",
     SET_ALL: "typePanel/set-all ",
     ADD: "typePanel/add",
     SET_ADD_STATUS: "typePanel/set-add-status",
@@ -16,10 +18,13 @@ const initialState = {
     typePanel: null,
     errors: {},
     submitSuccess: false,
+    isLoading: false
 }
 
 export const typePanelReducer = (state = initialState, action) => {
     switch (action.type) {
+        case types.SET_LOADING: return { ...state, isLoading: true }
+        case types.CLEAR_LOADING: return { ...state, isLoading: false }
         case types.SET_ALL: return { ...state, typePanels: action.payload }
         case types.SET_ADD_STATUS: return { ...state, submitSuccess: action.payload }
         case types.ADD: return { ...state, typePanels: [...state.typePanels, action.payload] }
@@ -48,6 +53,10 @@ export const typePanelReducer = (state = initialState, action) => {
     }
 }
 
+const setLoading = () => ({ type: types.SET_LOADING })
+
+const clearLoading = () => ({ type: types.CLEAR_LOADING })
+
 const setAll = (typePanels) => ({ type: types.SET_ALL, payload: typePanels})
 
 const setAddStatus = (isSuccess) => ({ type: types.SET_ADD_STATUS, payload: isSuccess })
@@ -69,5 +78,5 @@ const update = (typePanel) => ({ type: types.UPDATE, payload: typePanel })
 const setUpdateStatus = (isSuccess) => ({ type: types.SET_UPDATE_STATUS, payload: isSuccess })
 
 export const typePanelActions = {
-    setAll, setAddStatus, add, setErrors, clearErrors, deleteBy, setSelected, removeSelected, update, setUpdateStatus
+    setLoading, clearLoading, setAll, setAddStatus, add, setErrors, clearErrors, deleteBy, setSelected, removeSelected, update, setUpdateStatus
 }

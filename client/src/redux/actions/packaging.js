@@ -1,13 +1,11 @@
 import { http } from "../../http-common"
-import { loadingActions } from "../reducers/loading"
-
 import { messageActions } from "../reducers/message"
 import { packagingActions } from "../reducers/packaging"
 
 export function getPackagings() {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(packagingActions.setLoading())
             const response = await http.get('/packaging')
             dispatch(packagingActions.setAll(response.data))
         } catch (e) {
@@ -20,7 +18,7 @@ export function getPackagings() {
             }
             console.log(e)
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(packagingActions.clearLoading())
         }
     }
 }
@@ -28,7 +26,7 @@ export function getPackagings() {
 export const addPackaging = (data) => {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(packagingActions.setLoading())
             dispatch(packagingActions.clearErrors())
             const response = await http.post('/packaging', data)
             dispatch(packagingActions.setAddStatus(true))                  
@@ -46,7 +44,7 @@ export const addPackaging = (data) => {
             }
             console.log(e)
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(packagingActions.clearLoading())
         }
     }
 }
@@ -54,7 +52,7 @@ export const addPackaging = (data) => {
 export const deletePackaging = (id) => {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(packagingActions.setLoading())
             const response = await http.delete(`/packaging/${id}`)
             dispatch(packagingActions.deleteBy(id))
             dispatch(messageActions.setMessage(response.data.message))
@@ -68,7 +66,7 @@ export const deletePackaging = (id) => {
             }
             console.log(e)
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(packagingActions.clearLoading())
         }
     }
 }
@@ -76,7 +74,7 @@ export const deletePackaging = (id) => {
 export function getPackaging(id) {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(packagingActions.setLoading())
             const response = await http.get(`/packaging/${id}`)
             dispatch(packagingActions.setSelected(response.data))
         } catch (e) {
@@ -89,7 +87,7 @@ export function getPackaging(id) {
             }
             console.log(e);
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(packagingActions.clearLoading())
         }
     }
 }
@@ -97,7 +95,7 @@ export function getPackaging(id) {
 export const updatePackaging = (id, data) => {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(packagingActions.setLoading())
             dispatch(packagingActions.clearErrors())
             const response = await http.patch(`/packaging/${id}`, data)
             dispatch(packagingActions.setUpdateStatus(true))
@@ -115,7 +113,7 @@ export const updatePackaging = (id, data) => {
             }
             console.log(e);            
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(packagingActions.clearLoading())
         }
     }
 }

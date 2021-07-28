@@ -1,20 +1,14 @@
 import { http } from "../../http-common";
 
-import {
-    acAddCustomer, acClearCastomerValidateErrors, acDeleteCustomer,
-    acSetAddCustomerStatus, acSetCustomers, acSetCustomerValidateErrors,
-    acSetSelectedCustomer, acSetUpdateCustomerStatus, acUpdateCustomer
-} from "../reducers/customer";
-
-import { loadingActions } from "../reducers/loading";
+import { customerActions } from "../reducers/customer";
 import { messageActions } from "../reducers/message";
 
 export function getCustomers() {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(customerActions.setLoading())
             const response = await http.get('/customer')
-            dispatch(acSetCustomers(response.data))
+            dispatch(customerActions.setAll(response.data))
         } catch (e) {
             if (e.response) {
                 if (e.response.data?.message) dispatch(messageActions.setMessage(e.response.data.message))                
@@ -25,7 +19,7 @@ export function getCustomers() {
             }   
             console.log(e)
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(customerActions.clearLoading())
         }
     }
 }
@@ -33,17 +27,17 @@ export function getCustomers() {
 export const addCustomer = (data) => {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
-            dispatch(acClearCastomerValidateErrors())
+            dispatch(customerActions.setLoading())
+            dispatch(customerActions.clearErrors())
             const response = await http.post('/customer', data)
-            dispatch(acSetAddCustomerStatus(true))
-            dispatch(acAddCustomer(response.data.customer))
+            dispatch(customerActions.setAddStatus(true))
+            dispatch(customerActions.add(response.data.customer))
             dispatch(messageActions.setMessage(response.data.message))
         } catch (e) {
-            dispatch(acSetAddCustomerStatus(false))
+            dispatch(customerActions.setAddStatus(false))
             if (e.response) {
                 if (e.response.data?.message) dispatch(messageActions.setMessage(e.response.data.message))
-                if (e.response.data?.errors) dispatch(acSetCustomerValidateErrors(e.response.data.errors))
+                if (e.response.data?.errors) dispatch(customerActions.setErrors(e.response.data.errors))
             } else if (e.isAxiosError && !e.response) {
                 dispatch(messageActions.setMessage("Нет соединения с сервером"))                
             } else {
@@ -51,7 +45,7 @@ export const addCustomer = (data) => {
             }
             console.log(e)
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(customerActions.clearLoading())
         }
     }
 }
@@ -59,9 +53,9 @@ export const addCustomer = (data) => {
 export const deleteCustomer = (id) => {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(customerActions.setLoading())
             const response = await http.delete(`/customer/${id}`)
-            dispatch(acDeleteCustomer(id))
+            dispatch(customerActions.deleteBy(id))
             dispatch(messageActions.setMessage(response.data.message))
         } catch (e) {            
             if (e.response) {
@@ -73,7 +67,7 @@ export const deleteCustomer = (id) => {
             }
             console.log(e)
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(customerActions.clearLoading())
         }
     }
 }
@@ -81,9 +75,9 @@ export const deleteCustomer = (id) => {
 export function getCustomer(id) {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(customerActions.setLoading())
             const response = await http.get(`/customer/${id}`)
-            dispatch(acSetSelectedCustomer(response.data))
+            dispatch(customerActions.setSelected(response.data))
         } catch (e) {            
             if (e.response) {
                 if (e.response.data?.message) dispatch(messageActions.setMessage(e.response.data.message))                
@@ -94,7 +88,7 @@ export function getCustomer(id) {
             }
             console.log(e)
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(customerActions.clearLoading())
         }
     }
 }
@@ -102,17 +96,17 @@ export function getCustomer(id) {
 export const updateCustomer = (id, data) => {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
-            dispatch(acClearCastomerValidateErrors())
+            dispatch(customerActions.setLoading())
+            dispatch(customerActions.clearErrors())
             const response = await http.patch(`/customer/${id}`, data)
-            dispatch(acSetUpdateCustomerStatus(true))
-            dispatch(acUpdateCustomer(response.data.customer))
+            dispatch(customerActions.setUpdateStatus(true))
+            dispatch(customerActions.update(response.data.customer))
             dispatch(messageActions.setMessage(response.data.message))
         } catch (e) {
-            dispatch(acSetUpdateCustomerStatus(false))            
+            dispatch(customerActions.setUpdateStatus(false))            
             if (e.response) {
                 if (e.response.data?.message) dispatch(messageActions.setMessage(e.response.data.message))
-                if (e.response.data?.errors) dispatch(acSetCustomerValidateErrors(e.response.data.errors))
+                if (e.response.data?.errors) dispatch(customerActions.setErrors(e.response.data.errors))
             } else if (e.isAxiosError && !e.response) {
                 dispatch(messageActions.setMessage("Нет соединения с сервером"))                
             } else {
@@ -120,7 +114,7 @@ export const updateCustomer = (id, data) => {
             }
             console.log(e)
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(customerActions.clearLoading())
         }
     }
 }

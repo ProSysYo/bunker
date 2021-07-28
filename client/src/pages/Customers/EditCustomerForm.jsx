@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { useForm } from "react-hook-form"
 
 import { updateCustomer } from '../../redux/actions/customer'
-import { acClearCastomerValidateErrors } from '../../redux/reducers/customer'
+import { customerActions } from '../../redux/reducers/customer'
 
 export const EditCustomerForm = () => {    
     const { register, handleSubmit, setError, formState: { errors } } = useForm()
@@ -26,7 +26,7 @@ export const EditCustomerForm = () => {
 
     useEffect(() => {
         return () => {
-            dispatch(acClearCastomerValidateErrors())            
+            dispatch(customerActions.clearErrors())            
         }
     }, [dispatch])
 

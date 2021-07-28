@@ -1,4 +1,6 @@
 const types = {
+    SET_LOADING: "hingeType/set-loading",
+    CLEAR_LOADING: "hingeType/clear-loading",
     SET_ALL: "hingeType/set-all ",
     ADD: "hingeType/add",
     SET_ADD_STATUS: "hingeType/set-add-status",
@@ -16,10 +18,13 @@ const initialState = {
     hingeType: null,
     errors: {},
     submitSuccess: false,
+    isLoading: false
 }
 
 export const hingeTypeReducer = (state = initialState, action) => {
     switch (action.type) {
+        case types.SET_LOADING: return { ...state, isLoading: true }
+        case types.CLEAR_LOADING: return { ...state, isLoading: false }
         case types.SET_ALL: return { ...state, hingeTypes: action.payload }
         case types.SET_ADD_STATUS: return { ...state, submitSuccess: action.payload }
         case types.ADD: return { ...state, hingeTypes: [...state.hingeTypes, action.payload] }
@@ -48,6 +53,10 @@ export const hingeTypeReducer = (state = initialState, action) => {
     }
 }
 
+const setLoading = () => ({ type: types.SET_LOADING })
+
+const clearLoading = () => ({ type: types.CLEAR_LOADING })
+
 const setAll = (hingeTypes) => ({ type: types.SET_ALL, payload: hingeTypes})
 
 const setAddStatus = (isSuccess) => ({ type: types.SET_ADD_STATUS, payload: isSuccess })
@@ -69,5 +78,5 @@ const update = (hingeType) => ({ type: types.UPDATE, payload: hingeType })
 const setUpdateStatus = (isSuccess) => ({ type: types.SET_UPDATE_STATUS, payload: isSuccess })
 
 export const hingeTypeActions = {
-    setAll, setAddStatus, add, setErrors, clearErrors, deleteBy, setSelected, removeSelected, update, setUpdateStatus
+    setLoading, clearLoading, setAll, setAddStatus, add, setErrors, clearErrors, deleteBy, setSelected, removeSelected, update, setUpdateStatus
 }

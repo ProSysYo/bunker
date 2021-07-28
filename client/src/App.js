@@ -33,6 +33,7 @@ import { Partisanships } from './pages/Partisanship/Partisanships'
 import { HingeSides } from './pages/HingeSide/HingeSides'
 import { HingeTypes } from './pages/HingeType/HingeTypes'
 import { Packagings } from './pages/Packaging/Packagings'
+import { AddOrderContainer } from './pages/Order/AddOrderContainer'
 
 function App() {
     const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
@@ -95,6 +96,7 @@ function App() {
                                 <Route exact path="/hingesides" component={HingeSides} />
                                 <Route exact path="/hingetypes" component={HingeTypes} />
                                 <Route exact path="/packagings" component={Packagings} />
+                                <Route exact path="/addorder" component={AddOrderContainer} />
 
                                 <Redirect to='/' />
                             </Switch>

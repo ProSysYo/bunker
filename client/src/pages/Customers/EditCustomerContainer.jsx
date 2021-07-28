@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { getCustomer } from '../../redux/actions/customer'
-import { acClearCastomerValidateErrors, acRemoveSelectedCustomer } from '../../redux/reducers/customer'
+import { customerActions } from '../../redux/reducers/customer'
 import { EditCustomerForm } from './EditCustomerForm'
 
 export const EditCustomerContainer = ({id}) => {
@@ -14,8 +14,8 @@ export const EditCustomerContainer = ({id}) => {
             dispatch(getCustomer(id))
         }
         return () => {
-            dispatch(acRemoveSelectedCustomer())
-            dispatch(acClearCastomerValidateErrors())            
+            dispatch(customerActions.removeSelected())
+            dispatch(customerActions.clearErrors())            
         }
     }, [id, dispatch])
 

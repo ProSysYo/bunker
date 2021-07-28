@@ -1,27 +1,43 @@
-import { CustomerTypes } from '../constants/customer-types'
+const types = {
+    SET_LOADING: "customer/set-loading",
+    CLEAR_LOADING: "customer/clear-loading",
+    SET_ALL: "customer/set-all",
+    ADD: "customer/add",
+    SET_ADD_STATUS: "customer/set-add-status",
+    SET_ERRORS: "customer/set-valid-errors",
+    CLEAR_ERRORS: "customer/clear-valid-errors",
+    DELETE: "customer/delete",
+    SET_SELECTED: "customer/set-selected",
+    REMOVE_SELECTED: "customer/remove-selected",
+    UPDATE: "customer/update",
+    SET_UPDATE_STATUS: "customer/set-update-status"
+}
 
 const initialState = {
     customers: [],
     customer: null,
     customerValidateErrors: {},
     submitSuccess: false,
+    isLoading: false
 }
 
 export const customerReducer = (state = initialState, action) => {
     switch (action.type) {
-        case CustomerTypes.SET_CUSTOMERS: return { ...state, customers: action.payload }
-        case CustomerTypes.SET_ADD_CUSTOMER_STATUS: return { ...state, submitSuccess: action.payload }
-        case CustomerTypes.ADD_CUSTOMER: return { ...state, customers: [...state.customers, action.payload] }
-        case CustomerTypes.SET_CUSTOMER_VALIDATE_ERRORS: return { ...state, customerValidateErrors: action.payload }
-        case CustomerTypes.CLEAR_CUSTOMER_VALIDATE_ERRORS: return { ...state, customerValidateErrors: {}, submitSuccess: false }
-        case CustomerTypes.DELETE_CUSTOMER: return {
+        case types.SET_LOADING: return { ...state, isLoading: true }
+        case types.CLEAR_LOADING: return { ...state, isLoading: false }
+        case types.SET_ALL: return { ...state, customers: action.payload }
+        case types.SET_ADD_STATUS: return { ...state, submitSuccess: action.payload }
+        case types.ADD: return { ...state, customers: [...state.customers, action.payload] }
+        case types.SET_ERRORS: return { ...state, customerValidateErrors: action.payload }
+        case types.CLEAR_ERRORS: return { ...state, customerValidateErrors: {}, submitSuccess: false }
+        case types.DELETE: return {
             ...state,
             customers: [...state.customers.filter(customer => customer._id !== action.payload)]
         }
-        case CustomerTypes.SET_SELECTED_CUSTOMER: return { ...state, customer: action.payload }
-        case CustomerTypes.REMOVE_SELECTED_CUSTOMER: return { ...state, customer: null }
-        case CustomerTypes.SET_UPDATE_CUSTOMER_STATUS: return { ...state, submitSuccess: action.payload }
-        case CustomerTypes.UPDATE_CUSTOMER: return {
+        case types.SET_SELECTED: return { ...state, customer: action.payload }
+        case types.REMOVE_SELECTED: return { ...state, customer: null }
+        case types.SET_UPDATE_STATUS: return { ...state, submitSuccess: action.payload }
+        case types.UPDATE: return {
             ...state,
             customers: [...state.customers.map((customer) => {
                 if (customer._id === action.payload._id) {
@@ -37,23 +53,30 @@ export const customerReducer = (state = initialState, action) => {
     }
 }
 
-export const acSetCustomers = (customers) => ({ type: CustomerTypes.SET_CUSTOMERS, payload: customers})
+const setLoading = () => ({ type: types.SET_LOADING })
 
-export const acSetAddCustomerStatus = (isSuccess) => ({ type: CustomerTypes.SET_ADD_CUSTOMER_STATUS, payload:  isSuccess })
+const clearLoading = () => ({ type: types.CLEAR_LOADING })
 
-export const acAddCustomer = (customer) => ({ type: CustomerTypes.ADD_CUSTOMER, payload: customer})
+const setAll = (customers) => ({ type: types.SET_ALL, payload: customers})
 
-export const acSetCustomerValidateErrors = (errors) => ({ type: CustomerTypes.SET_CUSTOMER_VALIDATE_ERRORS, payload: errors })
+const setAddStatus = (isSuccess) => ({ type: types.SET_ADD_STATUS, payload:  isSuccess })
 
-export const acClearCastomerValidateErrors = () => ({ type: CustomerTypes.CLEAR_CUSTOMER_VALIDATE_ERRORS })
+const add = (customer) => ({ type: types.ADD, payload: customer})
 
-export const acDeleteCustomer = (id) => ({ type: CustomerTypes.DELETE_CUSTOMER, payload: id })
+const setErrors = (errors) => ({ type: types.SET_ERRORS, payload: errors })
 
-export const acSetSelectedCustomer = (customer) => ({ type: CustomerTypes.SET_SELECTED_CUSTOMER, payload: customer })
+const clearErrors = () => ({ type: types.CLEAR_ERRORS })
 
-export const acRemoveSelectedCustomer = () => ({ type: CustomerTypes.REMOVE_SELECTED_CUSTOMER })
+const deleteBy = (id) => ({ type: types.DELETE, payload: id })
 
-export const acSetUpdateCustomerStatus = (isSuccess) => ({ type: CustomerTypes.SET_UPDATE_CUSTOMER_STATUS, payload: isSuccess})
+const setSelected = (customer) => ({ type: types.SET_SELECTED, payload: customer })
 
-export const acUpdateCustomer = (customer) => ({ type: CustomerTypes.UPDATE_CUSTOMER, payload: customer})
+const removeSelected = () => ({ type: types.REMOVE_SELECTED })
 
+const setUpdateStatus = (isSuccess) => ({ type: types.SET_UPDATE_STATUS, payload: isSuccess})
+
+const update = (customer) => ({ type: types.UPDATE, payload: customer})
+
+export const customerActions = {
+    setLoading, clearLoading, setAll, setAddStatus, add, setErrors, clearErrors, deleteBy, setSelected, removeSelected, update, setUpdateStatus
+}

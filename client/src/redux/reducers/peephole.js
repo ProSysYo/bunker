@@ -1,4 +1,6 @@
 const types = {
+    SET_LOADING: "peephole/set-loading",
+    CLEAR_LOADING: "peephole/clear-loading",
     SET_ALL: "peephole/set-all ",
     ADD: "peephole/add",
     SET_ADD_STATUS: "peephole/set-add-status",
@@ -16,10 +18,13 @@ const initialState = {
     peephole: null,
     errors: {},
     submitSuccess: false,
+    isLoading: false
 }
 
 export const peepholeReducer = (state = initialState, action) => {
     switch (action.type) {
+        case types.SET_LOADING: return { ...state, isLoading: true }
+        case types.CLEAR_LOADING: return { ...state, isLoading: false }
         case types.SET_ALL: return { ...state, peepholes: action.payload }
         case types.SET_ADD_STATUS: return { ...state, submitSuccess: action.payload }
         case types.ADD: return { ...state, peepholes: [...state.peepholes, action.payload] }
@@ -48,6 +53,10 @@ export const peepholeReducer = (state = initialState, action) => {
     }
 }
 
+const setLoading = () => ({ type: types.SET_LOADING })
+
+const clearLoading = () => ({ type: types.CLEAR_LOADING })
+
 const setAll = (peepholes) => ({ type: types.SET_ALL, payload: peepholes})
 
 const setAddStatus = (isSuccess) => ({ type: types.SET_ADD_STATUS, payload: isSuccess })
@@ -69,5 +78,5 @@ const update = (peephole) => ({ type: types.UPDATE, payload: peephole })
 const setUpdateStatus = (isSuccess) => ({ type: types.SET_UPDATE_STATUS, payload: isSuccess })
 
 export const peepholeActions = {
-    setAll, setAddStatus, add, setErrors, clearErrors, deleteBy, setSelected, removeSelected, update, setUpdateStatus
+    setLoading, clearLoading, setAll, setAddStatus, add, setErrors, clearErrors, deleteBy, setSelected, removeSelected, update, setUpdateStatus
 }

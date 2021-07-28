@@ -1,13 +1,11 @@
 import { http } from "../../http-common"
-import { loadingActions } from "../reducers/loading"
-
 import { messageActions } from "../reducers/message"
 import { cylinderActions } from "../reducers/cylinder"
 
 export function getCylinders() {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(cylinderActions.setLoading())
             const response = await http.get('/cylinder')
             dispatch(cylinderActions.setAll(response.data))
         } catch (e) {
@@ -20,7 +18,7 @@ export function getCylinders() {
             }
             console.log(e)
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(cylinderActions.clearLoading())
         }
     }
 }
@@ -28,7 +26,7 @@ export function getCylinders() {
 export const addCylinder = (data) => {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(cylinderActions.setLoading())
             dispatch(cylinderActions.clearErrors())
             const response = await http.post('/cylinder', data)
             dispatch(cylinderActions.setAddStatus(true))                  
@@ -46,7 +44,7 @@ export const addCylinder = (data) => {
             }
             console.log(e)
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(cylinderActions.clearLoading())
         }
     }
 }
@@ -54,7 +52,7 @@ export const addCylinder = (data) => {
 export const deleteCylinder = (id) => {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(cylinderActions.setLoading())
             const response = await http.delete(`/cylinder/${id}`)
             dispatch(cylinderActions.deleteBy(id))
             dispatch(messageActions.setMessage(response.data.message))
@@ -68,7 +66,7 @@ export const deleteCylinder = (id) => {
             }
             console.log(e)
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(cylinderActions.clearLoading())
         }
     }
 }
@@ -76,7 +74,7 @@ export const deleteCylinder = (id) => {
 export function getCylinder(id) {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(cylinderActions.setLoading())
             const response = await http.get(`/cylinder/${id}`)
             dispatch(cylinderActions.setSelected(response.data))
         } catch (e) {
@@ -89,7 +87,7 @@ export function getCylinder(id) {
             }
             console.log(e);
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(cylinderActions.clearLoading())
         }
     }
 }
@@ -97,7 +95,7 @@ export function getCylinder(id) {
 export const updateCylinder = (id, data) => {
     return async dispatch => {
         try {
-            dispatch(loadingActions.setLoading())
+            dispatch(cylinderActions.setLoading())
             dispatch(cylinderActions.clearErrors())
             const response = await http.patch(`/cylinder/${id}`, data)
             dispatch(cylinderActions.setUpdateStatus(true))
@@ -115,7 +113,7 @@ export const updateCylinder = (id, data) => {
             }
             console.log(e);            
         } finally {
-            dispatch(loadingActions.clearLoading())
+            dispatch(cylinderActions.clearLoading())
         }
     }
 }

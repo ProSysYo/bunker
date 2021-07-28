@@ -1,4 +1,6 @@
 const types = {
+    SET_LOADING: "furnityreColor/set-loading",
+    CLEAR_LOADING: "furnityreColor/clear-loading",
     SET_ALL: "furnityreColor/set-all ",
     ADD: "furnityreColor/add",
     SET_ADD_STATUS: "furnityreColor/set-add-status",
@@ -16,10 +18,13 @@ const initialState = {
     furnitureColor: null,
     errors: {},
     submitSuccess: false,
+    isLoading: false
 }
 
 export const furnitureColorReducer = (state = initialState, action) => {
     switch (action.type) {
+        case types.SET_LOADING: return { ...state, isLoading: true }
+        case types.CLEAR_LOADING: return { ...state, isLoading: false }
         case types.SET_ALL: return { ...state, furnitureColors: action.payload }
         case types.SET_ADD_STATUS: return { ...state, submitSuccess: action.payload }
         case types.ADD: return { ...state, furnitureColors: [...state.furnitureColors, action.payload] }
@@ -47,6 +52,9 @@ export const furnitureColorReducer = (state = initialState, action) => {
             return state
     }
 }
+const setLoading = () => ({ type: types.SET_LOADING })
+
+const clearLoading = () => ({ type: types.CLEAR_LOADING })
 
 const setAll = (furnitureColors) => ({ type: types.SET_ALL, payload: furnitureColors})
 
@@ -69,5 +77,5 @@ const update = (furnitureColor) => ({ type: types.UPDATE, payload: furnitureColo
 const setUpdateStatus = (isSuccess) => ({ type: types.SET_UPDATE_STATUS, payload: isSuccess })
 
 export const furnitureColorActions = {
-    setAll, setAddStatus, add, setErrors, clearErrors, deleteBy, setSelected, removeSelected, update, setUpdateStatus
+    setLoading, clearLoading, setAll, setAddStatus, add, setErrors, clearErrors, deleteBy, setSelected, removeSelected, update, setUpdateStatus
 }
