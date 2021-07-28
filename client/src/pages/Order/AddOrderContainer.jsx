@@ -8,6 +8,7 @@ import { getDoorColors } from '../../redux/actions/door-color'
 import { getFurnitureColors } from '../../redux/actions/furniture-color'
 import { getHandles } from '../../redux/actions/handle'
 import { getHingeSides } from '../../redux/actions/hinge-side'
+import { AddOrderForm } from './AddOrderForm'
 
 export const AddOrderContainer = () => {
     const dispatch = useDispatch()    
@@ -33,5 +34,5 @@ export const AddOrderContainer = () => {
         return <></>
     }
 
-    return <div>Контент</div>
+    return <AddOrderForm/>
 }
