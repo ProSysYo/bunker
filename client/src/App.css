@@ -1,16 +1,19 @@
 .container{
   display: flex;
+  overflow: hidden;  
 }
 
 .containerCenter{
   display: flex;  
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
 
 .pages{
   flex: 5;
   margin : 10px;
+  overflow: hidden;  
 }
 
 .link{

@@ -6,9 +6,61 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+/* полоса прокрутки (скроллбар) */
+::-webkit-scrollbar {
+  width: 10px; /* ширина для вертикального скролла */
+  height: 8px; /* высота для горизонтального скролла */
+  background-color: #f4f9ff;
+}
+
+/* ползунок скроллбара */
+::-webkit-scrollbar-thumb {
+  background-color: rgb(159, 212, 243);
+  border-radius: 9em;
+  box-shadow: inset 1px 1px 10px #f3faf7;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #253861;
+}
+
+/* Стрелки */
+
+::-webkit-scrollbar-button:vertical:start:decrement {
+  background: linear-gradient(120deg, rgb(159, 212, 243), rgba(0, 0, 0, 0) 41%),
+  linear-gradient(240deg, rgb(159, 212, 243), rgba(0, 0, 0, 0) 41%),
+  linear-gradient(0deg, #56cbf1 30%, rgba(0, 0, 0, 0) 31%);
+  background-color: #f6f8f4;
+}
+
+::-webkit-scrollbar-button:vertical:end:increment {
+  background:
+      linear-gradient(300deg, rgb(159, 212, 243), rgba(0, 0, 0, 0) 41%),
+      linear-gradient(60deg, rgb(159, 212, 243), rgba(0, 0, 0, 0) 41%),
+      linear-gradient(180deg, #56cbf1 30%, rgba(0, 0, 0, 0) 31%);
+  background-color: #f6f8f4;
+}
+
+::-webkit-scrollbar-button:horizontal:start:decrement {
+  background:
+      linear-gradient(30deg, rgb(159, 212, 243), rgba(0, 0, 0, 0) 41%),
+      linear-gradient(150deg, rgb(159, 212, 243), rgba(0, 0, 0, 0) 41%),
+      linear-gradient(270deg, #56cbf1 30%, rgba(0, 0, 0, 0) 31%);
+  background-color: #f6f8f4;
+}
+
+::-webkit-scrollbar-button:horizontal:end:increment {
+  background:
+      linear-gradient(210deg, rgb(159, 212, 243), rgba(0, 0, 0, 0) 41%),
+      linear-gradient(330deg, rgb(159, 212, 243), rgba(0, 0, 0, 0) 41%),
+      linear-gradient(90deg, #56cbf1 30%, rgba(0, 0, 0, 0) 31%);
+  background-color: #f6f8f4;
 }

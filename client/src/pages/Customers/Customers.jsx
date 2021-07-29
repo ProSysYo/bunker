@@ -56,13 +56,11 @@ export const Customers = () => {
     const editClick = (id) => {
         setSelectedCustomerId(id)
         setShowEditForm(true)
-    }
-
-    if (isLoading) return <Spinner><Spin size="large"/></Spinner>
+    }  
 
     return (
         <div>
-            <Title>Заказчики</Title>
+            <Title>Список заказчиков</Title>
             <AddIcon onClick={() => setShowAddForm(true)}><PlusOutlined /></AddIcon>
             <MyTable dataSource={customers} size="small" rowKey="_id" pagination={{ pageSize: 20 }}>
                 <Column title="Код" dataIndex="code" />
@@ -95,6 +93,7 @@ export const Customers = () => {
                 <p>Вы действительно хотите удалить заказчика?</p>
                 <span>Удаление нельзя отменить</span>
             </Modal>
+            { isLoading && <Spinner><Spin size="large"/></Spinner> }
         </div>
     )
 }

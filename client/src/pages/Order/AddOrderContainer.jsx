@@ -8,6 +8,10 @@ import { getDoorColors } from '../../redux/actions/door-color'
 import { getFurnitureColors } from '../../redux/actions/furniture-color'
 import { getHandles } from '../../redux/actions/handle'
 import { getHingeSides } from '../../redux/actions/hinge-side'
+import { getHingeTypes } from '../../redux/actions/hinge-type'
+import { getPeepholes } from '../../redux/actions/peephole'
+import { getPeepholeLocations } from '../../redux/actions/peephole-location'
+import { getTypeCanvases } from '../../redux/actions/type-canvas'
 import { AddOrderForm } from './AddOrderForm'
 
 export const AddOrderContainer = () => {
@@ -24,7 +28,12 @@ export const AddOrderContainer = () => {
             dispatch(getDoorColors()),
             dispatch(getFurnitureColors()),
             dispatch(getHandles()),
-            dispatch(getHingeSides())
+            dispatch(getHingeSides()),
+            dispatch(getHingeTypes()),
+            dispatch(getTypeCanvases()),
+            dispatch(getPeepholes()),
+            dispatch(getPeepholeLocations()),
+
         ])
         setIsLoading(false)
     // eslint-disable-next-line react-hooks/exhaustive-deps
