@@ -2,10 +2,24 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { useForm } from "react-hook-form";
+import { Tabs } from 'antd'
+import { ItemWithSelect } from '../../components/ItemWithSelect/ItemWithSelect';
+import { ItemWithCheck } from '../../components/ItemWithCheck/ItemWithCheck';
+import { ItemWithTextbox } from '../../components/ItemWithTextbox/ItemWithTextbox';
+
+const { TabPane } = Tabs
+
+const typeOpenings = [{ _id: 1, name: "наружного" }, { _id: 2, name: "внутреннего" }]
+const thicknessCanvases = [{ _id: 1, name: "60" }, { _id: 2, name: "70" }, { _id: 3, name: "80" }, { _id: 4, name: "90" }, { _id: 5, name: "100" }]
+const modelBoxes = [{ _id: 1, name: "открытая" }, { _id: 2, name: "закрытая" }, { _id: 3, name: "закрытая утепленная" }]
+const metalCanvases = [{ _id: 1, value: "1" }, { _id: 2, value: "1,2" }, { _id: 3, value: "1,4" }]
+const metalBoxes = [{ _id: 1, value: "1" }, { _id: 2, value: "1,2" }, { _id: 3, value: "1,4" }]
+const hingeCounts = [{ _id: 1, value: "2" }, { _id: 2, value: "3" }]
+const ears = [{ _id: 1, name: "нет" }, { _id: 2, name: "80x40x6шт" }, { _id: 3, name: "100x40x8шт" }]
+const holeBoxes = [{ _id: 1, name: "нет" }, { _id: 2, name: "10мм 6шт" }, { _id: 3, name: "10мм 8шт" }]
 
 export const AddOrderForm = () => {
-    const { register, handleSubmit, setError, formState: { errors } } = useForm()
-
+    const { register, handleSubmit, setError, formState: { errors }, watch } = useForm()
 
     const dispatch = useDispatch()
     const customers = useSelector(state => state.customer.customers)
@@ -14,7 +28,14 @@ export const AddOrderForm = () => {
     const hingeTypes = useSelector(state => state.hingeType.hingeTypes)
     const peepholes = useSelector(state => state.peephole.peepholes)
     const peepholeLocations = useSelector(state => state.peepholeLocation.peepholeLocations)
+    const packagings = useSelector(state => state.packaging.packagings)
+    const locks = useSelector(state => state.lock.locks)
+    const covers = useSelector(state => state.cover.covers)
+    const cylinders = useSelector(state => state.cylinder.cylinders)
+    const handles = useSelector(state => state.handle.handles)
     const errorsValidate = useSelector(state => state.packaging.errors)
+
+    const fields = watch()
 
     useEffect(() => {
         if (errorsValidate.customer) setError("customer", { message: errorsValidate.customer })
@@ -35,278 +56,317 @@ export const AddOrderForm = () => {
     return (
         <Wrapper>
             <FormWrap>
-            {/* <Title>Новый заказ</Title> */}
-            <Form onSubmit={handleSubmit(onSubmit)}>
-                {/* Заказчик */}
-                <FormItem>
-                    <FormItemTitle>Заказчик:</FormItemTitle>
-                    <FormItemInput>
-                        <Select
-                            {...register("customer", { required: "Выберите заказчика" })}
-                            defaultValue=""
-                        >
-                            <option disabled value=""> --выберите из списка-- </option>
-                            {customers.map(customer => <option key={customer._id} value={customer.code}>{customer.name}</option>)}
-                        </Select>
-                        {errors.customer && <FormInputError>{errors.customer.message}</FormInputError>}
-                    </FormItemInput>
-                </FormItem>
+                {/* <Title>Новый заказ</Title> */}
+                <Form onSubmit={handleSubmit(onSubmit)}>
+                    <FormItem>
+                        <button type="submit">Добавить</button>                        
+                        <button >Сохранить как шаблон</button>
+                        <button >Загрузить шаблон</button>                         
+                    </FormItem> 
+                    <Tabs defaultActiveKey="1" tabPosition="top" size="small">
+                        <TabPane key="1" tab={<TabTitle>Основное</TabTitle>}>
+                            <ItemWithSelect
+                                title="Заказчик:"
+                                items={customers}
+                                optionValue="code"
+                                optionName="name"
+                                error={errors.customer}
+                                {...register("customer", { required: "Выберите заказчика" })}
+                            />
+                            <ItemWithSelect
+                                title="Модель полотна:"
+                                items={typeCanvases}
+                                optionValue="value"
+                                optionName="description"
+                                error={errors.typeCanvas}
+                                {...register("typeCanvas", { required: "Выберите модель полотна" })}
+                            />
 
-                {/* Модель полотна */}
-                <FormItem>
-                    <FormItemTitle>Модель полотна:</FormItemTitle>
-                    <FormItemInput>
-                        <Select
-                            {...register("typeCanvas", { required: "Выберите модель полотна" })}
-                            defaultValue=""
-                        >
-                            <option disabled value=""> --выберите из списка-- </option>
-                            {typeCanvases.map(type => <option key={type._id} value={type.value}>{type.description}</option>)}
-                        </Select>
-                        {errors.typeCanvas && <FormInputError>{errors.typeCanvas.message}</FormInputError>}
-                    </FormItemInput>
-                </FormItem>
+                            <ItemWithSelect
+                                title="Тип открывания:"
+                                items={typeOpenings}
+                                optionValue="name"
+                                optionName="name"
+                                error={errors.typeOpening}
+                                {...register("typeOpening", { required: "Выберите тип открывания" })}
+                            />
 
-                {/* Тип открывания */}
-                <FormItem>
-                    <FormItemTitle>Тип открывания:</FormItemTitle>
-                    <FormItemInput>
-                        <Select
-                            {...register("typeOpening", { required: "Выберите тип открывания" })}
-                            defaultValue=""                         
-                        >
-                            <option disabled value=""> --выберите из списка-- </option>                            
-                            <option value="наружного">наружного</option>
-                            <option value="внутреннего">внутреннего</option>
-                        </Select>
-                        {errors.typeOpening && <FormInputError>{errors.typeOpening.message}</FormInputError>}
-                    </FormItemInput>
-                </FormItem>
+                            <ItemWithCheck
+                                title="Двустворчатая:"
+                                {...register("isDoubleDoor")}
+                            />
 
-                {/* Двустворчатая */}
-                <FormItem>
-                    <FormItemTitle>Двустворчатая:</FormItemTitle>
-                    <FormItemInput>
-                        <InputChecbox
-                            {...register("isDoubleDoor")}                           
-                        />                        
-                    </FormItemInput>
-                </FormItem>
-
-                {/* Двустворчатая рабочая створка*/}
-                <FormItem>
-                    <FormItemTitle>Ширина створки:</FormItemTitle>
-                    <FormItemInput>                        
-                        <InputText
-                            {...register("widthDoubleDoor", { required: "Введите ширину створки" })}
-                            placeholder="Ширина створки"
-                        />
-                    </FormItemInput>
-                </FormItem>
-
-                {/* Толщина полотна */}
-                <FormItem>
-                    <FormItemTitle>Толщина полотна:</FormItemTitle>
-                    <FormItemInput>
-                        <Select
-                            {...register("thicknessCanvas", { required: "Выберите толщину полотна" })}
-                            defaultValue=""                         
-                        >
-                            <option disabled value=""> --выберите из списка-- </option>                            
-                            <option value="60">60 мм</option>
-                            <option value="70">70 мм</option>
-                            <option value="80">80 мм</option>
-                            <option value="90">90 мм</option>
-                            <option value="100">100 мм</option>
-                        </Select>
-                        {errors.thicknessCanvas && <FormInputError>{errors.thicknessCanvas.message}</FormInputError>}
-                    </FormItemInput>
-                </FormItem>
-
-                {/* Модель коробки */}
-                <FormItem>
-                    <FormItemTitle>Модель коробки:</FormItemTitle>
-                    <FormItemInput>
-                        <Select
-                            {...register("modelBox", { required: "Выберите модель короба" })}
-                            defaultValue=""                         
-                        >
-                            <option disabled value=""> --выберите из списка-- </option>                            
-                            <option value="О">открытая</option>
-                            <option value="З">закрытая</option>
-                            <option value="ЗУ">закрытая утепленная</option>                            
-                        </Select>
-                        {errors.modelBox && <FormInputError>{errors.modelBox.message}</FormInputError>}
-                    </FormItemInput>
-                </FormItem>
-
-                {/* Толщина металла полотна*/}
-                <FormItem>
-                    <FormItemTitle>Толщина мет. полотна:</FormItemTitle>
-                    <FormItemInput>
-                        <Select
-                            {...register("metalCanvas", { required: "Выберите толщину металла полотна" })}
-                            defaultValue=""                         
-                        >
-                            <option disabled value=""> --выберите из списка-- </option>                            
-                            <option value="1">1 мм</option>
-                            <option value="1,2">1,2 мм</option>
-                            <option value="1,4">1,4 мм</option>                            
-                        </Select>
-                        {errors.metalCanvas && <FormInputError>{errors.metalCanvas.message}</FormInputError>}
-                    </FormItemInput>                    
-                </FormItem>
-
-                {/* Толщина металла короба*/}
-                <FormItem>                    
-                    <FormItemTitle>Толщина мет. короба:</FormItemTitle>
-                    <FormItemInput>
-                        <Select
-                            {...register("metalBox", { required: "Выберите толщину металла короба" })}
-                            defaultValue=""                         
-                        >
-                            <option disabled value=""> --выберите из списка-- </option>                            
-                            <option value="1">1 мм</option>
-                            <option value="1,2">1,2 мм</option>
-                            <option value="1,4">1,4 мм</option>                            
-                        </Select>
-                        {errors.metalBox && <FormInputError>{errors.metalBox.message}</FormInputError>}
-                    </FormItemInput>
-                </FormItem>
-                
-                {/* Высота двери */}
-                <FormItem>
-                    <FormItemTitle>Высота:</FormItemTitle>
-                    <FormItemInput>
-                        <InputText
-                            {...register("height", { required: "Введите высоту" })}
-                            placeholder="Высота двери"
-                        />
-                        {errors.height && <FormInputError>{errors.height.message}</FormInputError>}
-                    </FormItemInput>
-                </FormItem>
-
-                {/* Ширина двери */}
-                <FormItem> 
-                    <FormItemTitle>Ширина:</FormItemTitle>
-                    <FormItemInput>
-                        <InputText
-                            {...register("width", { required: "Введите ширину" })}
-                            placeholder="Ширина двери"
-                        />
-                        {errors.width && <FormInputError>{errors.width.message}</FormInputError>}
-                    </FormItemInput>
-                </FormItem>
-                {/* Сторонность петель */}
-                <FormItem>
-                    <FormItemTitle>Сторонность петель:</FormItemTitle>
-                    <FormItemInput>
-                        <Select
-                            {...register("hingeSide", { required: "Выберите сторонность петель" })}
-                            defaultValue=""
-                        >
-                            <option disabled value=""> --выберите из списка-- </option>
-                            {hingeSides.map(item => <option key={item._id} value={item.name}>{item.name}</option>)}
-                        </Select>
-                        {errors.hingeSide && <FormInputError>{errors.hingeSide.message}</FormInputError>}
-                    </FormItemInput>
-                </FormItem>
-
-                 {/* Количество петель */}
-                 <FormItem>
-                    <FormItemTitle>Количество петель:</FormItemTitle>
-                    <FormItemInput>
-                        <Select
-                            {...register("hingeCount", { required: "Выберите количество петель" })}
-                            defaultValue=""                         
-                        >
-                            <option disabled value=""> --выберите из списка-- </option>                            
-                            <option value="2">2 шт</option>
-                            <option value="3">3 шт</option>                            
-                        </Select>
-                        {errors.hingeCount && <FormInputError>{errors.hingeCount.message}</FormInputError>}
-                    </FormItemInput>
-                </FormItem>
-
-                {/* Тип петель */}
-                <FormItem>
-                    <FormItemTitle>Тип петель:</FormItemTitle>
-                    <FormItemInput>
-                        <Select
-                            {...register("hingeType", { required: "Выберите тип петель" })}
-                            defaultValue=""
-                        >
-                            <option disabled value=""> --выберите из списка-- </option>
-                            {hingeTypes.map(item => <option key={item._id} value={item.name}>{item.name}</option>)}
-                        </Select>
-                        {errors.hingeType && <FormInputError>{errors.hingeType.message}</FormInputError>}
-                    </FormItemInput>
-                </FormItem>
-
-                {/* Глазок */}
-                <FormItem>
-                    <FormItemTitle>Глазок:</FormItemTitle>
-                    <FormItemInput>
-                        <Select
-                            {...register("peephole", { required: "Выберите глазок" })}
-                            defaultValue=""                         
-                        >
-                            <option disabled value=""> --выберите из списка-- </option>                            
-                            {peepholes.map(item => <option key={item._id} value={item.name}>{item.name}</option>)}                         
-                        </Select>
-                        {errors.peephole && <FormInputError>{errors.peephole.message}</FormInputError>}
-                    </FormItemInput>                   
-                </FormItem>
-
-                {/* Глазок расположение*/}
-                <FormItem>                    
-                    <FormItemTitle>Расположение глазка:</FormItemTitle>
-                    <FormItemInput>
-                        <Select
-                            {...register("peepholeLocation", { required: "Выберите расположение глазка" })}
-                            defaultValue=""                         
-                        >
-                            <option disabled value=""> --выберите из списка-- </option>                            
-                            {peepholeLocations.map(item => <option key={item._id} value={item.name}>{item.name}</option>)}                           
-                        </Select>
-                        {errors.peepholeLocation && <FormInputError>{errors.peepholeLocation.message}</FormInputError>}
-                    </FormItemInput>
-                </FormItem>
-
-                {/* Уши */}
-                <FormItem>
-                    <FormItemTitle>Уши:</FormItemTitle>
-                    <FormItemInput>
-                        <Select
-                            {...register("ear", { required: "Выберите уши" })}
-                            defaultValue=""                         
-                        >
-                            <option disabled value=""> --выберите из списка-- </option>                            
-                            <option value="нет">нет</option>
-                            <option value="80x40x6шт">80x40x6шт</option>
-                            <option value="100x40x6шт">100x40x6шт</option>                            
-                        </Select>
-                        {errors.ear && <FormInputError>{errors.ear.message}</FormInputError>}
-                    </FormItemInput>
-                </FormItem>
+                            <ItemWithTextbox
+                                title="Ширина створки:"
+                                placeholder="Введите ширину"
+                                disabled={!fields.isDoubleDoor}
+                                error={errors.widthDoubleDoor}
+                                {...register("widthDoubleDoor", { required: "Введите ширину створки" })}
+                            />
 
 
-                <button type="submit">Добавить</button>
-            </Form>
-            </FormWrap>
+                            <ItemWithSelect
+                                title="Толщина полотна:"
+                                items={thicknessCanvases}
+                                optionValue="name"
+                                optionName="name"
+                                error={errors.thicknessCanvas}
+                                {...register("thicknessCanvas", { required: "Выберите толщину полотна" })}
+                            />
+
+                            <ItemWithSelect
+                                title="Модель коробки:"
+                                items={modelBoxes}
+                                optionValue="name"
+                                optionName="name"
+                                error={errors.modelBox}
+                                {...register("modelBox", { required: "Выберите модель короба" })}
+                            />
+
+                            <ItemWithTextbox
+                                title="Высота:"
+                                placeholder="Введите высоту"
+                                error={errors.height}
+                                {...register("height", { required: "Введите высоту" })}
+                            />
+
+                            <ItemWithTextbox
+                                title="Ширина:"
+                                placeholder="Введите ширину"
+                                error={errors.width}
+                                {...register("width", { required: "Введите ширину" })}
+                            />
+                        </TabPane>
+
+                        <TabPane key="2" tab={<TabTitle>Фурнитура</TabTitle>}>                                                    
+                            <ItemWithSelect
+                                title="Основной замок:"
+                                items={locks}
+                                optionValue="name"
+                                optionName="name"
+                                error={errors.mainLock}
+                                {...register("mainLock", { required: "Выберите основной замок" })}
+                            />
+
+                            <ItemWithSelect
+                                title="Осн накладка снаружи:"
+                                items={covers}
+                                optionValue="name"
+                                optionName="name"
+                                error={errors.mainCoverOutside}
+                                {...register("mainCoverOutside", { required: "Выберите осн накладку снаружи" })}
+                            />
+
+                            <ItemWithSelect
+                                title="Осн накладка внутри:"
+                                items={covers}
+                                optionValue="name"
+                                optionName="name"
+                                error={errors.mainCoverInside}
+                                {...register("mainCoverInside", { required: "Выберите осн накладку внутри" })}
+                            />
+
+                            <ItemWithSelect
+                                title="Основной цилиндр:"
+                                items={cylinders}
+                                optionValue="name"
+                                optionName="name"
+                                error={errors.mainCylinder}
+                                {...register("mainCylinder", { required: "Выберите осн цилиндр" })}
+                            />      
+
+                            <ItemWithSelect
+                                title="Глазок:"
+                                items={peepholes}
+                                optionValue="name"
+                                optionName="name"
+                                error={errors.peephole}
+                                {...register("peephole", { required: "Выберите глазок" })}
+                            />
+
+                            <ItemWithSelect
+                                title="Расположение глазка:"
+                                items={peepholeLocations}
+                                optionValue="name"
+                                optionName="name"
+                                error={errors.peepholeLocation}
+                                {...register("peepholeLocation", { required: "Выберите расположение глазка" })}
+                            />
+
+                            <ItemWithSelect
+                                title="Ручка:"
+                                items={handles}
+                                optionValue="name"
+                                optionName="name"
+                                error={errors.handle}
+                                {...register("handle", { required: "Выберите ручку" })}
+                            />
+
+                            <ItemWithSelect
+                                title="Доп. замок:"
+                                items={locks}
+                                optionValue="name"
+                                optionName="name"
+                                error={errors.optionalLock}
+                                {...register("optionalLock", { required: "Выберите дополнительный замок" })}
+                            />
+
+                            <ItemWithSelect
+                                title="Доп накладка снаружи:"
+                                items={covers}
+                                optionValue="name"
+                                optionName="name"
+                                error={errors.optionalCoverOutside}
+                                {...register("optionalCoverOutside", { required: "Выберите доп накладку снаружи" })}
+                            />
+
+                            <ItemWithSelect
+                                title="Доп. накладка внутри:"
+                                items={covers}
+                                optionValue="name"
+                                optionName="name"
+                                error={errors.optionalCoverInside}
+                                {...register("optionalCoverInside", { required: "Выберите доп накладку внутри" })}
+                            />
+
+                            <ItemWithSelect
+                                title="Доп. цилиндр:"
+                                items={cylinders}
+                                optionValue="name"
+                                optionName="name"
+                                error={errors.optionalCylinder}
+                                {...register("optionalCylinder", { required: "Выберите дополнительный цилиндр" })}
+                            /> 
+                        </TabPane>
+
+                        <TabPane key="4" tab={<TabTitle>Отделка</TabTitle>}>
+
+                        </TabPane>            
+
+                        <TabPane key="6" tab={<TabTitle>Металл</TabTitle>}>
+                            <ItemWithSelect
+                                title="Толщина мет. полотна:"
+                                items={metalCanvases}
+                                optionValue="value"
+                                optionName="value"
+                                error={errors.metalCanvas}
+                                {...register("metalCanvas", { required: "Выберите толщину металла полотна" })}
+                            />
+
+                            <ItemWithSelect
+                                title="Толщина мет. короба:"
+                                items={metalBoxes}
+                                optionValue="value"
+                                optionName="value"
+                                error={errors.metalBox}
+                                {...register("metalBox", { required: "Выберите толщину металла короба" })}
+                            /> 
+                        </TabPane>
+
+                        <TabPane key="7" tab={<TabTitle>Петли</TabTitle>}>
+                            <ItemWithSelect
+                                title="Сторонность петель:"
+                                items={hingeSides}
+                                optionValue="name"
+                                optionName="name"
+                                error={errors.hingeSide}
+                                {...register("hingeSide", { required: "Выберите сторонность петель" })}
+                            />
+
+                            <ItemWithSelect
+                                title="Количество петель:"
+                                items={hingeCounts}
+                                optionValue="value"
+                                optionName="value"
+                                error={errors.hingeCount}
+                                {...register("hingeCount", { required: "Выберите количество петель" })}
+                            />
+
+                            <ItemWithSelect
+                                title="Тип петель:"
+                                items={hingeTypes}
+                                optionValue="name"
+                                optionName="name"
+                                error={errors.hingeType}
+                                {...register("hingeType", { required: "Выберите тип петель" })}
+                            />
+                        </TabPane>
+
+                        <TabPane key="8" tab={<TabTitle>Стеклопакет</TabTitle>}>
+
+                        </TabPane>
+
+                        <TabPane key="9" tab={<TabTitle>Дополнительно</TabTitle>}>
+                            <ItemWithSelect
+                                title="Упаковка:"
+                                items={packagings}
+                                optionValue="name"
+                                optionName="name"
+                                error={errors.packaging}
+                                {...register("packaging", { required: "Выберите упаковку" })}
+                            />
+
+                            <ItemWithSelect
+                                title="Уши:"
+                                items={ears}
+                                optionValue="name"
+                                optionName="name"
+                                error={errors.ear}
+                                {...register("ear", { required: "Выберите уши" })}
+                            />
+
+                            <ItemWithSelect
+                                title="Отверстия в коробе:"
+                                items={holeBoxes}
+                                optionValue="name"
+                                optionName="name"
+                                error={errors.holeBox}
+                                {...register("holeBox", { required: "Выберите отверстия в коробе" })}
+                            />
+                        </TabPane>
+                    </Tabs>
+
+                                       
+                </Form>
+                    
+                </FormWrap>
             <Basket>
-                <div>
-                    <label>Заказчик: </label>
-                    <label>ООО Чампион</label>
-                </div>
-                <div>
-                    <label>Модель полотна: </label>
-                    <label>металл-металл</label>
-                </div>
-                <div>
-                    <label>Тип открывания: </label>
-                    <label>наружного</label>
-                </div>
+                {fields.customer && <label>Заказчик: {fields.customer}</label>}
+                {fields.typeCanvas && <label>Модель полотна: {fields.typeCanvas}</label>}
+                {fields.typeOpening && <label>Тип открывания: {fields.typeOpening}</label>}
+                {fields.isDoubleDoor && <label>Двустворчатая: да</label>}
+                {fields.widthDoubleDoor && <label>Ширина раб. створки: {fields.widthDoubleDoor} мм</label>}
+                {fields.thicknessCanvas && <label>Толщина полотна: {fields.thicknessCanvas} мм</label>}
+                {fields.modelBox && <label>Модель коробки: {fields.modelBox}</label>}               
+                {fields.height && <label>Высота двери: {fields.height} мм</label>}
+                {fields.width && <label>Ширина двери: {fields.width} мм</label>}
+                            
+                
+                
+
+                {fields.mainLock && <label>Основной замок: {fields.mainLock}</label>}
+                {fields.mainCoverOutside && <label>Осн накладка снаружи: {fields.mainCoverOutside}</label>}
+                {fields.mainCoverInside && <label>Осн накладка внутри: {fields.mainCoverInside}</label>}
+                {fields.mainCylinder && <label>Осн цилиндр: {fields.mainCylinder}</label>}                
+                {fields.peephole && <label>Глазок: {fields.peephole}</label>}               
+                {fields.peepholeLocation && <label>Расположение глазка: {fields.peepholeLocation}</label>}
+                {fields.handle && <label>Ручка: {fields.handle}</label>}
+
+                {fields.optionalLock && <label>Доп. замок: {fields.optionalLock}</label>}
+                {fields.optionalCoverOutside && <label>Доп накладка снаружи: {fields.optionalCoverOutside}</label>}
+                {fields.optionalCoverInside && <label>Доп накладка внутри: {fields.optionalCoverInside}</label>}
+                {fields.optionalCylinder && <label>Доп цилиндр: {fields.optionalCylinder}</label>}
+
+                {fields.hingeSide && <label>Сторонность петель: {fields.hingeSide}</label>}
+                {fields.hingeCount && <label>Сторонность петель: {fields.hingeCount} шт</label>}
+                {fields.hingeType && <label>Тип петель: {fields.hingeType}</label>}
+
+                {fields.metalCanvas && <label>Толщина мет. полотна: {fields.metalCanvas} мм</label>}
+                {fields.metalBox && <label>Толщина мет. короба: {fields.metalBox} мм</label>}    
+
+                {fields.ear && <label>Уши: {fields.ear}</label>}
+                {fields.holeBox && <label>Отверстия в коробе: {fields.holeBox}</label>}
+                {fields.packaging && <label>Упаковка: {fields.packaging}</label>}
             </Basket>
         </Wrapper>
     )
@@ -319,11 +379,11 @@ const Wrapper = styled.div`
     margin-top: 50px;    
 `
 
-const Title = styled.h2`
-    text-align: center;    
-`
+// const Title = styled.h2`
+//     text-align: center;    
+// `
 const FormWrap = styled.div`    
-    width: 50%;    
+    width: 60%;    
     max-height:80vh;
     overflow-y: auto;
 `
@@ -333,7 +393,11 @@ const Form = styled.form`
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
-    margin-right: 20px;    
+    margin-right: 20px;
+    width: 100%;
+    > * {
+        width: 100%;
+    }    
 `
 
 const FormItem = styled.div`
@@ -344,48 +408,15 @@ const FormItem = styled.div`
     flex-direction: row;
     align-items: center;
 `
-const FormItemTitle = styled.label`
-    width: 30%;
-    text-align: end;
-    padding-right: 10px;
-`
 
-const FormItemInput = styled.div`
-    width: 70%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;  
-`
-
-const FormInputError = styled.p`
-    position: absolute;
-    margin-top:65px;
-    font-size: 12px;
-    color: lightcoral;
-`
-const InputText = styled.input.attrs(props => ({
-    type: 'text'
-}))`    
-       
-`
-const Select = styled.select`
-    outline: none;
-    border: 1px solid rgb(159, 212, 243);
-    font-size: 14px;
-    padding: 5px 10px 5px 10px;    
-    width: 100%;
-`
 const Basket = styled.div`
     display: flex;
     flex-direction: column; 
     align-items: flex-start;
-    width: 40%;
+    width: 20%;
     font-size: 12px;
 `
 
-const InputChecbox = styled.input.attrs(props => ({
-    type: 'checkbox'    
-}))`
-    display: block;
-    border-radius: 3px;    
+const TabTitle = styled.span`
+    font-size: 12px;
 `

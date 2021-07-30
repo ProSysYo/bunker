@@ -9,6 +9,8 @@ import { getFurnitureColors } from '../../redux/actions/furniture-color'
 import { getHandles } from '../../redux/actions/handle'
 import { getHingeSides } from '../../redux/actions/hinge-side'
 import { getHingeTypes } from '../../redux/actions/hinge-type'
+import { getLocks } from '../../redux/actions/lock'
+import { getPackagings } from '../../redux/actions/packaging'
 import { getPeepholes } from '../../redux/actions/peephole'
 import { getPeepholeLocations } from '../../redux/actions/peephole-location'
 import { getTypeCanvases } from '../../redux/actions/type-canvas'
@@ -33,6 +35,8 @@ export const AddOrderContainer = () => {
             dispatch(getTypeCanvases()),
             dispatch(getPeepholes()),
             dispatch(getPeepholeLocations()),
+            dispatch(getPackagings()),
+            dispatch(getLocks()),
 
         ])
         setIsLoading(false)
