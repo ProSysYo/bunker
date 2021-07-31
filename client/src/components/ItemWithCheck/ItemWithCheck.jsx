@@ -16,10 +16,10 @@ export const ItemWithCheck = React.forwardRef(({title, ...atrs}, ref) => {
 const FormItem = styled.div`
     width: 100%;
     position: relative;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: center;    
 `
 const FormItemTitle = styled.label`
     width: 40%;

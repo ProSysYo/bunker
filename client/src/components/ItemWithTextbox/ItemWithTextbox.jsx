@@ -21,7 +21,7 @@ export const ItemWithTextbox = React.forwardRef(({title, placeholder, error, ...
 const FormItem = styled.div`
     width: 100%;
     position: relative;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -42,7 +42,7 @@ const FormItemInput = styled.div`
 
 const FormInputError = styled.p`
     position: absolute;
-    margin-top:65px;
+    margin-top:60px;
     font-size: 12px;
     color: lightcoral;
 `

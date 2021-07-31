@@ -57,9 +57,9 @@ export const AddLockForm = () => {
                             defaultValue=""                         
                         >
                             <option disabled value=""> --выберите из списка-- </option>
-                            <option value="Сувальда">Сувальда</option>
-                            <option value="Цилиндр">Цилиндр</option>
-                            <option value="Двухсистемный">Двухсистемный</option>
+                            <option value="сувальда">сувальда</option>
+                            <option value="цилиндр">цилиндр</option>
+                            <option value="двухсистемный">двухсистемный</option>
                         </Select>
                         {errors.type && <FormInputError>{errors.type.message}</FormInputError>}
                     </FormItemInput>
@@ -73,9 +73,9 @@ export const AddLockForm = () => {
                             defaultValue=""                         
                         >
                             <option disabled value=""> --выберите из списка-- </option>
-                            <option value="Основной">Основной</option>
-                            <option value="Дополнительный">Дополнительный</option>
-                            <option value="Комбинированный">Комбинированный</option>
+                            <option value="основной">основной</option>
+                            <option value="дополнительный">дополнительный</option>
+                            <option value="комбинированный">комбинированный</option>
                         </Select>
                         {errors.insertPlace && <FormInputError>{errors.insertPlace.message}</FormInputError>}
                     </FormItemInput>
