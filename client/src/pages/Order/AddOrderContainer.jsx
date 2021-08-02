@@ -15,6 +15,7 @@ import { getPeepholes } from '../../redux/actions/peephole'
 import { getPeepholeLocations } from '../../redux/actions/peephole-location'
 import { getTypeCanvases } from '../../redux/actions/type-canvas'
 import { getTypePanels } from '../../redux/actions/type-panel'
+import { getWraps } from '../../redux/actions/wrap'
 import { AddOrderForm } from './AddOrderForm'
 
 export const AddOrderContainer = () => {
@@ -39,6 +40,7 @@ export const AddOrderContainer = () => {
             dispatch(getPackagings()),
             dispatch(getLocks()),
             dispatch(getTypePanels()),
+            dispatch(getWraps()),
 
         ])
         setIsLoading(false)
