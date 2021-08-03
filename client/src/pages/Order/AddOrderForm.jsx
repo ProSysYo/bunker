@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { useForm } from "react-hook-form";
 import { Tabs } from 'antd'
@@ -68,13 +68,19 @@ const patinas = [
     { _id: 3, name: "черная" },
 ]
 
-
 export const AddOrderForm = () => {
     const { register, handleSubmit, setError, formState: { errors }, watch, setValue } = useForm()
-    const [filterTypeOtdelkaOutsides, setFilterTypeOtdelkaOutsides] = useState([])
-    const [filterOtdelkaOutsides, setFilterOtdelkaOutsides] = useState([])
-    const [currentOutsideWraps, setCurrentOutsideWraps] = useState([])
-    const [currentOusidePatinas, setCurrentOusidePatinas] = useState([])
+    //Отделка снаружи
+    const [currentTypeOtdelkaOutsides, setCurrentTypeOtdelkaOutsides] = useState([])
+    const [currentOtdelkaOutsides, setCurrentOtdelkaOutsides] = useState([])
+    const [outsideWraps, setOutsideWraps] = useState([])
+    const [outsidePatinas, setOutsidePatinas] = useState([])
+
+    //Отделка внутри
+    const [currentTypeOtdelkaInsides, setCurrentTypeOtdelkaInsides] = useState([])
+    const [currentOtdelkaInsides, setCurrentOtdelkaInsides] = useState([])
+    const [wrapInsides, setWrapInsides] = useState([])
+    const [patinaInsides, setPatinaInsides] = useState([])
 
     //const dispatch = useDispatch()
     const customers = useSelector(state => state.customer.customers)
@@ -93,45 +99,44 @@ export const AddOrderForm = () => {
 
     const fields = watch()
     
+    //загрузка значений при изменении типа полотна
     useEffect(() => {
-        if (fields.typeCanvas) {
-            //ищем выбранную модель полотна
+        if (fields.typeCanvas) {            
             const selectedTypeCanvas = typeCanvases.find(item => item.value === fields.typeCanvas)
+                    
+            setCurrentTypeOtdelkaOutsides(typeOtdelkaOutsides.filter(item => item.type === selectedTypeCanvas.trimOutside || item.type === "все"))
+            setValue("typeOtdelkaOutside", "")
 
-            //фильтруем типы отделок снаружи, доступные выбранной модели полотна            
-            setFilterTypeOtdelkaOutsides(typeOtdelkaOutsides.filter(item => item.type === selectedTypeCanvas.trimOutside || item.type === "все"))
-            setValue("typeOtdelkaOutside", "")//Сбрасываем выбор типа отделки снаружи
+            setCurrentOtdelkaOutsides([])     
+            setValue("otdelkaOutside", "")
 
-            setFilterOtdelkaOutsides([]) //обнуляем список отделок снаружи           
-            setValue("otdelkaOutside", "") //обнуляем выбранную отделку снаружи
-
-            //если снаружи выбранной модели полотна ПАНЕЛЬ
             if (selectedTypeCanvas.trimOutside === "панель") {
-                setCurrentOutsideWraps(wraps)//загружаем список пленок снаружи                
-                setValue("outsideWrap", "")//обнуляем выбранную пленку снаружи
+                setOutsideWraps(wraps)               
+                setValue("outsideWrap", "")
 
-                setCurrentOusidePatinas(patinas)//загружаем список патин снаружи                
-                setValue("outsidePatina", "")//обнуляем выбранную патину снаружи
+                setOutsidePatinas(patinas)               
+                setValue("outsidePatina", "")
             } else {
-                setCurrentOutsideWraps(wraps.filter(item => item.name === "нет"))//пленки для металла не доступны, оставляем в пленках только НЕТ
-                setValue("outsideWrap", "нет") //устанавливаем пленке снаружи значение НЕТ               
+                setOutsideWraps([{name: "нет"}])
+                setValue("outsideWrap", "нет")             
 
-                setCurrentOusidePatinas(patinas.filter(item => item.name === "нет"))//патины для металла не доступны, оставляем в списке патин только НЕТ                
-                setValue("outsidePatina", "нет")//устанавливаем патине снаружи значение НЕТ
+                setOutsidePatinas([{name: "нет"}])            
+                setValue("outsidePatina", "нет")
             }
         }
-    }, [typeCanvases, fields.typeCanvas, setValue, wraps]) //при измененении полотна
+    }, [typeCanvases, fields.typeCanvas, setValue, wraps])
 
-    
+    //загрузка значений при изменении типа отделки снаружи
     useEffect(() => {
         if (fields.typeOtdelkaOutside) {
-            const selectedTypeOtdelkaOutside = filterTypeOtdelkaOutsides.find(item => item.name === fields.typeOtdelkaOutside)
-            setFilterOtdelkaOutsides(otdelkaOutsides.filter(item => item.design === selectedTypeOtdelkaOutside.design))
-            setValue("otdelkaOutside", "")//обнуляем выбранную отделку снаружи
+            const selectedTypeOtdelkaOutside = currentTypeOtdelkaOutsides.find(item => item.name === fields.typeOtdelkaOutside)
+            
+            setCurrentOtdelkaOutsides(otdelkaOutsides.filter(item => item.design === selectedTypeOtdelkaOutside.design))
+            setValue("otdelkaOutside", "")
         }
-    }, [fields.typeOtdelkaOutside, filterTypeOtdelkaOutsides, setValue]) //при изменении типа отделки снаружи
+    }, [fields.typeOtdelkaOutside, currentTypeOtdelkaOutsides, setValue])
 
-
+    //регистрация ошибок валидации от сервера
     useEffect(() => {
         if (errorsValidate.customer) setError("customer", { message: errorsValidate.customer })
         if (errorsValidate.typeCanvas) setError("typeCanvas", { message: errorsValidate.typeCanvas })
@@ -345,7 +350,7 @@ export const AddOrderForm = () => {
                         <TabPane key="4" tab={<TabTitle>Отделка</TabTitle>}>
                             <ItemWithSelect
                                 title="Тип отделки снаружи"
-                                items={filterTypeOtdelkaOutsides}
+                                items={currentTypeOtdelkaOutsides}
                                 optionValue="name"
                                 optionName="name"
                                 error={errors.typeOtdelkaOutside}
@@ -354,7 +359,7 @@ export const AddOrderForm = () => {
 
                             <ItemWithSelect
                                 title="Отделка снаружи"
-                                items={filterOtdelkaOutsides}
+                                items={currentOtdelkaOutsides}
                                 optionValue="name"
                                 optionName="name"
                                 error={errors.otdelkaOutside}
@@ -363,7 +368,7 @@ export const AddOrderForm = () => {
 
                             <ItemWithSelect
                                 title="Цвет пленки снаружи"
-                                items={currentOutsideWraps}
+                                items={outsideWraps}
                                 optionValue="name"
                                 optionName="name"
                                 error={errors.outsideWrap}
@@ -372,11 +377,47 @@ export const AddOrderForm = () => {
 
                             <ItemWithSelect
                                 title="Цвет патины снаружи"
-                                items={currentOusidePatinas}
+                                items={outsidePatinas}
                                 optionValue="name"
                                 optionName="name"
                                 error={errors.outsidePatina}
-                                {...register("outsidePatina", { required: "Выберите цвет пленки" })}
+                                {...register("outsidePatina", { required: "Выберите цвет пленки снаружи" })}
+                            />
+
+                            <ItemWithSelect
+                                title="Тип отделки внутри"
+                                items={currentTypeOtdelkaInsides}
+                                optionValue="name"
+                                optionName="name"
+                                error={errors.typeOtdeInside}
+                                {...register("typeOtdeInside", { required: "Выберите тип отделки внутри" })}
+                            />
+
+                            <ItemWithSelect
+                                title="Отделка внутри"
+                                items={currentOtdelkaInsides}
+                                optionValue="name"
+                                optionName="name"
+                                error={errors.otdelkaInside}
+                                {...register("otdelkaInside", { required: "Выберите отделку внутри" })}
+                            />
+
+                            <ItemWithSelect
+                                title="Цвет пленки внутри"
+                                items={wrapInsides}
+                                optionValue="name"
+                                optionName="name"
+                                error={errors.wrapInside}
+                                {...register("wrapInside", { required: "Выберите цвет пленки внутри" })}
+                            />
+
+                            <ItemWithSelect
+                                title="Цвет патины внутри"
+                                items={patinaInsides}
+                                optionValue="name"
+                                optionName="name"
+                                error={errors.patinaInside}
+                                {...register("patinaInside", { required: "Выберите цвет пленки внутри" })}
                             />
                         </TabPane>
 
@@ -499,6 +540,12 @@ export const AddOrderForm = () => {
                 {fields.outsideWrap && <label>Цвет пленки снаружи: {fields.outsideWrap}</label>}
                 {fields.outsidePatina && <label>Цвет патины снаружи: {fields.outsidePatina}</label>}
 
+                <br />
+                <span>------Отделка внутри-------</span>
+                {fields.typeOtdeInside && <label>Тип отделки внутри: {fields.typeOtdeInside}</label>}
+                {fields.otdelkaInside && <label>Отделка внутри: {fields.otdelkaInside}</label>}
+                {fields.wrapInside && <label>Цвет пленки внутри: {fields.wrapInside}</label>}
+                {fields.patinaInside && <label>Цвет патины внутри: {fields.patinaInside}</label>}
                 <br />
                 <span>-----------Петли-----------</span>
                 {fields.hingeSide && <label>Сторонность петель: {fields.hingeSide}</label>}

@@ -13,7 +13,7 @@ export const ItemWithSelect = React.forwardRef(({title, error, items, optionValu
                     ref={ref}
                 >
                     <option disabled value=""> --выберите из списка-- </option>
-                    {items.map(item => <option key={item._id} value={item[optionValue]}>{item[optionName]}</option>)}
+                    {items.length>0 && items.map((item, index) => <option key={item._id ? item._id : index} value={item[optionValue]}>{item[optionName]}</option>)}
                 </Select>
                 {error && <FormInputError>{error.message}</FormInputError>}
             </FormItemInput>
