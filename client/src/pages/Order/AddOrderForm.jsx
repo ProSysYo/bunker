@@ -474,7 +474,11 @@ export const AddOrderForm = () => {
 
                         </TabPane>
 
-                        <TabPane key="9" tab={<TabTitle>Дополнительно</TabTitle>}>
+                        <TabPane key="9" tab={<TabTitle>Еще что то</TabTitle>}>
+
+                        </TabPane>
+
+                        <TabPane key="10" tab={<TabTitle>Доп.</TabTitle>}>
                             <ItemWithSelect
                                 title="Упаковка:"
                                 items={packagings}
@@ -506,62 +510,85 @@ export const AddOrderForm = () => {
                 </Form>
             </FormWrap>
             <Basket>
-                <span>-----------Основное-----------</span>
-                {fields.customer && <label>Заказчик: {fields.customer}</label>}
-                {fields.typeCanvas && <label>Модель полотна: {fields.typeCanvas}</label>}
-                {fields.typeOpening && <label>Тип открывания: {fields.typeOpening}</label>}
-                {fields.isDoubleDoor && <label>Двустворчатая: да</label>}
-                {fields.widthDoubleDoor && <label>Ширина раб. створки: {fields.widthDoubleDoor} мм</label>}
-                {fields.thicknessCanvas && <label>Толщина полотна: {fields.thicknessCanvas} мм</label>}
-                {fields.countContour && <label>Количество контуров: {fields.countContour}</label>}
-                {fields.modelBox && <label>Модель коробки: {fields.modelBox}</label>}
-                {fields.height && <label>Высота двери: {fields.height} мм</label>}
-                {fields.width && <label>Ширина двери: {fields.width} мм</label>}
+                <Group>
+                    <span>Основное</span>
+                    <label>Заказчик: {fields.customer}</label>
+                    <label>Модель полотна: {fields.typeCanvas}</label>
+                    <label>Тип открывания: {fields.typeOpening}</label>
+                    <label>Двустворчатая: {fields.isDoubleDoor ? "да" : "нет"}</label>
+                    <label>Ширина раб. створки: {fields.widthDoubleDoor} мм</label>
+                    <label>Толщина полотна: {fields.thicknessCanvas} мм</label>
+                    <label>Количество контуров: {fields.countContour}</label>
+                    <label>Модель коробки: {fields.modelBox}</label>
+                    <label>Высота двери: {fields.height} мм</label>
+                    <label>Ширина двери: {fields.width} мм</label>
+                </Group>
+
+                <Group>
+                    <span>Фурнитура</span>
+                    <label>Основной замок: {fields.mainLock}</label>
+                    <label>Осн накладка снаружи: {fields.mainCoverOutside}</label>
+                    <label>Осн накладка внутри: {fields.mainCoverInside}</label>
+                    <label>Осн цилиндр: {fields.mainCylinder}</label>
+                    <label>Глазок: {fields.peephole}</label>
+                    <label>Расположение глазка: {fields.peepholeLocation}</label>
+                    <label>Ручка: {fields.handle}</label>
+
+                    <label>Доп. замок: {fields.optionalLock}</label>
+                    <label>Доп накладка снаружи: {fields.optionalCoverOutside}</label>
+                    <label>Доп накладка внутри: {fields.optionalCoverInside}</label>
+                    <label>Доп цилиндр: {fields.optionalCylinder}</label>
+                </Group>                
+
+                <Group>
+                    <span>Отделка снаружи</span>
+                    <label>Тип отделки снаружи: {fields.typeOtdelkaOutside}</label>
+                    <label>Отделка снаружи: {fields.otdelkaOutside}</label>
+                    <label>Цвет пленки снаружи: {fields.outsideWrap}</label>
+                    <label>Цвет патины снаружи: {fields.outsidePatina}</label>
+                </Group>
                 
-                <br />
-                <span>----------Фурнитура-----------</span>
-                {fields.mainLock && <label>Основной замок: {fields.mainLock}</label>}
-                {fields.mainCoverOutside && <label>Осн накладка снаружи: {fields.mainCoverOutside}</label>}
-                {fields.mainCoverInside && <label>Осн накладка внутри: {fields.mainCoverInside}</label>}
-                {fields.mainCylinder && <label>Осн цилиндр: {fields.mainCylinder}</label>}
-                {fields.peephole && <label>Глазок: {fields.peephole}</label>}
-                {fields.peepholeLocation && <label>Расположение глазка: {fields.peepholeLocation}</label>}
-                {fields.handle && <label>Ручка: {fields.handle}</label>}
+                <Group>
+                    <span>Отделка внутри</span>
+                    <label>Тип отделки внутри: {fields.typeOtdeInside}</label>
+                    <label>Отделка внутри: {fields.otdelkaInside}</label>
+                    <label>Цвет пленки внутри: {fields.wrapInside}</label>
+                    <label>Цвет патины внутри: {fields.patinaInside}</label>
+                </Group>
 
-                {fields.optionalLock && <label>Доп. замок: {fields.optionalLock}</label>}
-                {fields.optionalCoverOutside && <label>Доп накладка снаружи: {fields.optionalCoverOutside}</label>}
-                {fields.optionalCoverInside && <label>Доп накладка внутри: {fields.optionalCoverInside}</label>}
-                {fields.optionalCylinder && <label>Доп цилиндр: {fields.optionalCylinder}</label>}
+                <Group>
+                    <span>Стеклопакет</span>
+                    <label>Вид: </label>
+                    <label>Ковка </label>
+                    <label>Мовка </label>
+                </Group>
 
-                <br />
-                <span>------Отделка снаружи-------</span>
-                {fields.typeOtdelkaOutside && <label>Тип отделки снаружи: {fields.typeOtdelkaOutside}</label>}
-                {fields.otdelkaOutside && <label>Отделка снаружи: {fields.otdelkaOutside}</label>}
-                {fields.outsideWrap && <label>Цвет пленки снаружи: {fields.outsideWrap}</label>}
-                {fields.outsidePatina && <label>Цвет патины снаружи: {fields.outsidePatina}</label>}
-
-                <br />
-                <span>------Отделка внутри-------</span>
-                {fields.typeOtdeInside && <label>Тип отделки внутри: {fields.typeOtdeInside}</label>}
-                {fields.otdelkaInside && <label>Отделка внутри: {fields.otdelkaInside}</label>}
-                {fields.wrapInside && <label>Цвет пленки внутри: {fields.wrapInside}</label>}
-                {fields.patinaInside && <label>Цвет патины внутри: {fields.patinaInside}</label>}
-                <br />
-                <span>-----------Петли-----------</span>
-                {fields.hingeSide && <label>Сторонность петель: {fields.hingeSide}</label>}
-                {fields.hingeCount && <label>Сторонность петель: {fields.hingeCount} шт</label>}
-                {fields.hingeType && <label>Тип петель: {fields.hingeType}</label>}
+                <Group>
+                    <span>Петли</span>
+                    <label>Сторонность петель: {fields.hingeSide}</label>
+                    <label>Сторонность петель: {fields.hingeCount} шт</label>
+                    <label>Тип петель: {fields.hingeType}</label>
+                </Group>
                 
-                <br />
-                <span>-----------Толщина металла--------</span>
-                {fields.metalCanvas && <label>Толщина мет. полотна: {fields.metalCanvas} мм</label>}
-                {fields.metalBox && <label>Толщина мет. короба: {fields.metalBox} мм</label>}
+                <Group>
+                    <span>Толщина металла</span>
+                    <label>Толщина мет. полотна: {fields.metalCanvas} мм</label>
+                    <label>Толщина мет. короба: {fields.metalBox} мм</label>
+                </Group>                
 
-                <br />
-                <span>---------Дополнительные элементы-----------</span>
-                {fields.ear && <label>Уши: {fields.ear}</label>}
-                {fields.holeBox && <label>Отверстия в коробе: {fields.holeBox}</label>}
-                {fields.packaging && <label>Упаковка: {fields.packaging}</label>}
+                <Group>
+                    <span>Дополнительные элементы</span>
+                    <label>Уши: {fields.ear}</label>
+                    <label>Отверстия в коробе: {fields.holeBox}</label>
+                    <label>Упаковка: {fields.packaging}</label>
+                </Group>
+
+                <Group>
+                    <span>Дополнительные элементы</span>
+                    <li><label>Уши:</label><label> {fields.ear}</label></li>
+                    <li><label>Отверстия в коробе:</label><label> {fields.holeBox}</label></li>
+                    <li><label>Упаковка:</label><label> {fields.packaging}</label></li>                    
+                </Group>
             </Basket>
         </Wrapper>
     )
@@ -588,11 +615,7 @@ const Form = styled.form`
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
-    margin-right: 20px;
-    width: 100%;
-    > * {
-        width: 100%;
-    }    
+    margin-right: 20px;    
 `
 
 const FormItem = styled.div`
@@ -608,10 +631,32 @@ const Basket = styled.div`
     display: flex;
     flex-direction: column; 
     align-items: flex-start;
-    width: 30%;
-    font-size: 10px;
+    width: 40%;    
+    margin-left:20px;
+    flex-wrap: wrap;
+    max-height: 80vh;
+`
+const Group = styled.div`
+    display: flex;
+    flex-direction: column; 
+    align-items: flex-start;
+    width: 48%;
+    font-size: 11px;
+    margin-bottom:10px;
+    border: 1px solid #acafaf45;
+    border-radius:3px;
+    > * {
+        margin-left: 5px;
+    }
+    > span {
+        display: block;
+        font-weight: bold;
+        width: 100%;
+        text-align:center;
+    }  
 `
 
+
 const TabTitle = styled.span`
-    font-size: 11px;
+    font-size: 11px;   
 `
