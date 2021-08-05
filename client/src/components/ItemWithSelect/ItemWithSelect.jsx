@@ -2,14 +2,14 @@ import React from 'react'
 
 import styled from 'styled-components'
 
-export const ItemWithSelect = React.forwardRef(({title, error, items, optionValue, optionName, ...atrs}, ref) => { 
+export const ItemWithSelect = React.forwardRef(({title, error, items, optionValue, optionName, defaultValue, ...atrs}, ref) => { 
     return (
         <FormItem>
             <FormItemTitle>{title}</FormItemTitle>
             <FormItemInput>
                 <Select
                     {...atrs}
-                    defaultValue=""
+                    defaultValue={defaultValue ? defaultValue : ""}
                     ref={ref}
                 >
                     <option disabled value=""> --выберите из списка-- </option>

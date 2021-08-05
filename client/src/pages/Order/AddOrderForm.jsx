@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { useForm } from "react-hook-form";
@@ -18,28 +18,28 @@ const hingeCounts = [{ _id: 1, value: "2" }, { _id: 2, value: "3" }]
 const countContours = [{ _id: 1, value: "1" }, { _id: 2, value: "2" }, { _id: 3, value: "3" }]
 const ears = [{ _id: 1, name: "нет" }, { _id: 2, name: "80x40x6шт" }, { _id: 3, name: "100x40x8шт" }]
 const holeBoxes = [{ _id: 1, name: "нет" }, { _id: 2, name: "10мм 6шт" }, { _id: 3, name: "10мм 8шт" }]
-const typeOtdelkaOutsides = [
-    { _id: 1, name: "нет", type: "все", design: "нет" },
-    { _id: 2, name: "давление на металле", type: "металл", design: "Д" },
-    { _id: 3, name: "давл. на мет. с дек. элементами", type: "металл", design: "ДН" },
-    { _id: 4, name: "давл. и резка с дек. элементами", type: "металл", design: "ДР" },
-    { _id: 5, name: "накладные элменты на металле", type: "металл", design: "Н" },
-    { _id: 6, name: "ков. элементы + стеклопакет", type: "металл", design: "КС" },
-    { _id: 7, name: "лазер. резка + стеклопакет", type: "металл", design: "ЛС" },
-    { _id: 8, name: "стеклопакет", type: "металл", design: "С" },
-    { _id: 9, name: "металлофиленки", type: "металл", design: "Ф" },
-    { _id: 10, name: "МДФ 6мм лам. б/фр.", type: "панель", design: "нет" },
-    { _id: 11, name: "МДФ 6мм лам. фр.", type: "панель", design: "фрезеровка" },
-    { _id: 12, name: "МДФ 10мм лам. б/фр.", type: "панель", design: "нет" },
-    { _id: 13, name: "МДФ 10мм лам. фр.", type: "панель", design: "фрезеровка" },
-    { _id: 14, name: "МДФ 16мм лам. б/фр.", type: "панель", design: "нет" },
-    { _id: 15, name: "МДФ 16мм лам. фр.", type: "панель", design: "фрезеровка" },
-    { _id: 16, name: "под панель 6мм", type: "панель", design: "нет" },
-    { _id: 17, name: "под панель 10мм", type: "панель", design: "нет" },
-    { _id: 18, name: "под панель 16мм", type: "панель", design: "нет" },
+const typeOtdelka = [
+    { _id: 1, name: "нет", type: "все", design: "нет", isInside: true, isOutside: true, isWrap: false, isPatina: false},
+    { _id: 2, name: "давление на металле", type: "металл", design: "Д", isInside: false, isOutside: true, isWrap: false, isPatina: false},
+    { _id: 3, name: "давл. на мет. с дек. элементами", type: "металл", design: "ДН", isInside: false, isOutside: true, isWrap: false, isPatina: false },
+    { _id: 4, name: "давл. и резка с дек. элементами", type: "металл", design: "ДР", isInside: false, isOutside: true, isWrap: false, isPatina: false },
+    { _id: 5, name: "накладные элменты на металле", type: "металл", design: "Н", isInside: false, isOutside: true, isWrap: false, isPatina: false },
+    { _id: 6, name: "ков. элементы + стеклопакет", type: "металл", design: "КС", isInside: false, isOutside: true, isWrap: false, isPatina: false },
+    { _id: 7, name: "лазер. резка + стеклопакет", type: "металл", design: "ЛС", isInside: false, isOutside: true, isWrap: false, isPatina: false },
+    { _id: 8, name: "стеклопакет", type: "металл", design: "С", isInside: false, isOutside: true, isWrap: false, isPatina: false },
+    { _id: 9, name: "металлофиленки", type: "металл", design: "Ф", isInside: false, isOutside: true, isWrap: false, isPatina: false },
+    { _id: 10, name: "МДФ 6мм лам. б/фр.", type: "панель", design: "нет", isInside: true, isOutside: true, isWrap: false, isPatina: false },
+    { _id: 11, name: "МДФ 6мм лам. фр.", type: "панель", design: "фрезеровка", isInside: true, isOutside: true, isWrap: true, isPatina: true },
+    { _id: 12, name: "МДФ 10мм лам. б/фр.", type: "панель", design: "нет", isInside: true, isOutside: true, isWrap: true, isPatina: true },
+    { _id: 13, name: "МДФ 10мм лам. фр.", type: "панель", design: "фрезеровка", isInside: true, isOutside: true, isWrap: true, isPatina: true },
+    { _id: 14, name: "МДФ 16мм лам. б/фр.", type: "панель", design: "нет", isInside: true, isOutside: true, isWrap: true, isPatina: true },
+    { _id: 15, name: "МДФ 16мм лам. фр.", type: "панель", design: "фрезеровка", isInside: true, isOutside: true, isWrap: true, isPatina: true },
+    { _id: 16, name: "под панель 6мм", type: "панель", design: "нет", isInside: true, isOutside: true, isWrap: false, isPatina: false },
+    { _id: 17, name: "под панель 10мм", type: "панель", design: "нет", isInside: true, isOutside: true, isWrap: false, isPatina: false },
+    { _id: 18, name: "под панель 16мм", type: "панель", design: "нет", isInside: true, isOutside: true, isWrap: false, isPatina: false },
 ]
 
-const otdelkaOutsides = [
+const otdelkas = [
     { _id: 1, name: "нет", design: "нет", isWindow: false },
     { _id: 2, name: "Д1", design: "Д", isWindow: false },
     { _id: 3, name: "Д2", design: "Д", isWindow: false },
@@ -68,13 +68,18 @@ const patinas = [
     { _id: 3, name: "черная" },
 ]
 
+
+
 export const AddOrderForm = () => {
     const { register, handleSubmit, setError, formState: { errors }, watch, setValue } = useForm()
+    
+    
+
     //Отделка снаружи
     const [currentTypeOtdelkaOutsides, setCurrentTypeOtdelkaOutsides] = useState([])
     const [currentOtdelkaOutsides, setCurrentOtdelkaOutsides] = useState([])
     const [outsideWraps, setOutsideWraps] = useState([])
-    const [outsidePatinas, setOutsidePatinas] = useState([])
+    const [outsidePatinas, setOutsidePatinas] = useState([])    
 
     //Отделка внутри
     const [currentTypeOtdelkaInsides, setCurrentTypeOtdelkaInsides] = useState([])
@@ -98,43 +103,54 @@ export const AddOrderForm = () => {
     const typeCanvases = useSelector(state => state.typeCanvas.typeCanvases)
 
     const fields = watch()
-    
+
+    const [typeCanvas, setTypeCanvas] = useState({})
+
     //загрузка значений при изменении типа полотна
-    useEffect(() => {
-        if (fields.typeCanvas) {            
-            const selectedTypeCanvas = typeCanvases.find(item => item.value === fields.typeCanvas)
-                    
-            setCurrentTypeOtdelkaOutsides(typeOtdelkaOutsides.filter(item => item.type === selectedTypeCanvas.trimOutside || item.type === "все"))
-            setValue("typeOtdelkaOutside", "")
+    useEffect(() => { 
+        console.log("dd");           
+        setCurrentTypeOtdelkaOutsides(typeOtdelka.filter(item => {
+            return (item.type === typeCanvas.trimOutside || item.type === "все") && item.isOutside
+        }))
+    }, [typeCanvas])    
 
-            setCurrentOtdelkaOutsides([])     
-            setValue("otdelkaOutside", "")
-
-            if (selectedTypeCanvas.trimOutside === "панель") {
-                setOutsideWraps(wraps)               
-                setValue("outsideWrap", "")
-
-                setOutsidePatinas(patinas)               
-                setValue("outsidePatina", "")
-            } else {
-                setOutsideWraps([{name: "нет"}])
-                setValue("outsideWrap", "нет")             
-
-                setOutsidePatinas([{name: "нет"}])            
-                setValue("outsidePatina", "нет")
-            }
-        }
-    }, [typeCanvases, fields.typeCanvas, setValue, wraps])
+    const handleTypeCanvas = (e) => {
+        const selectedTypeCanvas = typeCanvases.find(item => item.value === e.target.value)
+        setTypeCanvas(selectedTypeCanvas)
+    }
 
     //загрузка значений при изменении типа отделки снаружи
     useEffect(() => {
         if (fields.typeOtdelkaOutside) {
-            const selectedTypeOtdelkaOutside = currentTypeOtdelkaOutsides.find(item => item.name === fields.typeOtdelkaOutside)
+            const selectedTypeOtdelkaOutside = currentTypeOtdelkaOutsides.find(item => item.name === fields.typeOtdelkaOutside)            
             
-            setCurrentOtdelkaOutsides(otdelkaOutsides.filter(item => item.design === selectedTypeOtdelkaOutside.design))
-            setValue("otdelkaOutside", "")
+            setCurrentOtdelkaOutsides(otdelkas.filter(item => item.design === selectedTypeOtdelkaOutside.design))            
+
+            if (selectedTypeOtdelkaOutside.isWrap) {
+                setOutsideWraps(wraps)  
+            } else {
+                setOutsideWraps([{name: "нет"}])
+            }
+                       
+            if (selectedTypeOtdelkaOutside.isPatina) {
+                setOutsidePatinas(patinas)
+            } else {
+                setOutsidePatinas([{name: "нет"}])
+            }                    
+        } else {
+            setCurrentOtdelkaOutsides([])
+            setOutsideWraps([])
+            setOutsidePatinas([])
         }
-    }, [fields.typeOtdelkaOutside, currentTypeOtdelkaOutsides, setValue])
+
+        setValue("otdelkaOutside", "")
+        setValue("outsideWrap", "")
+        setValue("outsidePatina", "")
+
+    }, [fields.typeOtdelkaOutside, currentTypeOtdelkaOutsides, setValue, wraps])
+    
+    
+
 
     //регистрация ошибок валидации от сервера
     useEffect(() => {
@@ -171,8 +187,10 @@ export const AddOrderForm = () => {
                                 items={typeCanvases}
                                 optionValue="value"
                                 optionName="description"
-                                error={errors.typeCanvas}
-                                {...register("typeCanvas", { required: "Выберите модель полотна" })}
+                                error={errors.typeCanvas}                                
+                                // {...register("typeCanvas", { required: "Выберите модель полотна" })}
+                                defaultValue = {typeCanvas.value}
+                                onChange={handleTypeCanvas}                               
                             />
                             <ItemWithSelect
                                 title="Количество контуров:"
@@ -354,7 +372,7 @@ export const AddOrderForm = () => {
                                 optionValue="name"
                                 optionName="name"
                                 error={errors.typeOtdelkaOutside}
-                                {...register("typeOtdelkaOutside", { required: "Выберите тип отделки снаружи" })}
+                                {...register("typeOtdelkaOutside", { required: "Выберите тип отделки снаружи" })}                                
                             />
 
                             <ItemWithSelect
