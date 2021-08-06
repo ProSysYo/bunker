@@ -33,6 +33,7 @@ const Sidebar = () => {
                     <Menu.Item key="2">Текущие</Menu.Item>
                     <Menu.Item key="3">Архив</Menu.Item>
                     <Menu.Item key="4">Возврат</Menu.Item>
+                    <Menu.Item key="22"><Link to="/addorder">Новый заказ</Link></Menu.Item>
                 </SubMenu>
                 <SubMenu key="sub2" icon={<AppstoreOutlined />} title="Таблицы">
                     <Menu.Item key="5"><Link to="/customers">Заказчики</Link></Menu.Item>

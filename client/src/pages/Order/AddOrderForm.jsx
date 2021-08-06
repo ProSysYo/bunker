@@ -18,7 +18,7 @@ const hingeCounts = [{ _id: 1, value: "2" }, { _id: 2, value: "3" }]
 const countContours = [{ _id: 1, value: "1" }, { _id: 2, value: "2" }, { _id: 3, value: "3" }]
 const ears = [{ _id: 1, name: "нет" }, { _id: 2, name: "80x40x6шт" }, { _id: 3, name: "100x40x8шт" }]
 const holeBoxes = [{ _id: 1, name: "нет" }, { _id: 2, name: "10мм 6шт" }, { _id: 3, name: "10мм 8шт" }]
-const typeOtdelka = [
+const typeDecorations = [
     { _id: 1, name: "нет", type: "все", design: "нет", isInside: true, isOutside: true, isWrap: false, isPatina: false},
     { _id: 2, name: "давление на металле", type: "металл", design: "Д", isInside: false, isOutside: true, isWrap: false, isPatina: false},
     { _id: 3, name: "давл. на мет. с дек. элементами", type: "металл", design: "ДН", isInside: false, isOutside: true, isWrap: false, isPatina: false },
@@ -39,7 +39,7 @@ const typeOtdelka = [
     { _id: 18, name: "под панель 16мм", type: "панель", design: "нет", isInside: true, isOutside: true, isWrap: false, isPatina: false },
 ]
 
-const otdelkas = [
+const decorations = [
     { _id: 1, name: "нет", design: "нет", isWindow: false },
     { _id: 2, name: "Д1", design: "Д", isWindow: false },
     { _id: 3, name: "Д2", design: "Д", isWindow: false },
@@ -72,14 +72,21 @@ const patinas = [
 
 export const AddOrderForm = () => {
     const { register, handleSubmit, setError, formState: { errors }, watch, setValue } = useForm()
-    
-    
+    const order = {
+        typeCanvas: "МП",
+        typeDecorationOutside: "стеклопакет"
+    }
+
+    // const order = {
+    //     typeCanvas: "",
+    //     typeDecorationOutside: ""
+    // }
 
     //Отделка снаружи
-    const [currentTypeOtdelkaOutsides, setCurrentTypeOtdelkaOutsides] = useState([])
-    const [currentOtdelkaOutsides, setCurrentOtdelkaOutsides] = useState([])
-    const [outsideWraps, setOutsideWraps] = useState([])
-    const [outsidePatinas, setOutsidePatinas] = useState([])    
+    const [typeDecorationOutsides, setTypeDecorationOutsides] = useState([])
+    const [decorationOutsides, setDecorationOutsides] = useState([])
+    const [wrapOutsides, setWrapOutsides] = useState([])
+    const [patinaOutsides, setPatinaOutsides] = useState([])    
 
     //Отделка внутри
     const [currentTypeOtdelkaInsides, setCurrentTypeOtdelkaInsides] = useState([])
@@ -102,56 +109,45 @@ export const AddOrderForm = () => {
     const errorsValidate = useSelector(state => state.packaging.errors)
     const typeCanvases = useSelector(state => state.typeCanvas.typeCanvases)
 
-    const fields = watch()
+    const fields = watch()   
 
-    const [typeCanvas, setTypeCanvas] = useState({})
-
-    //загрузка значений при изменении типа полотна
-    useEffect(() => { 
-        console.log("dd");           
-        setCurrentTypeOtdelkaOutsides(typeOtdelka.filter(item => {
-            return (item.type === typeCanvas.trimOutside || item.type === "все") && item.isOutside
-        }))
-    }, [typeCanvas])    
-
-    const handleTypeCanvas = (e) => {
-        const selectedTypeCanvas = typeCanvases.find(item => item.value === e.target.value)
-        setTypeCanvas(selectedTypeCanvas)
-    }
-
-    //загрузка значений при изменении типа отделки снаружи
+    //Начальная загрузка
+    useEffect(() => {               
+         setValue("typeCanvas", order.typeCanvas)
+         setValue("typeDecorationOutside", order.typeDecorationOutside)
+    }, [])
+    
+    //при изменении типа полотна
     useEffect(() => {
-        if (fields.typeOtdelkaOutside) {
-            const selectedTypeOtdelkaOutside = currentTypeOtdelkaOutsides.find(item => item.name === fields.typeOtdelkaOutside)            
-            
-            setCurrentOtdelkaOutsides(otdelkas.filter(item => item.design === selectedTypeOtdelkaOutside.design))            
-
-            if (selectedTypeOtdelkaOutside.isWrap) {
-                setOutsideWraps(wraps)  
+        console.log('эффект изменения типа полотна');
+        const loadTypeDecorationOutsides = (typeCanvas) => {        
+            if (typeCanvas) {            
+                const typeCanvasSelect = typeCanvases.find(item => item.value === typeCanvas)
+                const currentTypeDecorations = typeDecorations.filter(item => item.type === typeCanvasSelect.trimOutside || item.type === "все")
+                setTypeDecorationOutsides(currentTypeDecorations)
             } else {
-                setOutsideWraps([{name: "нет"}])
-            }
-                       
-            if (selectedTypeOtdelkaOutside.isPatina) {
-                setOutsidePatinas(patinas)
-            } else {
-                setOutsidePatinas([{name: "нет"}])
-            }                    
-        } else {
-            setCurrentOtdelkaOutsides([])
-            setOutsideWraps([])
-            setOutsidePatinas([])
+                setTypeDecorationOutsides([])
+            }              
         }
-
-        setValue("otdelkaOutside", "")
-        setValue("outsideWrap", "")
-        setValue("outsidePatina", "")
-
-    }, [fields.typeOtdelkaOutside, currentTypeOtdelkaOutsides, setValue, wraps])
+        loadTypeDecorationOutsides(fields.typeCanvas)                
+    }, [fields.typeCanvas, typeCanvases])
     
+    //при изменении типа отделки снаружи
+    useEffect(() => {
+        console.log('эффект изменения типа отделки снаружи');
+        const updateInSelect = (typeDecoration) => {
+            if (typeDecoration) {
+                const searchTypeDecoration = typeDecorationOutsides.find(item => item.name === typeDecoration)                
+                if (searchTypeDecoration) {
+                    setValue("typeDecorationOutside", typeDecoration)
+                } else {
+                    setValue("typeDecorationOutside", "")
+                }
+            }
+        }
+        updateInSelect(fields.typeDecorationOutside)
+    }, [fields.typeDecorationOutside, setValue])
     
-
-
     //регистрация ошибок валидации от сервера
     useEffect(() => {
         if (errorsValidate.customer) setError("customer", { message: errorsValidate.customer })
@@ -187,10 +183,15 @@ export const AddOrderForm = () => {
                                 items={typeCanvases}
                                 optionValue="value"
                                 optionName="description"
-                                error={errors.typeCanvas}                                
-                                // {...register("typeCanvas", { required: "Выберите модель полотна" })}
-                                defaultValue = {typeCanvas.value}
-                                onChange={handleTypeCanvas}                               
+                                error={errors.typeCanvas}
+                                defaultValue={order.typeCanvas} 
+                                // onChange={(e) => {
+                                //     handleChangeTypeCanvas(e); // your method
+                                //     typeCanvas.onChange(e); // method from hook form register                                    
+                                // }}
+                                // onBlur={typeCanvas.onBlur}
+                                // ref={typeCanvas.ref}                              
+                                {...register("typeCanvas", { required: "Выберите модель полотна" })} 
                             />
                             <ItemWithSelect
                                 title="Количество контуров:"
@@ -368,16 +369,16 @@ export const AddOrderForm = () => {
                         <TabPane key="4" tab={<TabTitle>Отделка</TabTitle>}>
                             <ItemWithSelect
                                 title="Тип отделки снаружи"
-                                items={currentTypeOtdelkaOutsides}
+                                items={typeDecorationOutsides}
                                 optionValue="name"
                                 optionName="name"
-                                error={errors.typeOtdelkaOutside}
-                                {...register("typeOtdelkaOutside", { required: "Выберите тип отделки снаружи" })}                                
+                                error={errors.typeDecorationOutside}
+                                {...register("typeDecorationOutside", { required: "Выберите тип отделки снаружи" })}                                
                             />
 
                             <ItemWithSelect
                                 title="Отделка снаружи"
-                                items={currentOtdelkaOutsides}
+                                items={decorationOutsides}
                                 optionValue="name"
                                 optionName="name"
                                 error={errors.otdelkaOutside}
@@ -386,7 +387,7 @@ export const AddOrderForm = () => {
 
                             <ItemWithSelect
                                 title="Цвет пленки снаружи"
-                                items={outsideWraps}
+                                items={wrapOutsides}
                                 optionValue="name"
                                 optionName="name"
                                 error={errors.outsideWrap}
@@ -395,7 +396,7 @@ export const AddOrderForm = () => {
 
                             <ItemWithSelect
                                 title="Цвет патины снаружи"
-                                items={outsidePatinas}
+                                items={patinaOutsides}
                                 optionValue="name"
                                 optionName="name"
                                 error={errors.outsidePatina}
@@ -560,7 +561,7 @@ export const AddOrderForm = () => {
 
                 <Group>
                     <span>Отделка снаружи</span>
-                    <label>Тип отделки снаружи: {fields.typeOtdelkaOutside}</label>
+                    <label>Тип отделки снаружи: {fields.typeDecorationOutside}</label>
                     <label>Отделка снаружи: {fields.otdelkaOutside}</label>
                     <label>Цвет пленки снаружи: {fields.outsideWrap}</label>
                     <label>Цвет патины снаружи: {fields.outsidePatina}</label>

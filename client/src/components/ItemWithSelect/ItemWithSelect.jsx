@@ -2,7 +2,8 @@ import React from 'react'
 
 import styled from 'styled-components'
 
-export const ItemWithSelect = React.forwardRef(({title, error, items, optionValue, optionName, defaultValue, ...atrs}, ref) => { 
+export const ItemWithSelect = React.forwardRef(({title, error, items, optionValue, optionName, defaultValue, ...atrs}, ref) => {
+    
     return (
         <FormItem>
             <FormItemTitle>{title}</FormItemTitle>
