@@ -74,7 +74,9 @@ export const AddOrderForm = () => {
     const { register, handleSubmit, setError, formState: { errors }, watch, setValue } = useForm()
     const order = {
         typeCanvas: "МП",
-        typeDecorationOutside: "стеклопакет"
+        typeDecorationOutside: "стеклопакет",
+        decorationOutside: "С2",
+
     }
 
     // const order = {
@@ -112,9 +114,14 @@ export const AddOrderForm = () => {
     const fields = watch()   
 
     //Начальная загрузка
-    useEffect(() => {               
-         setValue("typeCanvas", order.typeCanvas)
-         setValue("typeDecorationOutside", order.typeDecorationOutside)
+    useEffect( () => {
+        console.log('эффект загрузки полей');
+        const loadFields = async () => {
+            await setValue("typeCanvas", order.typeCanvas)
+            await setValue("typeDecorationOutside", order.typeDecorationOutside)
+            await setValue("decorationOutside", order.decorationOutside)
+        }               
+        loadFields()
     }, [])
     
     //при изменении типа полотна
@@ -135,7 +142,7 @@ export const AddOrderForm = () => {
     //при изменении типа отделки снаружи
     useEffect(() => {
         console.log('эффект изменения типа отделки снаружи');
-        const updateInSelect = (typeDecoration) => {
+        const updatValue = (typeDecoration) => {
             if (typeDecoration) {
                 const searchTypeDecoration = typeDecorationOutsides.find(item => item.name === typeDecoration)                
                 if (searchTypeDecoration) {
@@ -145,8 +152,51 @@ export const AddOrderForm = () => {
                 }
             }
         }
-        updateInSelect(fields.typeDecorationOutside)
-    }, [fields.typeDecorationOutside, setValue])
+
+        const loadFields = (typeDecoration) => {
+            if (typeDecoration) {
+                const selectedType = typeDecorations.find(item => item.name === typeDecoration)
+
+                setDecorationOutsides(decorations.filter(item => item.design === selectedType.design))
+
+                if (selectedType.isWrap) {
+                    setWrapOutsides(wraps)
+                } else {
+                    setWrapOutsides([{name: "нет"}])
+                }
+
+                if (selectedType.isPatina) {
+                    setPatinaOutsides(patinas)
+                } else {
+                    setPatinaOutsides([{name: "нет"}])
+                }
+            } else {
+                setDecorationOutsides([])
+                setWrapOutsides([])
+                setPatinaOutsides([])
+            }            
+        }
+
+        updatValue(fields.typeDecorationOutside)
+        loadFields(fields.typeDecorationOutside)
+
+    }, [fields.typeDecorationOutside, setValue, typeDecorationOutsides, wraps])
+
+    //при изменении отделки снаружи
+    useEffect(() => {
+        console.log('эффект изменения отделки снаружи');
+        const updatValue = (decorationOutside) => {
+            if (decorationOutside) {
+                const searchDecoration = decorationOutsides.find(item => item.name === decorationOutside)                
+                if (searchDecoration) {
+                    setValue("otdelkaOutside", decorationOutside)                                       
+                } else {
+                    setValue("otdelkaOutside", "")                    
+                }
+            }
+        }
+        updatValue(fields.decorationOutside)
+    }, [fields.decorationOutside, decorationOutsides, setValue, wraps])
     
     //регистрация ошибок валидации от сервера
     useEffect(() => {
@@ -381,8 +431,8 @@ export const AddOrderForm = () => {
                                 items={decorationOutsides}
                                 optionValue="name"
                                 optionName="name"
-                                error={errors.otdelkaOutside}
-                                {...register("otdelkaOutside", { required: "Выберите отделку снаружи" })}
+                                error={errors.decorationOutside}
+                                {...register("decorationOutside", { required: "Выберите отделку снаружи" })}
                             />
 
                             <ItemWithSelect
@@ -390,8 +440,8 @@ export const AddOrderForm = () => {
                                 items={wrapOutsides}
                                 optionValue="name"
                                 optionName="name"
-                                error={errors.outsideWrap}
-                                {...register("outsideWrap", { required: "Выберите цвет пленки снаружи" })}
+                                error={errors.wrapOutside}
+                                {...register("wrapOutside", { required: "Выберите цвет пленки снаружи" })}
                             />
 
                             <ItemWithSelect
@@ -399,8 +449,8 @@ export const AddOrderForm = () => {
                                 items={patinaOutsides}
                                 optionValue="name"
                                 optionName="name"
-                                error={errors.outsidePatina}
-                                {...register("outsidePatina", { required: "Выберите цвет пленки снаружи" })}
+                                error={errors.patinaOutside}
+                                {...register("patinaOutside", { required: "Выберите цвет пленки снаружи" })}
                             />
 
                             <ItemWithSelect
