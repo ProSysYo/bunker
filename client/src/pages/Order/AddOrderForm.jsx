@@ -197,6 +197,12 @@ export const AddOrderForm = () => {
         }
         updatValue(fields.decorationOutside)
     }, [fields.decorationOutside, decorationOutsides, setValue, wraps])
+
+    //при изменении цвета пленки снаружи
+    useEffect(() => {
+        console.log('эффект изменения пленки снаружи')
+
+    }, [fields.wrapOutside])
     
     //регистрация ошибок валидации от сервера
     useEffect(() => {
