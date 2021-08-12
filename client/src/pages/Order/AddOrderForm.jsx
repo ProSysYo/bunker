@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { useForm } from "react-hook-form";
@@ -15,9 +15,16 @@ const modelBoxes = [{ _id: 1, name: "открытая" }, { _id: 2, name: "за�
 const metalCanvases = [{ _id: 1, value: "1" }, { _id: 2, value: "1,2" }, { _id: 3, value: "1,4" }]
 const metalBoxes = [{ _id: 1, value: "1" }, { _id: 2, value: "1,2" }, { _id: 3, value: "1,4" }]
 const hingeCounts = [{ _id: 1, value: "2" }, { _id: 2, value: "3" }]
-const countContours = [{ _id: 1, value: "1" }, { _id: 2, value: "2" }, { _id: 3, value: "3" }]
+const allContours = [{ _id: 1, value: "1" }, { _id: 2, value: "2" }, { _id: 3, value: "3" }]
 const ears = [{ _id: 1, name: "нет" }, { _id: 2, name: "80x40x6шт" }, { _id: 3, name: "100x40x8шт" }]
 const holeBoxes = [{ _id: 1, name: "нет" }, { _id: 2, name: "10мм 6шт" }, { _id: 3, name: "10мм 8шт" }]
+
+const typeCanvases = [
+    { _id: 1, value: "ММ", description: "металл-металл", trimOutside: "металл", trimInside: "металл", is1K: true, is2K: true, is3K: true},
+    { _id: 2, value: "МП", description: "металл-панель", trimOutside: "металл", trimInside: "панель", is1K: true, is2K: true, is3K: true},
+    { _id: 3, value: "ПП", description: "панель-панель", trimOutside: "панель", trimInside: "панель", is1K: false, is2K: true, is3K: true},
+]
+
 const typeDecorations = [
     { _id: 1, name: "нет", type: "все", design: "нет", isInside: true, isOutside: true, isWrap: false, isPatina: false},
     { _id: 2, name: "давление на металле", type: "металл", design: "Д", isInside: false, isOutside: true, isWrap: false, isPatina: false},
@@ -68,21 +75,24 @@ const patinas = [
     { _id: 3, name: "черная" },
 ]
 
-
-
 export const AddOrderForm = () => {
     const { register, handleSubmit, setError, formState: { errors }, watch, setValue } = useForm()
     const order = {
         typeCanvas: "МП",
+        countContour: "3",
         typeDecorationOutside: "стеклопакет",
         decorationOutside: "С2",
-
     }
 
     // const order = {
     //     typeCanvas: "",
-    //     typeDecorationOutside: ""
+    //     countContour: "",
+    //     typeDecorationOutside: "",
+    //     decorationOutside: "",
     // }
+
+    //Количество контуров
+    const [currentContours, setCurrentContours] = useState([])
 
     //Отделка снаружи
     const [typeDecorationOutsides, setTypeDecorationOutsides] = useState([])
@@ -107,110 +117,56 @@ export const AddOrderForm = () => {
     const covers = useSelector(state => state.cover.covers)
     const cylinders = useSelector(state => state.cylinder.cylinders)
     const handles = useSelector(state => state.handle.handles)
-    const wraps = useSelector(state => state.wrap.wraps)
-    const errorsValidate = useSelector(state => state.packaging.errors)
-    const typeCanvases = useSelector(state => state.typeCanvas.typeCanvases)
+    //const wraps = useSelector(state => state.wrap.wraps)
+    //const errorsValidate = useSelector(state => state.packaging.errors)
+    //const typeCanvases = useSelector(state => state.typeCanvas.typeCanvases)
+       
+    const fields = watch()
+    
+    useEffect(() => { 
+        if (fields.typeCanvas) {
+            const selectedTypeCanvas = typeCanvases.find(item => item.value === fields.typeCanvas)            
+            let contours = []
+            if (selectedTypeCanvas) {
+                if (selectedTypeCanvas.is1K) {
+                    contours.push(allContours.find(item => item.value === "1"))
+                }
+                if (selectedTypeCanvas.is2K) {
+                    contours.push(allContours.find(item => item.value === "2"))
+                }
+                if (selectedTypeCanvas.is3K) {
+                    contours.push(allContours.find(item => item.value === "3"))
+                }
+            }            
+            setCurrentContours(contours)
+        }        
+    }, [fields.typeCanvas, setValue])
 
-    const fields = watch()   
+    useEffect(() => {
+        if (fields.countContour) {                     
+            const searchCountContour = currentContours.find(item => item.value === fields.countContour) 
+            if (searchCountContour) {
+                setValue("countContour", fields.countContour)            
+            } else {
+                setValue("countContour", "")
+            }        
+        }
+    }, [fields.countContour, setValue, currentContours])
 
     //Начальная загрузка
     useEffect( () => {
         console.log('эффект загрузки полей');
         const loadFields = async () => {
+            // await loadTypeDecorationOutsides(order.typeCanvas)
+            // await loadCountContours(order.typeCanvas)
             await setValue("typeCanvas", order.typeCanvas)
+            await setValue("countContour", order.countContour)
             await setValue("typeDecorationOutside", order.typeDecorationOutside)
             await setValue("decorationOutside", order.decorationOutside)
         }               
         loadFields()
     }, [])
     
-    //при изменении типа полотна
-    useEffect(() => {
-        console.log('эффект изменения типа полотна');
-        const loadTypeDecorationOutsides = (typeCanvas) => {        
-            if (typeCanvas) {            
-                const typeCanvasSelect = typeCanvases.find(item => item.value === typeCanvas)
-                const currentTypeDecorations = typeDecorations.filter(item => item.type === typeCanvasSelect.trimOutside || item.type === "все")
-                setTypeDecorationOutsides(currentTypeDecorations)
-            } else {
-                setTypeDecorationOutsides([])
-            }              
-        }
-        loadTypeDecorationOutsides(fields.typeCanvas)                
-    }, [fields.typeCanvas, typeCanvases])
-    
-    //при изменении типа отделки снаружи
-    useEffect(() => {
-        console.log('эффект изменения типа отделки снаружи');
-        const updatValue = (typeDecoration) => {
-            if (typeDecoration) {
-                const searchTypeDecoration = typeDecorationOutsides.find(item => item.name === typeDecoration)                
-                if (searchTypeDecoration) {
-                    setValue("typeDecorationOutside", typeDecoration)
-                } else {
-                    setValue("typeDecorationOutside", "")
-                }
-            }
-        }
-
-        const loadFields = (typeDecoration) => {
-            if (typeDecoration) {
-                const selectedType = typeDecorations.find(item => item.name === typeDecoration)
-
-                setDecorationOutsides(decorations.filter(item => item.design === selectedType.design))
-
-                if (selectedType.isWrap) {
-                    setWrapOutsides(wraps)
-                } else {
-                    setWrapOutsides([{name: "нет"}])
-                }
-
-                if (selectedType.isPatina) {
-                    setPatinaOutsides(patinas)
-                } else {
-                    setPatinaOutsides([{name: "нет"}])
-                }
-            } else {
-                setDecorationOutsides([])
-                setWrapOutsides([])
-                setPatinaOutsides([])
-            }            
-        }
-
-        updatValue(fields.typeDecorationOutside)
-        loadFields(fields.typeDecorationOutside)
-
-    }, [fields.typeDecorationOutside, setValue, typeDecorationOutsides, wraps])
-
-    //при изменении отделки снаружи
-    useEffect(() => {
-        console.log('эффект изменения отделки снаружи');
-        const updatValue = (decorationOutside) => {
-            if (decorationOutside) {
-                const searchDecoration = decorationOutsides.find(item => item.name === decorationOutside)                
-                if (searchDecoration) {
-                    setValue("otdelkaOutside", decorationOutside)                                       
-                } else {
-                    setValue("otdelkaOutside", "")                    
-                }
-            }
-        }
-        updatValue(fields.decorationOutside)
-    }, [fields.decorationOutside, decorationOutsides, setValue, wraps])
-
-    //при изменении цвета пленки снаружи
-    useEffect(() => {
-        console.log('эффект изменения пленки снаружи')
-
-    }, [fields.wrapOutside])
-    
-    //регистрация ошибок валидации от сервера
-    useEffect(() => {
-        if (errorsValidate.customer) setError("customer", { message: errorsValidate.customer })
-        if (errorsValidate.typeCanvas) setError("typeCanvas", { message: errorsValidate.typeCanvas })
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [errorsValidate])
-
     const onSubmit = (data, e) => {
         e.preventDefault()
     }
@@ -240,18 +196,18 @@ export const AddOrderForm = () => {
                                 optionValue="value"
                                 optionName="description"
                                 error={errors.typeCanvas}
-                                defaultValue={order.typeCanvas} 
+                                defaultValue={order.typeCanvas}
+                                {...register("typeCanvas", { required: "Выберите модель полотна" })}
+                                // {...typeCanvas}
                                 // onChange={(e) => {
-                                //     handleChangeTypeCanvas(e); // your method
-                                //     typeCanvas.onChange(e); // method from hook form register                                    
+                                //     loadTypeDecorationOutsides(e.target.value); //
+                                //     loadCountContours(e.target.value)
+                                //     typeCanvas.onChange(e); // method from hook form  
                                 // }}
-                                // onBlur={typeCanvas.onBlur}
-                                // ref={typeCanvas.ref}                              
-                                {...register("typeCanvas", { required: "Выберите модель полотна" })} 
                             />
                             <ItemWithSelect
                                 title="Количество контуров:"
-                                items={countContours}
+                                items={currentContours}
                                 optionValue="value"
                                 optionName="value"
                                 error={errors.countContour}
