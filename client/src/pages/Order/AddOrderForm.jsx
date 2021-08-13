@@ -6,28 +6,29 @@ import { Tabs } from 'antd'
 import { ItemWithSelect } from '../../components/ItemWithSelect/ItemWithSelect';
 import { ItemWithCheck } from '../../components/ItemWithCheck/ItemWithCheck';
 import { ItemWithTextbox } from '../../components/ItemWithTextbox/ItemWithTextbox';
+import { ItemBasket } from '../../components/ItemBasket/ItemBasket';
 
 const { TabPane } = Tabs
 
 const typeOpenings = [{ _id: 1, name: "наружного" }, { _id: 2, name: "внутреннего" }]
-const thicknessCanvases = [{ _id: 1, name: "60" }, { _id: 2, name: "70" }, { _id: 3, name: "80" }, { _id: 4, name: "90" }, { _id: 5, name: "100" }]
+//const thicknessCanvases = [{ _id: 1, name: "60" }, { _id: 2, name: "70" }, { _id: 3, name: "80" }, { _id: 4, name: "90" }, { _id: 5, name: "100" }]
 const modelBoxes = [{ _id: 1, name: "открытая" }, { _id: 2, name: "закрытая" }, { _id: 3, name: "закрытая утепленная" }]
 const metalCanvases = [{ _id: 1, value: "1" }, { _id: 2, value: "1,2" }, { _id: 3, value: "1,4" }]
 const metalBoxes = [{ _id: 1, value: "1" }, { _id: 2, value: "1,2" }, { _id: 3, value: "1,4" }]
 const hingeCounts = [{ _id: 1, value: "2" }, { _id: 2, value: "3" }]
-const allContours = [{ _id: 1, value: "1" }, { _id: 2, value: "2" }, { _id: 3, value: "3" }]
+//const allContours = [{ _id: 1, value: "1" }, { _id: 2, value: "2" }, { _id: 3, value: "3" }]
 const ears = [{ _id: 1, name: "нет" }, { _id: 2, name: "80x40x6шт" }, { _id: 3, name: "100x40x8шт" }]
 const holeBoxes = [{ _id: 1, name: "нет" }, { _id: 2, name: "10мм 6шт" }, { _id: 3, name: "10мм 8шт" }]
 
 const typeCanvases = [
-    { _id: 1, value: "ММ", description: "металл-металл", trimOutside: "металл", trimInside: "металл", is1K: true, is2K: true, is3K: true},
-    { _id: 2, value: "МП", description: "металл-панель", trimOutside: "металл", trimInside: "панель", is1K: true, is2K: true, is3K: true},
-    { _id: 3, value: "ПП", description: "панель-панель", trimOutside: "панель", trimInside: "панель", is1K: false, is2K: true, is3K: true},
+    { _id: 1, value: "ММ", description: "металл-металл", trimOutside: "металл", trimInside: "металл", contours: [1, 2, 3], doorThicks: [60, 70, 80, 90, 100] },
+    { _id: 2, value: "МП", description: "металл-панель", trimOutside: "металл", trimInside: "панель", contours: [1, 2, 3], doorThicks: [60, 70, 80] },
+    { _id: 3, value: "ПП", description: "панель-панель", trimOutside: "панель", trimInside: "панель", contours: [2, 3], doorThicks: [90, 100] },
 ]
 
 const typeDecorations = [
-    { _id: 1, name: "нет", type: "все", design: "нет", isInside: true, isOutside: true, isWrap: false, isPatina: false},
-    { _id: 2, name: "давление на металле", type: "металл", design: "Д", isInside: false, isOutside: true, isWrap: false, isPatina: false},
+    { _id: 1, name: "нет", type: "все", design: "нет", isInside: true, isOutside: true, isWrap: false, isPatina: false },
+    { _id: 2, name: "давление на металле", type: "металл", design: "Д", isInside: false, isOutside: true, isWrap: false, isPatina: false },
     { _id: 3, name: "давл. на мет. с дек. элементами", type: "металл", design: "ДН", isInside: false, isOutside: true, isWrap: false, isPatina: false },
     { _id: 4, name: "давл. и резка с дек. элементами", type: "металл", design: "ДР", isInside: false, isOutside: true, isWrap: false, isPatina: false },
     { _id: 5, name: "накладные элменты на металле", type: "металл", design: "Н", isInside: false, isOutside: true, isWrap: false, isPatina: false },
@@ -35,7 +36,7 @@ const typeDecorations = [
     { _id: 7, name: "лазер. резка + стеклопакет", type: "металл", design: "ЛС", isInside: false, isOutside: true, isWrap: false, isPatina: false },
     { _id: 8, name: "стеклопакет", type: "металл", design: "С", isInside: false, isOutside: true, isWrap: false, isPatina: false },
     { _id: 9, name: "металлофиленки", type: "металл", design: "Ф", isInside: false, isOutside: true, isWrap: false, isPatina: false },
-    { _id: 10, name: "МДФ 6мм лам. б/фр.", type: "панель", design: "нет", isInside: true, isOutside: true, isWrap: false, isPatina: false },
+    { _id: 10, name: "МДФ 6мм лам. б/фр.", type: "панель", design: "нет", isInside: true, isOutside: true, isWrap: true, isPatina: true },
     { _id: 11, name: "МДФ 6мм лам. фр.", type: "панель", design: "фрезеровка", isInside: true, isOutside: true, isWrap: true, isPatina: true },
     { _id: 12, name: "МДФ 10мм лам. б/фр.", type: "панель", design: "нет", isInside: true, isOutside: true, isWrap: true, isPatina: true },
     { _id: 13, name: "МДФ 10мм лам. фр.", type: "панель", design: "фрезеровка", isInside: true, isOutside: true, isWrap: true, isPatina: true },
@@ -79,9 +80,11 @@ export const AddOrderForm = () => {
     const { register, handleSubmit, setError, formState: { errors }, watch, setValue } = useForm()
     const order = {
         typeCanvas: "МП",
-        countContour: "3",
+        countContour: 3,
         typeDecorationOutside: "стеклопакет",
         decorationOutside: "С2",
+        doorThick: 70,
+        wrapOutside: "нет"
     }
 
     // const order = {
@@ -89,16 +92,18 @@ export const AddOrderForm = () => {
     //     countContour: "",
     //     typeDecorationOutside: "",
     //     decorationOutside: "",
+    //     doorThick: "",
     // }
 
     //Количество контуров
     const [currentContours, setCurrentContours] = useState([])
+    const [doorThicks, setDoorThicks] = useState([])
 
     //Отделка снаружи
     const [typeDecorationOutsides, setTypeDecorationOutsides] = useState([])
     const [decorationOutsides, setDecorationOutsides] = useState([])
     const [wrapOutsides, setWrapOutsides] = useState([])
-    const [patinaOutsides, setPatinaOutsides] = useState([])    
+    const [patinaOutsides, setPatinaOutsides] = useState([])
 
     //Отделка внутри
     const [currentTypeOtdelkaInsides, setCurrentTypeOtdelkaInsides] = useState([])
@@ -117,56 +122,132 @@ export const AddOrderForm = () => {
     const covers = useSelector(state => state.cover.covers)
     const cylinders = useSelector(state => state.cylinder.cylinders)
     const handles = useSelector(state => state.handle.handles)
-    //const wraps = useSelector(state => state.wrap.wraps)
+    const wraps = useSelector(state => state.wrap.wraps)
     //const errorsValidate = useSelector(state => state.packaging.errors)
     //const typeCanvases = useSelector(state => state.typeCanvas.typeCanvases)
-       
-    const fields = watch()
-    
-    useEffect(() => { 
-        if (fields.typeCanvas) {
-            const selectedTypeCanvas = typeCanvases.find(item => item.value === fields.typeCanvas)            
-            let contours = []
-            if (selectedTypeCanvas) {
-                if (selectedTypeCanvas.is1K) {
-                    contours.push(allContours.find(item => item.value === "1"))
-                }
-                if (selectedTypeCanvas.is2K) {
-                    contours.push(allContours.find(item => item.value === "2"))
-                }
-                if (selectedTypeCanvas.is3K) {
-                    contours.push(allContours.find(item => item.value === "3"))
-                }
-            }            
-            setCurrentContours(contours)
-        }        
-    }, [fields.typeCanvas, setValue])
 
-    useEffect(() => {
-        if (fields.countContour) {                     
-            const searchCountContour = currentContours.find(item => item.value === fields.countContour) 
-            if (searchCountContour) {
-                setValue("countContour", fields.countContour)            
-            } else {
-                setValue("countContour", "")
-            }        
-        }
-    }, [fields.countContour, setValue, currentContours])
+    const fields = watch()
 
     //Начальная загрузка
-    useEffect( () => {
-        console.log('эффект загрузки полей');
+    useEffect(() => {
         const loadFields = async () => {
             // await loadTypeDecorationOutsides(order.typeCanvas)
             // await loadCountContours(order.typeCanvas)
             await setValue("typeCanvas", order.typeCanvas)
             await setValue("countContour", order.countContour)
+            await setValue("doorThick", order.doorThick)
             await setValue("typeDecorationOutside", order.typeDecorationOutside)
             await setValue("decorationOutside", order.decorationOutside)
-        }               
+            await setValue("wrapOutside", order.wrapOutside)
+        }
         loadFields()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
-    
+
+    //при изменении типа полотна
+    useEffect(() => {
+        if (fields.typeCanvas) {
+            const selectedTypeCanvas = typeCanvases.find(item => item.value === fields.typeCanvas)
+
+            let contours = []
+            let thicks = []
+            let types = []
+
+            if (selectedTypeCanvas) {
+                contours = selectedTypeCanvas.contours
+                thicks = selectedTypeCanvas.doorThicks
+                types = typeDecorations.filter(item => item.type === selectedTypeCanvas.trimOutside || item.type === "все")
+            }
+            setCurrentContours(contours)
+            setDoorThicks(thicks)
+            setTypeDecorationOutsides(types)
+        }
+    }, [fields.typeCanvas, setValue])
+
+    //при изменении количества контуров
+    useEffect(() => {
+        if (fields.countContour) {
+            const searchCountContour = currentContours.find(item => Number(item) === Number(fields.countContour))
+
+            if (searchCountContour) {
+                setValue("countContour", fields.countContour)
+            } else {
+                setValue("countContour", "")
+            }
+        }
+    }, [fields.countContour, setValue, currentContours])
+
+    //при изменении толщины полотна
+    useEffect(() => {
+        if (fields.doorThick) {
+            const searchThick = doorThicks.find(item => Number(item) === Number(fields.doorThick))
+
+            if (searchThick) {
+                setValue("doorThick", fields.doorThick)
+            } else {
+                setValue("doorThick", "")
+            }
+        }
+    }, [fields.doorThick, setValue, doorThicks])
+
+    //при изменении типа отделки снаружи
+    useEffect(() => {
+        let currentDecorations = []
+        let currentWraps = []
+        let currentPatinas = []
+        if (fields.typeDecorationOutside) {
+            const searchTypeDecoration = typeDecorationOutsides.find(item => item.name === fields.typeDecorationOutside)
+
+            if (searchTypeDecoration) {
+                setValue("typeDecorationOutside", fields.typeDecorationOutside)
+                currentDecorations = decorations.filter(item => item.design === searchTypeDecoration.design)
+                if (searchTypeDecoration.isWrap) {
+                    currentWraps = wraps
+                } else {
+                    currentWraps = [{ name: "нет" }]
+                }
+                if (searchTypeDecoration.isPatina) {
+                    currentPatinas = patinas
+                } else {
+                    currentPatinas = [{ name: "нет" }]
+                }
+            } else {
+                setValue("typeDecorationOutside", "")
+            }
+        }
+        setDecorationOutsides(currentDecorations)
+        setWrapOutsides(currentWraps)
+        setPatinaOutsides(currentPatinas)
+
+    }, [fields.typeDecorationOutside, setValue, typeDecorationOutsides, wraps])
+
+    //при изменении отделки снаружи
+    useEffect(() => {
+        if (fields.decorationOutside) {
+            const searchDecoration = decorationOutsides.find(item => item.name === fields.decorationOutside)
+
+            if (searchDecoration) {
+                setValue("decorationOutside", fields.decorationOutside)
+            } else {
+                setValue("decorationOutside", "")
+            }
+        }
+    }, [fields.decorationOutside, setValue, decorationOutsides])
+
+    //при изменении пленки снаружи
+    useEffect(() => {
+
+        if (fields.wrapOutside) {
+            const searchWrap = wrapOutsides.find(item => item.name === fields.wrapOutside)
+
+            if (searchWrap) {
+                setValue("wrapOutside", fields.wrapOutside)
+            } else {
+                setValue("wrapOutside", "")
+            }
+        }
+    }, [fields.wrapOutside, setValue, wrapOutsides])
+
     const onSubmit = (data, e) => {
         e.preventDefault()
     }
@@ -182,93 +263,99 @@ export const AddOrderForm = () => {
                     </FormItem>
                     <Tabs defaultActiveKey="1" tabPosition="top" size="small">
                         <TabPane key="1" tab={<TabTitle>Основное</TabTitle>}>
-                            <ItemWithSelect
-                                title="Заказчик:"
-                                items={customers}
-                                optionValue="code"
-                                optionName="name"
-                                error={errors.customer}
-                                {...register("customer", { required: "Выберите заказчика" })}
-                            />
-                            <ItemWithSelect
-                                title="Модель полотна:"
-                                items={typeCanvases}
-                                optionValue="value"
-                                optionName="description"
-                                error={errors.typeCanvas}
-                                defaultValue={order.typeCanvas}
-                                {...register("typeCanvas", { required: "Выберите модель полотна" })}
-                                // {...typeCanvas}
-                                // onChange={(e) => {
-                                //     loadTypeDecorationOutsides(e.target.value); //
-                                //     loadCountContours(e.target.value)
-                                //     typeCanvas.onChange(e); // method from hook form  
-                                // }}
-                            />
-                            <ItemWithSelect
-                                title="Количество контуров:"
-                                items={currentContours}
-                                optionValue="value"
-                                optionName="value"
-                                error={errors.countContour}
-                                {...register("countContour", { required: "Выберите количество конутров" })}
-                            />
+                            <div>
+                                <FormItem>
+                                    <ItemWithSelect
+                                        title="Заказчик:"
+                                        items={customers}
+                                        optionValue="code"
+                                        optionName="name"
+                                        error={errors.customer}
+                                        {...register("customer", { required: "Выберите заказчика" })}
+                                    />
+                                    <ItemWithSelect
+                                        title="Модель полотна:"
+                                        items={typeCanvases}
+                                        optionValue="value"
+                                        optionName="description"
+                                        error={errors.typeCanvas}
+                                        defaultValue={order.typeCanvas}
+                                        {...register("typeCanvas", { required: "Выберите модель полотна" })}
 
-                            <ItemWithSelect
-                                title="Толщина полотна:"
-                                items={thicknessCanvases}
-                                optionValue="name"
-                                optionName="name"
-                                error={errors.thicknessCanvas}
-                                {...register("thicknessCanvas", { required: "Выберите толщину полотна" })}
-                            />
+                                    />
+                                </FormItem>
 
-                            <ItemWithCheck
-                                title="Двустворчатая:"
-                                {...register("isDoubleDoor")}
-                            />
+                                <FormItem>
+                                    <ItemWithSelect
+                                        title="Количество контуров:"
+                                        items={currentContours}
+                                        error={errors.countContour}
+                                        {...register("countContour", { required: "Выберите количество конутров" })}
+                                    />
 
-                            <ItemWithTextbox
-                                title="Ширина створки:"
-                                placeholder="Введите ширину"
-                                disabled={!fields.isDoubleDoor}
-                                error={errors.widthDoubleDoor}
-                                {...register("widthDoubleDoor", { required: "Введите ширину створки" })}
-                            />
+                                    <ItemWithSelect
+                                        title="Толщина полотна:"
+                                        items={doorThicks}
+                                        error={errors.doorThick}
+                                        {...register("doorThick", { required: "Выберите толщину полотна" })}
+                                    />
+                                </FormItem>
+
+                                <FormItem>
+                                    <ItemWithSelect
+                                        title="Тип открывания:"
+                                        items={typeOpenings}
+                                        optionValue="name"
+                                        optionName="name"
+                                        error={errors.typeOpening}
+                                        {...register("typeOpening", { required: "Выберите тип открывания" })}
+                                    />
 
 
-                            <ItemWithSelect
-                                title="Тип открывания:"
-                                items={typeOpenings}
-                                optionValue="name"
-                                optionName="name"
-                                error={errors.typeOpening}
-                                {...register("typeOpening", { required: "Выберите тип открывания" })}
-                            />
+                                    <ItemWithSelect
+                                        title="Модель коробки:"
+                                        items={modelBoxes}
+                                        optionValue="name"
+                                        optionName="name"
+                                        error={errors.modelBox}
+                                        {...register("modelBox", { required: "Выберите модель короба" })}
+                                    />
+                                </FormItem>
 
 
-                            <ItemWithSelect
-                                title="Модель коробки:"
-                                items={modelBoxes}
-                                optionValue="name"
-                                optionName="name"
-                                error={errors.modelBox}
-                                {...register("modelBox", { required: "Выберите модель короба" })}
-                            />
+                                <FormItem>
+                                    <ItemWithTextbox
+                                        title="Высота:"
+                                        placeholder="Введите высоту"
+                                        error={errors.height}
+                                        {...register("height", { required: "Введите высоту" })}
+                                    />
 
-                            <ItemWithTextbox
-                                title="Высота:"
-                                placeholder="Введите высоту"
-                                error={errors.height}
-                                {...register("height", { required: "Введите высоту" })}
-                            />
+                                    <ItemWithTextbox
+                                        title="Ширина:"
+                                        placeholder="Введите ширину"
+                                        error={errors.width}
+                                        {...register("width", { required: "Введите ширину" })}
+                                    />
+                                </FormItem>
 
-                            <ItemWithTextbox
-                                title="Ширина:"
-                                placeholder="Введите ширину"
-                                error={errors.width}
-                                {...register("width", { required: "Введите ширину" })}
-                            />
+                                <FormItem>
+                                    <ItemWithCheck
+                                        title="Двустворчатая"
+                                        {...register("isDoubleDoor")}
+                                    />
+
+                                    <ItemWithTextbox
+                                        title="Ширина створки:"
+                                        placeholder="Введите ширину"
+                                        disabled={!fields.isDoubleDoor}
+                                        error={errors.widthDoubleDoor}
+                                        {...register("widthDoubleDoor", { required: "Введите ширину створки" })}
+                                    />
+                                </FormItem>
+
+                            </div>
+
 
                         </TabPane>
 
@@ -385,7 +472,7 @@ export const AddOrderForm = () => {
                                 optionValue="name"
                                 optionName="name"
                                 error={errors.typeDecorationOutside}
-                                {...register("typeDecorationOutside", { required: "Выберите тип отделки снаружи" })}                                
+                                {...register("typeDecorationOutside", { required: "Выберите тип отделки снаружи" })}
                             />
 
                             <ItemWithSelect
@@ -412,7 +499,7 @@ export const AddOrderForm = () => {
                                 optionValue="name"
                                 optionName="name"
                                 error={errors.patinaOutside}
-                                {...register("patinaOutside", { required: "Выберите цвет пленки снаружи" })}
+                                {...register("patinaOutside", { required: "Выберите цвет патины снаружи" })}
                             />
 
                             <ItemWithSelect
@@ -543,82 +630,73 @@ export const AddOrderForm = () => {
             <Basket>
                 <Group>
                     <span>Основное</span>
-                    <label>Заказчик: {fields.customer}</label>
-                    <label>Модель полотна: {fields.typeCanvas}</label>
-                    <label>Тип открывания: {fields.typeOpening}</label>
-                    <label>Двустворчатая: {fields.isDoubleDoor ? "да" : "нет"}</label>
-                    <label>Ширина раб. створки: {fields.widthDoubleDoor} мм</label>
-                    <label>Толщина полотна: {fields.thicknessCanvas} мм</label>
-                    <label>Количество контуров: {fields.countContour}</label>
-                    <label>Модель коробки: {fields.modelBox}</label>
-                    <label>Высота двери: {fields.height} мм</label>
-                    <label>Ширина двери: {fields.width} мм</label>
+                    <ItemBasket title="Заказчик" value={fields.customer} />
+                    <ItemBasket title="Модель полотна" value={fields.typeCanvas} />
+                    <ItemBasket title="Количество контуров" value={fields.countContour} />
+                    <ItemBasket title="Толщина полотна" value={fields.doorThick} />
+                    <ItemBasket title="Двустворчатая" value={fields.isDoubleDoor ? "да" : "нет"} />
+                    <ItemBasket title="Ширина раб. створки" value={fields.widthDoubleDoor} />
+                    <ItemBasket title="Тип открывания" value={fields.typeOpening} />
+                    <ItemBasket title="Модель коробки" value={fields.modelBox} />
+                    <ItemBasket title="Высота двери" value={fields.height} />
+                    <ItemBasket title="Ширина двери" value={fields.width} />
                 </Group>
 
                 <Group>
                     <span>Фурнитура</span>
-                    <label>Основной замок: {fields.mainLock}</label>
-                    <label>Осн накладка снаружи: {fields.mainCoverOutside}</label>
-                    <label>Осн накладка внутри: {fields.mainCoverInside}</label>
-                    <label>Осн цилиндр: {fields.mainCylinder}</label>
-                    <label>Глазок: {fields.peephole}</label>
-                    <label>Расположение глазка: {fields.peepholeLocation}</label>
-                    <label>Ручка: {fields.handle}</label>
-
-                    <label>Доп. замок: {fields.optionalLock}</label>
-                    <label>Доп накладка снаружи: {fields.optionalCoverOutside}</label>
-                    <label>Доп накладка внутри: {fields.optionalCoverInside}</label>
-                    <label>Доп цилиндр: {fields.optionalCylinder}</label>
-                </Group>                
+                    <ItemBasket title="Основной замок" value={fields.mainLock} />
+                    <ItemBasket title="Осн накладка снаружи" value={fields.mainCoverOutside} />
+                    <ItemBasket title="Осн накладка внутри" value={fields.mainCoverInside} />
+                    <ItemBasket title="Осн цилиндр" value={fields.mainCylinder} />
+                    <ItemBasket title="Глазок" value={fields.peephole} />
+                    <ItemBasket title="Расположение глазка" value={fields.peepholeLocation} />
+                    <ItemBasket title="Ручка" value={fields.handle} />
+                    <ItemBasket title="Доп. замок" value={fields.optionalLock} />
+                    <ItemBasket title="Доп накладка снаружи" value={fields.optionalCoverOutside} />
+                    <ItemBasket title="Доп накладка внутри" value={fields.optionalCoverInside} />
+                    <ItemBasket title="Доп цилиндр" value={fields.optionalCylinder} />
+                </Group>
 
                 <Group>
                     <span>Отделка снаружи</span>
-                    <label>Тип отделки снаружи: {fields.typeDecorationOutside}</label>
-                    <label>Отделка снаружи: {fields.otdelkaOutside}</label>
-                    <label>Цвет пленки снаружи: {fields.outsideWrap}</label>
-                    <label>Цвет патины снаружи: {fields.outsidePatina}</label>
+                    <ItemBasket title="Тип отделки снаружи" value={fields.typeDecorationOutside} />
+                    <ItemBasket title="Отделка снаружи" value={fields.decorationOutside} />
+                    <ItemBasket title="Цвет пленки снаружи" value={fields.wrapOutside} />
+                    <ItemBasket title="Цвет патины снаружи" value={fields.patinaOutside} />
                 </Group>
-                
+
                 <Group>
                     <span>Отделка внутри</span>
-                    <label>Тип отделки внутри: {fields.typeOtdeInside}</label>
-                    <label>Отделка внутри: {fields.otdelkaInside}</label>
-                    <label>Цвет пленки внутри: {fields.wrapInside}</label>
-                    <label>Цвет патины внутри: {fields.patinaInside}</label>
+                    <ItemBasket title="Тип отделки внутри" value={fields.typeOtdeInside} />
+                    <ItemBasket title="Отделка внутри" value={fields.otdelkaInside} />
+                    <ItemBasket title="Цвет пленки внутри" value={fields.wrapInside} />
+                    <ItemBasket title="Цвет патины внутри" value={fields.patinaInside} />
                 </Group>
 
                 <Group>
                     <span>Стеклопакет</span>
-                    <label>Вид: </label>
-                    <label>Ковка </label>
-                    <label>Мовка </label>
+                    <ItemBasket title="Вид" value="" />
+                    <ItemBasket title="Ковка" value="" />
                 </Group>
 
                 <Group>
                     <span>Петли</span>
-                    <label>Сторонность петель: {fields.hingeSide}</label>
-                    <label>Сторонность петель: {fields.hingeCount} шт</label>
-                    <label>Тип петель: {fields.hingeType}</label>
+                    <ItemBasket title="Сторонность петель" value={fields.hingeSide} />
+                    <ItemBasket title="Количество петель" value={fields.hingeCount} />
+                    <ItemBasket title="Тип петель" value={fields.hingeType} />
                 </Group>
-                
+
                 <Group>
                     <span>Толщина металла</span>
-                    <label>Толщина мет. полотна: {fields.metalCanvas} мм</label>
-                    <label>Толщина мет. короба: {fields.metalBox} мм</label>
-                </Group>                
-
-                <Group>
-                    <span>Дополнительные элементы</span>
-                    <label>Уши: {fields.ear}</label>
-                    <label>Отверстия в коробе: {fields.holeBox}</label>
-                    <label>Упаковка: {fields.packaging}</label>
+                    <ItemBasket title="Толщина мет. полотна" value={fields.metalCanvas} />
+                    <ItemBasket title="Толщина мет. короба" value={fields.metalBox} />
                 </Group>
 
                 <Group>
                     <span>Дополнительные элементы</span>
-                    <li><label>Уши:</label><label> {fields.ear}</label></li>
-                    <li><label>Отверстия в коробе:</label><label> {fields.holeBox}</label></li>
-                    <li><label>Упаковка:</label><label> {fields.packaging}</label></li>                    
+                    <ItemBasket title="Уши" value={fields.ear} />
+                    <ItemBasket title="Отверстия в коробе" value={fields.holeBox} />
+                    <ItemBasket title="Упаковка" value={fields.packaging} />
                 </Group>
             </Basket>
         </Wrapper>
@@ -636,7 +714,7 @@ const Wrapper = styled.div`
 //     text-align: center;    
 // `
 const FormWrap = styled.div`    
-    width: 60%;    
+    width: 55%;    
     max-height:80vh;
     overflow-y: auto;
 `
@@ -649,20 +727,23 @@ const Form = styled.form`
     margin-right: 20px;    
 `
 
-const FormItem = styled.div`
-    width: 100%;
+const FormItem = styled.div`    
     position: relative;    
     display: flex;
     flex-direction: row;
     align-items: center; 
-    justify-content: flex-start;   
+    justify-content: flex-start;
+    > * {
+        margin-left: 20px;
+        margin-right: 20px;
+    } 
 `
 
 const Basket = styled.div`
     display: flex;
     flex-direction: column; 
     align-items: flex-start;
-    width: 40%;    
+    width: 45%;    
     margin-left:20px;
     flex-wrap: wrap;
     max-height: 80vh;
@@ -691,3 +772,4 @@ const Group = styled.div`
 const TabTitle = styled.span`
     font-size: 11px;   
 `
+

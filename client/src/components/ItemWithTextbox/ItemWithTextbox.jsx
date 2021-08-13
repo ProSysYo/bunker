@@ -18,23 +18,20 @@ export const ItemWithTextbox = React.forwardRef(({title, placeholder, error, ...
     )
 })
 
-const FormItem = styled.div`
-    width: 100%;
+const FormItem = styled.div`    
     position: relative;
     margin-bottom: 20px;
     display: flex;
-    flex-direction: row;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
 `
-const FormItemTitle = styled.label`
-    width: 40%;
+const FormItemTitle = styled.label`    
     text-align: end;
     padding-right: 10px;
     font-size: 12px;
 `
 
-const FormItemInput = styled.div`
-    width: 60%;
+const FormItemInput = styled.div`    
     display: flex;
     flex-direction: row;
     align-items: center;  

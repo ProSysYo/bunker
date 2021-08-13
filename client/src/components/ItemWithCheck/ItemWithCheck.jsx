@@ -4,32 +4,30 @@ import styled from 'styled-components'
 
 export const ItemWithCheck = React.forwardRef(({title, ...atrs}, ref) => { 
     return (
-        <FormItem>
-            <FormItemTitle>{title}</FormItemTitle>
+        <FormItem>            
             <FormItemInput>
                 <InputChecbox {...atrs} ref= {ref}/>                
             </FormItemInput>
+            <FormItemTitle>{title}</FormItemTitle>
         </FormItem>
     )
 })
 
-const FormItem = styled.div`
-    width: 100%;
+const FormItem = styled.div`    
     position: relative;
     margin-bottom: 20px;
     display: flex;
     flex-direction: row;
-    align-items: center;    
+    align-items: center;
+       
 `
-const FormItemTitle = styled.label`
-    width: 40%;
+const FormItemTitle = styled.label`    
     text-align: end;
-    padding-right: 10px;
+    padding-left: 10px;
     font-size: 12px;
 `
 
-const FormItemInput = styled.div`
-    width: 60%;
+const FormItemInput = styled.div`    
     display: flex;
     flex-direction: row;
     align-items: center;  

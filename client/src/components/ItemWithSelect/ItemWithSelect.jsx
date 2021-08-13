@@ -2,8 +2,8 @@ import React from 'react'
 
 import styled from 'styled-components'
 
-export const ItemWithSelect = React.forwardRef(({title, error, items, optionValue, optionName, defaultValue, ...atrs}, ref) => {
-    
+export const ItemWithSelect = React.forwardRef(({ title, error, items, optionValue, optionName, defaultValue, ...atrs }, ref) => {
+
     return (
         <FormItem>
             <FormItemTitle>{title}</FormItemTitle>
@@ -14,7 +14,14 @@ export const ItemWithSelect = React.forwardRef(({title, error, items, optionValu
                     ref={ref}
                 >
                     <option disabled value=""> --выберите из списка-- </option>
-                    {items.length>0 && items.map((item, index) => <option key={item._id ? item._id : index} value={item[optionValue]}>{item[optionName]}</option>)}
+                    {items.length > 0 && items.map((item, index) => {
+                        return <option
+                            key={item._id ? item._id : index}
+                            value={optionValue ? item[optionValue] : item}
+                        >
+                            {optionName ? item[optionName] : item}
+                        </option>
+                    })}
                 </Select>
                 {error && <FormInputError>{error.message}</FormInputError>}
             </FormItemInput>
@@ -22,23 +29,20 @@ export const ItemWithSelect = React.forwardRef(({title, error, items, optionValu
     )
 })
 
-const FormItem = styled.div`
-    width: 100%;
+const FormItem = styled.div`    
     position: relative;
     margin-bottom: 20px;
     display: flex;
-    flex-direction: row;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
 `
-const FormItemTitle = styled.label`
-    width: 40%;
-    text-align: end;
+const FormItemTitle = styled.label`    
+    text-align: start;
     padding-right: 10px;
     font-size: 12px;
 `
 
-const FormItemInput = styled.div`
-    width: 60%;
+const FormItemInput = styled.div`    
     display: flex;
     flex-direction: row;
     align-items: center;  
