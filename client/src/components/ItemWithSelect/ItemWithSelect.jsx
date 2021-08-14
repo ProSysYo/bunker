@@ -35,11 +35,13 @@ const FormItem = styled.div`
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    width: 100%;
 `
 const FormItemTitle = styled.label`    
     text-align: start;
     padding-right: 10px;
     font-size: 12px;
+    color: #6e6a6a;
 `
 
 const FormItemInput = styled.div`    
@@ -60,4 +62,5 @@ const Select = styled.select`
     font-size: 14px;
     padding: 5px 10px 5px 10px;    
     width: 100%;
+    font-size: 14px;
 `

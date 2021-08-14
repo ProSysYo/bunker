@@ -76,7 +76,14 @@ const patinas = [
     { _id: 3, name: "черная" },
 ]
 
-export const AddOrderForm = () => {
+const locks = [
+    { _id: 1, name: "Г12.11с", type: "сувальда", isLatch: "", insertPlace: "основной" },
+    { _id: 2, name: "Г12.12ц", type: "цилиндр", isLatch: "", insertPlace: "основной" },
+    { _id: 3, name: "Кале 5566ц", type: "цилиндр", isLatch: "", insertPlace: "дополнительный" },
+    { _id: 4, name: "Кале 6643с", type: "сувальда", isLatch: "", insertPlace: "дополнительный" },
+]
+
+export const OrderForm = () => {
     const { register, handleSubmit, setError, formState: { errors }, watch, setValue } = useForm()
     const order = {
         typeCanvas: "МП",
@@ -84,7 +91,13 @@ export const AddOrderForm = () => {
         typeDecorationOutside: "стеклопакет",
         decorationOutside: "С2",
         doorThick: 70,
-        wrapOutside: "нет"
+        wrapOutside: "нет",
+        patinaOutside: "нет",
+        typeDecorationInside: "МДФ 10мм лам. фр.",
+        decorationInside: "ФЛ-1",
+        wrapInside: "голден оак",
+        patinaInside: "коричневая"
+
     }
 
     // const order = {
@@ -93,6 +106,7 @@ export const AddOrderForm = () => {
     //     typeDecorationOutside: "",
     //     decorationOutside: "",
     //     doorThick: "",
+    //     patinaOutside: "",
     // }
 
     //Количество контуров
@@ -100,16 +114,16 @@ export const AddOrderForm = () => {
     const [doorThicks, setDoorThicks] = useState([])
 
     //Отделка снаружи
-    const [typeDecorationOutsides, setTypeDecorationOutsides] = useState([])
-    const [decorationOutsides, setDecorationOutsides] = useState([])
-    const [wrapOutsides, setWrapOutsides] = useState([])
-    const [patinaOutsides, setPatinaOutsides] = useState([])
+    const [typeDecorationsOutside, setTypeDecorationsOutside] = useState([])
+    const [decorationsOutside, setDecorationsOutside] = useState([])
+    const [wrapsOutside, setWrapsOutside] = useState([])
+    const [patinasOutside, setPatinasOutside] = useState([])
 
     //Отделка внутри
-    const [currentTypeOtdelkaInsides, setCurrentTypeOtdelkaInsides] = useState([])
-    const [currentOtdelkaInsides, setCurrentOtdelkaInsides] = useState([])
-    const [wrapInsides, setWrapInsides] = useState([])
-    const [patinaInsides, setPatinaInsides] = useState([])
+    const [typeDecorationsInside, setTypeDecorationsUnside] = useState([])
+    const [decorationsInside, setDecorationsInside] = useState([])
+    const [wrapsInside, setWrapsInside] = useState([])
+    const [patinasInside, setPatinasInside] = useState([])
 
     //const dispatch = useDispatch()
     const customers = useSelector(state => state.customer.customers)
@@ -118,7 +132,7 @@ export const AddOrderForm = () => {
     const peepholes = useSelector(state => state.peephole.peepholes)
     const peepholeLocations = useSelector(state => state.peepholeLocation.peepholeLocations)
     const packagings = useSelector(state => state.packaging.packagings)
-    const locks = useSelector(state => state.lock.locks)
+    //const locks = useSelector(state => state.lock.locks)
     const covers = useSelector(state => state.cover.covers)
     const cylinders = useSelector(state => state.cylinder.cylinders)
     const handles = useSelector(state => state.handle.handles)
@@ -139,6 +153,11 @@ export const AddOrderForm = () => {
             await setValue("typeDecorationOutside", order.typeDecorationOutside)
             await setValue("decorationOutside", order.decorationOutside)
             await setValue("wrapOutside", order.wrapOutside)
+            await setValue("patinaOutside", order.patinaOutside)
+            await setValue("typeDecorationInside", order.typeDecorationInside)
+            await setValue("decorationInside", order.decorationInside)
+            await setValue("wrapInside", order.wrapInside)
+            await setValue("patinaInside", order.patinaInside)
         }
         loadFields()
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -151,16 +170,19 @@ export const AddOrderForm = () => {
 
             let contours = []
             let thicks = []
-            let types = []
+            let typesOutside = []
+            let typesInside = []
 
             if (selectedTypeCanvas) {
                 contours = selectedTypeCanvas.contours
                 thicks = selectedTypeCanvas.doorThicks
-                types = typeDecorations.filter(item => item.type === selectedTypeCanvas.trimOutside || item.type === "все")
+                typesOutside = typeDecorations.filter(item => item.type === selectedTypeCanvas.trimOutside || item.type === "все")
+                typesInside = typeDecorations.filter(item => item.type === selectedTypeCanvas.trimInside || item.type === "все")
             }
             setCurrentContours(contours)
             setDoorThicks(thicks)
-            setTypeDecorationOutsides(types)
+            setTypeDecorationsOutside(typesOutside)
+            setTypeDecorationsUnside(typesInside)
         }
     }, [fields.typeCanvas, setValue])
 
@@ -196,7 +218,7 @@ export const AddOrderForm = () => {
         let currentWraps = []
         let currentPatinas = []
         if (fields.typeDecorationOutside) {
-            const searchTypeDecoration = typeDecorationOutsides.find(item => item.name === fields.typeDecorationOutside)
+            const searchTypeDecoration = typeDecorationsOutside.find(item => item.name === fields.typeDecorationOutside)
 
             if (searchTypeDecoration) {
                 setValue("typeDecorationOutside", fields.typeDecorationOutside)
@@ -215,16 +237,16 @@ export const AddOrderForm = () => {
                 setValue("typeDecorationOutside", "")
             }
         }
-        setDecorationOutsides(currentDecorations)
-        setWrapOutsides(currentWraps)
-        setPatinaOutsides(currentPatinas)
+        setDecorationsOutside(currentDecorations)
+        setWrapsOutside(currentWraps)
+        setPatinasOutside(currentPatinas)
 
-    }, [fields.typeDecorationOutside, setValue, typeDecorationOutsides, wraps])
+    }, [fields.typeDecorationOutside, setValue, typeDecorationsOutside, wraps])
 
     //при изменении отделки снаружи
     useEffect(() => {
         if (fields.decorationOutside) {
-            const searchDecoration = decorationOutsides.find(item => item.name === fields.decorationOutside)
+            const searchDecoration = decorationsOutside.find(item => item.name === fields.decorationOutside)
 
             if (searchDecoration) {
                 setValue("decorationOutside", fields.decorationOutside)
@@ -232,13 +254,12 @@ export const AddOrderForm = () => {
                 setValue("decorationOutside", "")
             }
         }
-    }, [fields.decorationOutside, setValue, decorationOutsides])
-
+    }, [fields.decorationOutside, setValue, decorationsOutside])
+    
     //при изменении пленки снаружи
     useEffect(() => {
-
         if (fields.wrapOutside) {
-            const searchWrap = wrapOutsides.find(item => item.name === fields.wrapOutside)
+            const searchWrap = wrapsOutside.find(item => item.name === fields.wrapOutside)
 
             if (searchWrap) {
                 setValue("wrapOutside", fields.wrapOutside)
@@ -246,7 +267,89 @@ export const AddOrderForm = () => {
                 setValue("wrapOutside", "")
             }
         }
-    }, [fields.wrapOutside, setValue, wrapOutsides])
+    }, [fields.wrapOutside, setValue, wrapsOutside])
+
+    //при изменении патины снаружи
+    useEffect(() => {
+        if (fields.patinaOutside) {
+            const searchPatina = patinasOutside.find(item => item.name === fields.patinaOutside)
+
+            if (searchPatina) {
+                setValue("patinaOutside", fields.patinaOutside)
+            } else {
+                setValue("patinaOutside", "")
+            }
+        }
+    }, [fields.patinaOutside, setValue, patinasOutside])
+
+    //при изменении типа отделки внутри
+    useEffect(() => {        
+        let currentDecorations = []
+        let currentWraps = []
+        let currentPatinas = []
+        if (fields.typeDecorationInside) {            
+            const searchTypeDecoration = typeDecorationsInside.find(item => item.name === fields.typeDecorationInside)
+
+            if (searchTypeDecoration) {
+                setValue("typeDecorationInside", fields.typeDecorationInside)
+                currentDecorations = decorations.filter(item => item.design === searchTypeDecoration.design)
+                if (searchTypeDecoration.isWrap) {
+                    currentWraps = wraps
+                } else {
+                    currentWraps = [{ name: "нет" }]
+                }
+                if (searchTypeDecoration.isPatina) {
+                    currentPatinas = patinas
+                } else {
+                    currentPatinas = [{ name: "нет" }]
+                }
+            } else {
+                setValue("typeDecorationInside", "")
+            }
+        }
+        setDecorationsInside(currentDecorations)
+        setWrapsInside(currentWraps)
+        setPatinasInside(currentPatinas)        
+    }, [fields.typeDecorationInside, setValue, typeDecorationsInside, wraps])
+   
+    //при изменении отделки внутри
+    useEffect(() => {        
+        if (fields.decorationInside) {
+            const searchDecoration = decorationsInside.find(item => item.name === fields.decorationInside)
+
+            if (searchDecoration) {
+                setValue("decorationInside", fields.decorationInside)
+            } else {
+                setValue("decorationInside", "")
+            }
+        }
+    }, [fields.decorationInside, setValue, decorationsInside])
+
+    //при изменении пленки внутри
+    useEffect(() => {        
+        if (fields.wrapInside) {
+            const searchWrap = wrapsInside.find(item => item.name === fields.wrapInside)
+
+            if (searchWrap) {
+                setValue("wrapInside", fields.wrapInside)
+            } else {
+                setValue("wrapInside", "")
+            }
+        }
+    }, [fields.wrapInside, setValue, wrapsInside])
+
+    //при изменении патины внутри
+    useEffect(() => {
+        if (fields.patinaInside) {
+            const searchPatina = patinasInside.find(item => item.name === fields.patinaInside)
+
+            if (searchPatina) {
+                setValue("patinaInside", fields.patinaInside)
+            } else {
+                setValue("patinaInside", "")
+            }
+        }
+    }, [fields.patinaInside, setValue, patinasInside])
 
     const onSubmit = (data, e) => {
         e.preventDefault()
@@ -255,13 +358,8 @@ export const AddOrderForm = () => {
         <Wrapper>
             <FormWrap>
                 {/* <Title>Новый заказ</Title> */}
-                <Form onSubmit={handleSubmit(onSubmit)}>
-                    <FormItem>
-                        <button type="submit">Добавить</button>
-                        <button >Сохранить как шаблон</button>
-                        <button >Загрузить шаблон</button>
-                    </FormItem>
-                    <Tabs defaultActiveKey="1" tabPosition="top" size="small">
+                <Form onSubmit={handleSubmit(onSubmit)}>                    
+                    <StyledTabs defaultActiveKey="1" tabPosition="top" size="small">
                         <TabPane key="1" tab={<TabTitle>Основное</TabTitle>}>
                             <div>
                                 <FormItem>
@@ -360,50 +458,57 @@ export const AddOrderForm = () => {
                         </TabPane>
 
                         <TabPane key="2" tab={<TabTitle>Фурнитура</TabTitle>}>
-                            <ItemWithSelect
-                                title="Основной замок:"
-                                items={locks}
-                                optionValue="name"
-                                optionName="name"
-                                error={errors.mainLock}
-                                {...register("mainLock", { required: "Выберите основной замок" })}
-                            />
+                            <FormItem>
+                                <ItemWithSelect
+                                    title="Основной замок:"
+                                    items={locks}
+                                    optionValue="name"
+                                    optionName="name"
+                                    error={errors.mainLock}
+                                    {...register("mainLock", { required: "Выберите основной замок" })}
+                                />
 
-                            <ItemWithSelect
-                                title="Основной цилиндр:"
-                                items={cylinders}
-                                optionValue="name"
-                                optionName="name"
-                                error={errors.mainCylinder}
-                                {...register("mainCylinder", { required: "Выберите осн цилиндр" })}
-                            />
+                                <ItemWithSelect
+                                    title="Основной цилиндр:"
+                                    items={cylinders}
+                                    optionValue="name"
+                                    optionName="name"
+                                    error={errors.mainCylinder}
+                                    {...register("mainCylinder", { required: "Выберите осн цилиндр" })}
+                                />
+                            </FormItem>
+                                
+                            <FormItem>
+                                <ItemWithSelect
+                                    title="Ручка:"
+                                    items={handles}
+                                    optionValue="name"
+                                    optionName="name"
+                                    error={errors.handle}
+                                    {...register("handle", { required: "Выберите ручку" })}
+                                />
+                            </FormItem>
+                            
+                            <FormItem>
+                                <ItemWithSelect
+                                    title="Доп. замок:"
+                                    items={locks}
+                                    optionValue="name"
+                                    optionName="name"
+                                    error={errors.optionalLock}
+                                    {...register("optionalLock", { required: "Выберите дополнительный замок" })}
+                                />
 
-                            <ItemWithSelect
-                                title="Ручка:"
-                                items={handles}
-                                optionValue="name"
-                                optionName="name"
-                                error={errors.handle}
-                                {...register("handle", { required: "Выберите ручку" })}
-                            />
-
-                            <ItemWithSelect
-                                title="Доп. замок:"
-                                items={locks}
-                                optionValue="name"
-                                optionName="name"
-                                error={errors.optionalLock}
-                                {...register("optionalLock", { required: "Выберите дополнительный замок" })}
-                            />
-
-                            <ItemWithSelect
-                                title="Доп. цилиндр:"
-                                items={cylinders}
-                                optionValue="name"
-                                optionName="name"
-                                error={errors.optionalCylinder}
-                                {...register("optionalCylinder", { required: "Выберите дополнительный цилиндр" })}
-                            />
+                                <ItemWithSelect
+                                    title="Доп. цилиндр:"
+                                    items={cylinders}
+                                    optionValue="name"
+                                    optionName="name"
+                                    error={errors.optionalCylinder}
+                                    {...register("optionalCylinder", { required: "Выберите дополнительный цилиндр" })}
+                                />
+                            </FormItem>
+                            
                             <FormItem>
                                 <ItemWithSelect
                                     title="Глазок:"
@@ -466,166 +571,191 @@ export const AddOrderForm = () => {
                         </TabPane>
 
                         <TabPane key="4" tab={<TabTitle>Отделка</TabTitle>}>
-                            <ItemWithSelect
-                                title="Тип отделки снаружи"
-                                items={typeDecorationOutsides}
-                                optionValue="name"
-                                optionName="name"
-                                error={errors.typeDecorationOutside}
-                                {...register("typeDecorationOutside", { required: "Выберите тип отделки снаружи" })}
-                            />
+                            <FormItem>
+                                <ItemWithSelect
+                                    title="Тип отделки снаружи"
+                                    items={typeDecorationsOutside}
+                                    optionValue="name"
+                                    optionName="name"
+                                    error={errors.typeDecorationOutside}
+                                    {...register("typeDecorationOutside", { required: "Выберите тип отделки снаружи" })}
+                                />
 
-                            <ItemWithSelect
-                                title="Отделка снаружи"
-                                items={decorationOutsides}
-                                optionValue="name"
-                                optionName="name"
-                                error={errors.decorationOutside}
-                                {...register("decorationOutside", { required: "Выберите отделку снаружи" })}
-                            />
+                                <ItemWithSelect
+                                    title="Отделка снаружи"
+                                    items={decorationsOutside}
+                                    optionValue="name"
+                                    optionName="name"
+                                    error={errors.decorationOutside}
+                                    {...register("decorationOutside", { required: "Выберите отделку снаружи" })}
+                                />
+                            </FormItem>
+                            
+                            <FormItem>
+                                <ItemWithSelect
+                                    title="Цвет пленки снаружи"
+                                    items={wrapsOutside}
+                                    optionValue="name"
+                                    optionName="name"
+                                    error={errors.wrapOutside}
+                                    {...register("wrapOutside", { required: "Выберите цвет пленки снаружи" })}
+                                />
 
-                            <ItemWithSelect
-                                title="Цвет пленки снаружи"
-                                items={wrapOutsides}
-                                optionValue="name"
-                                optionName="name"
-                                error={errors.wrapOutside}
-                                {...register("wrapOutside", { required: "Выберите цвет пленки снаружи" })}
-                            />
+                                <ItemWithSelect
+                                    title="Цвет патины снаружи"
+                                    items={patinasOutside}
+                                    optionValue="name"
+                                    optionName="name"
+                                    error={errors.patinaOutside}
+                                    {...register("patinaOutside", { required: "Выберите цвет патины снаружи" })}
+                                />
+                            </FormItem>
+                            
+                            <FormItem>
+                                <ItemWithSelect
+                                    title="Тип отделки внутри"
+                                    items={typeDecorationsInside}
+                                    optionValue="name"
+                                    optionName="name"
+                                    error={errors.typeDecorationInside}
+                                    {...register("typeDecorationInside", { required: "Выберите тип отделки внутри" })}
+                                />
 
-                            <ItemWithSelect
-                                title="Цвет патины снаружи"
-                                items={patinaOutsides}
-                                optionValue="name"
-                                optionName="name"
-                                error={errors.patinaOutside}
-                                {...register("patinaOutside", { required: "Выберите цвет патины снаружи" })}
-                            />
+                                <ItemWithSelect
+                                    title="Отделка внутри"
+                                    items={decorationsInside}
+                                    optionValue="name"
+                                    optionName="name"
+                                    error={errors.decorationInside}
+                                    {...register("decorationInside", { required: "Выберите отделку внутри" })}
+                                />
+                            </FormItem>
+                            
+                            <FormItem>
+                                <ItemWithSelect
+                                    title="Цвет пленки внутри"
+                                    items={wrapsInside}
+                                    optionValue="name"
+                                    optionName="name"
+                                    error={errors.wrapInside}
+                                    {...register("wrapInside", { required: "Выберите цвет пленки внутри" })}
+                                />
 
-                            <ItemWithSelect
-                                title="Тип отделки внутри"
-                                items={currentTypeOtdelkaInsides}
-                                optionValue="name"
-                                optionName="name"
-                                error={errors.typeOtdeInside}
-                                {...register("typeOtdeInside", { required: "Выберите тип отделки внутри" })}
-                            />
-
-                            <ItemWithSelect
-                                title="Отделка внутри"
-                                items={currentOtdelkaInsides}
-                                optionValue="name"
-                                optionName="name"
-                                error={errors.otdelkaInside}
-                                {...register("otdelkaInside", { required: "Выберите отделку внутри" })}
-                            />
-
-                            <ItemWithSelect
-                                title="Цвет пленки внутри"
-                                items={wrapInsides}
-                                optionValue="name"
-                                optionName="name"
-                                error={errors.wrapInside}
-                                {...register("wrapInside", { required: "Выберите цвет пленки внутри" })}
-                            />
-
-                            <ItemWithSelect
-                                title="Цвет патины внутри"
-                                items={patinaInsides}
-                                optionValue="name"
-                                optionName="name"
-                                error={errors.patinaInside}
-                                {...register("patinaInside", { required: "Выберите цвет пленки внутри" })}
-                            />
+                                <ItemWithSelect
+                                    title="Цвет патины внутри"
+                                    items={patinasInside}
+                                    optionValue="name"
+                                    optionName="name"
+                                    error={errors.patinaInside}
+                                    {...register("patinaInside", { required: "Выберите цвет пленки внутри" })}
+                                />
+                            </FormItem>
+                            
                         </TabPane>
 
                         <TabPane key="6" tab={<TabTitle>Металл</TabTitle>}>
-                            <ItemWithSelect
-                                title="Толщина мет. полотна:"
-                                items={metalCanvases}
-                                optionValue="value"
-                                optionName="value"
-                                error={errors.metalCanvas}
-                                {...register("metalCanvas", { required: "Выберите толщину металла полотна" })}
-                            />
+                            <FormItem>
+                                <ItemWithSelect
+                                    title="Толщина мет. полотна:"
+                                    items={metalCanvases}
+                                    optionValue="value"
+                                    optionName="value"
+                                    error={errors.metalCanvas}
+                                    {...register("metalCanvas", { required: "Выберите толщину металла полотна" })}
+                                />
 
-                            <ItemWithSelect
-                                title="Толщина мет. короба:"
-                                items={metalBoxes}
-                                optionValue="value"
-                                optionName="value"
-                                error={errors.metalBox}
-                                {...register("metalBox", { required: "Выберите толщину металла короба" })}
-                            />
+                                <ItemWithSelect
+                                    title="Толщина мет. короба:"
+                                    items={metalBoxes}
+                                    optionValue="value"
+                                    optionName="value"
+                                    error={errors.metalBox}
+                                    {...register("metalBox", { required: "Выберите толщину металла короба" })}
+                                />
+                            </FormItem>
+                            
                         </TabPane>
 
                         <TabPane key="7" tab={<TabTitle>Петли</TabTitle>}>
-                            <ItemWithSelect
-                                title="Сторонность петель:"
-                                items={hingeSides}
-                                optionValue="name"
-                                optionName="name"
-                                error={errors.hingeSide}
-                                {...register("hingeSide", { required: "Выберите сторонность петель" })}
-                            />
+                            <FormItem>
+                                <ItemWithSelect
+                                    title="Сторонность петель:"
+                                    items={hingeSides}
+                                    optionValue="name"
+                                    optionName="name"
+                                    error={errors.hingeSide}
+                                    {...register("hingeSide", { required: "Выберите сторонность петель" })}
+                                />
 
-                            <ItemWithSelect
-                                title="Количество петель:"
-                                items={hingeCounts}
-                                optionValue="value"
-                                optionName="value"
-                                error={errors.hingeCount}
-                                {...register("hingeCount", { required: "Выберите количество петель" })}
-                            />
-
-                            <ItemWithSelect
-                                title="Тип петель:"
-                                items={hingeTypes}
-                                optionValue="name"
-                                optionName="name"
-                                error={errors.hingeType}
-                                {...register("hingeType", { required: "Выберите тип петель" })}
-                            />
+                                <ItemWithSelect
+                                    title="Количество петель:"
+                                    items={hingeCounts}
+                                    optionValue="value"
+                                    optionName="value"
+                                    error={errors.hingeCount}
+                                    {...register("hingeCount", { required: "Выберите количество петель" })}
+                                />
+                            </FormItem>
+                            
+                            <FormItem>
+                                <ItemWithSelect
+                                    title="Тип петель:"
+                                    items={hingeTypes}
+                                    optionValue="name"
+                                    optionName="name"
+                                    error={errors.hingeType}
+                                    {...register("hingeType", { required: "Выберите тип петель" })}
+                                />
+                            </FormItem>
+                            
                         </TabPane>
 
                         <TabPane key="8" tab={<TabTitle>Стеклопакет</TabTitle>}>
-
                         </TabPane>
 
-                        <TabPane key="9" tab={<TabTitle>Еще что то</TabTitle>}>
+                        <TabPane key="9" tab={<TabTitle>Доп.</TabTitle>}>
+                            <FormItem>
+                                <ItemWithSelect
+                                    title="Уши:"
+                                    items={ears}
+                                    optionValue="name"
+                                    optionName="name"
+                                    error={errors.ear}
+                                    {...register("ear", { required: "Выберите уши" })}
+                                />
 
+                                <ItemWithSelect
+                                    title="Отверстия в коробе:"
+                                    items={holeBoxes}
+                                    optionValue="name"
+                                    optionName="name"
+                                    error={errors.holeBox}
+                                    {...register("holeBox", { required: "Выберите отверстия в коробе" })}
+                                />
+                            </FormItem>
+
+                            <FormItem>
+                                <ItemWithSelect
+                                    title="Упаковка:"
+                                    items={packagings}
+                                    optionValue="name"
+                                    optionName="name"
+                                    error={errors.packaging}
+                                    {...register("packaging", { required: "Выберите упаковку" })}
+                                />
+                            </FormItem>
+                            
+
+                            
                         </TabPane>
-
-                        <TabPane key="10" tab={<TabTitle>Доп.</TabTitle>}>
-                            <ItemWithSelect
-                                title="Упаковка:"
-                                items={packagings}
-                                optionValue="name"
-                                optionName="name"
-                                error={errors.packaging}
-                                {...register("packaging", { required: "Выберите упаковку" })}
-                            />
-
-                            <ItemWithSelect
-                                title="Уши:"
-                                items={ears}
-                                optionValue="name"
-                                optionName="name"
-                                error={errors.ear}
-                                {...register("ear", { required: "Выберите уши" })}
-                            />
-
-                            <ItemWithSelect
-                                title="Отверстия в коробе:"
-                                items={holeBoxes}
-                                optionValue="name"
-                                optionName="name"
-                                error={errors.holeBox}
-                                {...register("holeBox", { required: "Выберите отверстия в коробе" })}
-                            />
-                        </TabPane>
-                    </Tabs>
+                    </StyledTabs>
+                    <FormItem>
+                        <button type="submit">Добавить</button>
+                        <button >Сохранить как шаблон</button>
+                        <button >Загрузить шаблон</button>
+                    </FormItem>
                 </Form>
+                
             </FormWrap>
             <Basket>
                 <Group>
@@ -667,8 +797,8 @@ export const AddOrderForm = () => {
 
                 <Group>
                     <span>Отделка внутри</span>
-                    <ItemBasket title="Тип отделки внутри" value={fields.typeOtdeInside} />
-                    <ItemBasket title="Отделка внутри" value={fields.otdelkaInside} />
+                    <ItemBasket title="Тип отделки внутри" value={fields.typeDecorationInside} />
+                    <ItemBasket title="Отделка внутри" value={fields.decorationInside} />
                     <ItemBasket title="Цвет пленки внутри" value={fields.wrapInside} />
                     <ItemBasket title="Цвет патины внутри" value={fields.patinaInside} />
                 </Group>
@@ -706,25 +836,30 @@ export const AddOrderForm = () => {
 const Wrapper = styled.div`
     display: flex;
     flex-direction: row;    
-    justify-content: space-between;
-    margin-top: 50px;    
+    justify-content: center;   
+    margin-top: 50px;
+        
 `
 
 // const Title = styled.h2`
 //     text-align: center;    
 // `
 const FormWrap = styled.div`    
-    width: 55%;    
-    max-height:80vh;
+    width: 50%;    
+    height:60vh;
     overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    margin-left:100px;
+    
 `
 
 const Form = styled.form`
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-    margin-right: 20px;    
+    align-items: flex-start;    
+    margin-right: 20px;
+    height:100%;   
 `
 
 const FormItem = styled.div`    
@@ -733,9 +868,9 @@ const FormItem = styled.div`
     flex-direction: row;
     align-items: center; 
     justify-content: flex-start;
+    
     > * {
-        margin-left: 20px;
-        margin-right: 20px;
+        margin-left: 20px;        
     } 
 `
 
@@ -743,10 +878,10 @@ const Basket = styled.div`
     display: flex;
     flex-direction: column; 
     align-items: flex-start;
-    width: 45%;    
+    width: 50%;    
     margin-left:20px;
     flex-wrap: wrap;
-    max-height: 80vh;
+    max-height: 70vh;
 `
 const Group = styled.div`
     display: flex;
@@ -773,3 +908,6 @@ const TabTitle = styled.span`
     font-size: 11px;   
 `
 
+const StyledTabs = styled(Tabs)`
+    height: 100%;
+`

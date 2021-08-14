@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Spin } from 'antd';
 import { getAll } from '../../redux/actions/order'
-import { AddOrderForm } from './AddOrderForm'
+import { OrderForm } from './OrderForm'
 
 
 export const AddOrderContainer = () => {
@@ -19,5 +19,5 @@ export const AddOrderContainer = () => {
         return <Spin className="spinner" size="large"/>
     }    
     
-    return <AddOrderForm/>
+    return <OrderForm/>
 }
